@@ -74,10 +74,10 @@ data=data.drop([PM.MC_Track_ID],axis=1)
 compress_data=data.drop([PM.x,PM.y,PM.z],axis=1)
 compress_data['MC_Mother_Track_No']= compress_data['MC_Mother_Track_ID']
 compress_data=compress_data.groupby(by=['FEDRA_Seg_ID','MC_Mother_Track_ID'])['MC_Mother_Track_No'].count().reset_index()
-compress_data=compress_data.sort_values(['FEDRA_Seg_ID','MC_Mother_Track_ID'],ascending=[1,0])
+compress_data=compress_data.sort_values(['FEDRA_Seg_ID','MC_Mother_Track_No'],ascending=[1,0])
 compress_data.drop_duplicates(subset='FEDRA_Seg_ID',keep='first',inplace=True)
-data=data.drop(['MC_Mother_Track_No'],axis=1)
-compress_data=compress_data.drop(['MC_Mother_Track_ID'],axis=1)
+data=data.drop(['MC_Mother_Track_ID'],axis=1)
+compress_data=compress_data.drop(['MC_Mother_Track_No'],axis=1)
 data=pd.merge(data, compress_data, how="left", on=['FEDRA_Seg_ID'])
 if SliceData:
      print(UF.TimeStamp(),'Slicing the data...')
@@ -87,6 +87,8 @@ if SliceData:
      data=pd.merge(data, ValidEvents, how="inner", on=['FEDRA_Seg_ID'])
      final_rows=len(data.axes[0])
      print(UF.TimeStamp(),'The sliced data has ',final_rows,' hits')
+print(data)
+exit()
 output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
 print(UF.TimeStamp(),'Removing tracks which have less than',PM.MinHitsTrack,'hits...')
 track_no_data=data.groupby(['FEDRA_Seg_ID'],as_index=False).count()
