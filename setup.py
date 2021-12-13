@@ -1,4 +1,4 @@
-#Belogs to: EDER-VIANN
+#Belogs to: EDER-TSU
 #Purpose: To setup all working directories for the new user
 
 ########################################    Import libraries    #############################################
@@ -36,7 +36,7 @@ if UserChoice=='Y':
      if row[0]=='EOS_DIR':
        try:
         DEL_DIR=row[1]
-        DEL_DIR+='/'+'EDER-VIANN'
+        DEL_DIR+='/'+'EDER-TSU'
         shutil.rmtree(DEL_DIR)
         break
        except:
@@ -88,7 +88,7 @@ print(bcolors.OKGREEN+'Updated the directory mapping file with EOS location'+bco
 
 ########################################     Create sub-directories on EOS    #########################################
 
-EOSsubDIR=EOSDir+'/'+'EDER-VIANN'
+EOSsubDIR=EOSDir+'/'+'EDER-TSU'
 EOSsubDataDIR=EOSsubDIR+'/'+'Data'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
 EOSsubTrainDIR=EOSsubDataDIR+'/'+'TRAIN_SET'
@@ -105,13 +105,13 @@ FolderCreate(EOSsubTestDIR)
 #########################################   Workout out training and validation files #################################
 print(bcolors.BOLD+'Copying the models...'+bcolors.ENDC)
 #Copying the pretrained models to the user directory
-ModelOrigin='/eos/experiment/ship/data/EDER-VIANN/Models/'
-src_files = os.listdir(ModelOrigin)
-for file_name in src_files:
-    full_file_name = os.path.join(ModelOrigin, file_name)
-    if os.path.isfile(full_file_name) and (('model' in full_file_name)==True):
-        print('Copying file', full_file_name, 'from ',bcolors.OKBLUE+ModelOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubModelDIR+bcolors.ENDC)
-        shutil.copy(full_file_name, EOSsubModelDIR)
+# ModelOrigin='/eos/experiment/ship/data/EDER-TSU/Models/'
+# src_files = os.listdir(ModelOrigin)
+# for file_name in src_files:
+#     full_file_name = os.path.join(ModelOrigin, file_name)
+#     if os.path.isfile(full_file_name) and (('model' in full_file_name)==True):
+#         print('Copying file', full_file_name, 'from ',bcolors.OKBLUE+ModelOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubModelDIR+bcolors.ENDC)
+#         shutil.copy(full_file_name, EOSsubModelDIR)
 
-print(bcolors.OKGREEN+'EDER-VIANN setup is successfully completed' +bcolors.ENDC)
+print(bcolors.OKGREEN+'EDER-TSU setup is successfully completed' +bcolors.ENDC)
 exit()
