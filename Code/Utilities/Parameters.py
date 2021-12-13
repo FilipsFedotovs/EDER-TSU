@@ -1,5 +1,5 @@
 #This is the list of parameters that EDER-VIANN uses for reconstruction, model training etc. There have been collated here in one place for the user convenience
-# Part of EDER-VIANN package
+# Part of EDER-TSU package
 #Made by Filips Fedotovs
 #Current version 1.0
 
@@ -11,10 +11,6 @@ FEDRA_Track_ID='FEDRATrackID' #Column nameActual track id for FEDRA (or other re
 FEDRA_Track_QUADRANT='quarter' #Quarter of the ECC where the track is reconstructed If not present in the data please put the Track ID (the same as above)
 MC_Track_ID='MCTrack'  #Column name for Track ID for MC Truth reconstruction data
 MC_Event_ID='MCEvent' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
-MC_VX_ID='MotherID'   #Column name for Track mother id (For MC truth only)
-FEDRA_VX_ID='VertexS' #Column name for the reconstructed Vertex id
-MC_NV_VX_ID='-1'
-FEDRA_NV_VX_ID='-1.0'
 
 
 ########List of the package run parameters
