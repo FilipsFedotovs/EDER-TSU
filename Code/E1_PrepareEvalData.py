@@ -22,7 +22,6 @@ parser.add_argument('--Ymax',help="This option restricts data to only those even
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 input_file_location=args.f
-Track=args.Track
 Xmin=float(args.Xmin)
 Xmax=float(args.Xmax)
 Ymin=float(args.Ymin)
