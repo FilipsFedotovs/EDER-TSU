@@ -72,11 +72,11 @@ data=data.drop([PM.FEDRA_Track_QUADRANT],axis=1)
 data=data.drop([PM.MC_Event_ID],axis=1)
 data=data.drop([PM.MC_Track_ID],axis=1)
 compress_data=data.drop([PM.x,PM.y,PM.z],axis=1)
-compress_data['MC_Mother_Track_ID']= compress_data['MC_Mother_Track_ID']
-compress_data=compress_data.groupby(by=['FEDRA_Seg_ID','MC_Mother_Track_ID'])['MC_Mother_Track_ID'].count().reset_index()
+compress_data['MC_Mother_Track_No']= compress_data['MC_Mother_Track_ID']
+compress_data=compress_data.groupby(by=['FEDRA_Seg_ID','MC_Mother_Track_ID'])['MC_Mother_Track_No'].count().reset_index()
 compress_data=compress_data.sort_values(['FEDRA_Seg_ID','MC_Mother_Track_ID'],ascending=[1,0])
 compress_data.drop_duplicates(subset='FEDRA_Seg_ID',keep='first',inplace=True)
-data=data.drop(['MC_Mother_Track_ID'],axis=1)
+data=data.drop(['MC_Mother_Track_No'],axis=1)
 compress_data=compress_data.drop(['MC_Mother_Track_ID'],axis=1)
 data=pd.merge(data, compress_data, how="left", on=['FEDRA_Seg_ID'])
 if SliceData:
