@@ -72,85 +72,85 @@ class Track:
       def TrackQualityCheck(self,VO_min_Z,VO_max_Z,MaxDoca,TV_Min_Dist, min_angle, max_angle):
                     self.GeoFit = (self.DOCA<=MaxDoca and min(self.V_Tr)<=TV_Min_Dist and self.Vz>=VO_min_Z and self.Vz<=VO_max_Z and abs(self.angle)>=min_angle and abs(self.angle)<=max_angle)
 
-      def CNNFitSeed(self,Prediction):
-          self.Seed_CNN_Fit=Prediction
+      def CNNFitTrack(self,Prediction):
+          self.Track_CNN_Fit=Prediction
 
       def AssignCNNVxId(self,ID):
           self.VX_CNN_ID=ID
 
-      def InjectSeed(self,OtherSeed):
+      def InjectTrack(self,OtherTrack):
           __overlap=False
           for t1 in self.SegmentHeader:
-              for t2 in OtherSeed.SegmentHeader:
+              for t2 in OtherTrack.SegmentHeader:
                   if t1==t2:
                       __overlap=True
                       break
           if __overlap:
               overlap_matrix=[]
               for t1 in range(len(self.SegmentHeader)):
-                 for t2 in range(len(OtherSeed.SegmentHeader)):
-                    if self.SegmentHeader[t1]==OtherSeed.SegmentHeader[t2]:
+                 for t2 in range(len(OtherTrack.SegmentHeader)):
+                    if self.SegmentHeader[t1]==OtherTrack.SegmentHeader[t2]:
                        overlap_matrix.append(t2)
 
-              for t2 in range(len(OtherSeed.SegmentHeader)):
+              for t2 in range(len(OtherTrack.SegmentHeader)):
                 if (t2 in overlap_matrix)==False:
-                  self.SegmentHeader.append(OtherSeed.SegmentHeader[t2])
-                  if hasattr(self,'SegmentHits') and hasattr(OtherSeed,'SegmentHits'):
-                          self.SegmentHits.append(OtherSeed.SegmentHits[t2])
-              if hasattr(self,'MC_truth_label') and hasattr(OtherSeed,'MC_truth_label'):
-                         self.MC_truth_label=(self.MC_truth_label and OtherSeed.MC_truth_label)
-              if hasattr(self,'VX_CNN_Fit') and hasattr(OtherSeed,'VX_CNN_Fit'):
-                        self.VX_CNN_Fit+=OtherSeed.VX_CNN_Fit
+                  self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
+                  if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
+                          self.SegmentHits.append(OtherTrack.SegmentHits[t2])
+              if hasattr(self,'MC_truth_label') and hasattr(OtherTrack,'MC_truth_label'):
+                         self.MC_truth_label=(self.MC_truth_label and OtherTrack.MC_truth_label)
+              if hasattr(self,'VX_CNN_Fit') and hasattr(OtherTrack,'VX_CNN_Fit'):
+                        self.VX_CNN_Fit+=OtherTrack.VX_CNN_Fit
               elif hasattr(self,'VX_CNN_Fit'):
-                       self.VX_CNN_Fit.append(OtherSeed.Seed_CNN_Fit)
-              elif hasattr(OtherSeed,'VX_CNN_Fit'):
-                       self.VX_CNN_Fit=[self.Seed_CNN_Fit]
-                       self.VX_CNN_Fit+=OtherSeed.VX_CNN_Fit
+                       self.VX_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+              elif hasattr(OtherTrack,'VX_CNN_Fit'):
+                       self.VX_CNN_Fit=[self.Track_CNN_Fit]
+                       self.VX_CNN_Fit+=OtherTrack.VX_CNN_Fit
               else:
                       self.VX_CNN_Fit=[]
-                      self.VX_CNN_Fit.append(self.Seed_CNN_Fit)
-                      self.VX_CNN_Fit.append(OtherSeed.Seed_CNN_Fit)
-              if hasattr(self,'VX_x') and hasattr(OtherSeed,'VX_x'):
-                      self.VX_x+=OtherSeed.VX_x
+                      self.VX_CNN_Fit.append(self.Track_CNN_Fit)
+                      self.VX_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+              if hasattr(self,'VX_x') and hasattr(OtherTrack,'VX_x'):
+                      self.VX_x+=OtherTrack.VX_x
               elif hasattr(self,'VX_x'):
-                       self.VX_x.append(OtherSeed.Vx)
-              elif hasattr(OtherSeed,'VX_x'):
+                       self.VX_x.append(OtherTrack.Vx)
+              elif hasattr(OtherTrack,'VX_x'):
                        self.VX_x=[self.Vx]
-                       self.VX_x+=OtherSeed.VX_x
+                       self.VX_x+=OtherTrack.VX_x
               else:
                       self.VX_x=[]
                       self.VX_x.append(self.Vx)
-                      self.VX_x.append(OtherSeed.Vx)
+                      self.VX_x.append(OtherTrack.Vx)
                           
-              if hasattr(self,'VX_y') and hasattr(OtherSeed,'VX_y'):
-                      self.VX_y+=OtherSeed.VX_y
+              if hasattr(self,'VX_y') and hasattr(OtherTrack,'VX_y'):
+                      self.VX_y+=OtherTrack.VX_y
               elif hasattr(self,'VX_y'):
-                       self.VX_y.append(OtherSeed.Vy)
-              elif hasattr(OtherSeed,'VX_y'):
+                       self.VX_y.append(OtherTrack.Vy)
+              elif hasattr(OtherTrack,'VX_y'):
                        self.VX_y=[self.Vy]
-                       self.VX_y+=OtherSeed.VX_y
+                       self.VX_y+=OtherTrack.VX_y
               else:
                       self.VX_y=[]
                       self.VX_y.append(self.Vy)
-                      self.VX_y.append(OtherSeed.Vy)
+                      self.VX_y.append(OtherTrack.Vy)
                   
-              if hasattr(self,'VX_z') and hasattr(OtherSeed,'VX_z'):
-                      self.VX_z+=OtherSeed.VX_z
+              if hasattr(self,'VX_z') and hasattr(OtherTrack,'VX_z'):
+                      self.VX_z+=OtherTrack.VX_z
               elif hasattr(self,'VX_z'):
-                       self.VX_z.append(OtherSeed.Vz)
-              elif hasattr(OtherSeed,'VX_z'):
+                       self.VX_z.append(OtherTrack.Vz)
+              elif hasattr(OtherTrack,'VX_z'):
                        self.VX_z=[self.Vz]
-                       self.VX_z+=OtherSeed.VX_z
+                       self.VX_z+=OtherTrack.VX_z
               else:
                       self.VX_z=[]
                       self.VX_z.append(self.Vz)
-                      self.VX_z.append(OtherSeed.Vz)
+                      self.VX_z.append(OtherTrack.Vz)
               self.VX_z=list(set(self.VX_z))
               self.VX_x=list(set(self.VX_x))
               self.VX_y=list(set(self.VX_y))
               self.VX_CNN_Fit=list(set(self.VX_CNN_Fit))
               self.Segmentation=len(self.SegmentHeader)
-              self.Seed_CNN_Fit=sum(self.VX_CNN_Fit)/len(self.VX_CNN_Fit)
+              self.Track_CNN_Fit=sum(self.VX_CNN_Fit)/len(self.VX_CNN_Fit)
               self.Vx=sum(self.VX_x)/len(self.VX_x)
               self.Vy=sum(self.VX_y)/len(self.VX_y)
               self.Vz=sum(self.VX_z)/len(self.VX_z)
@@ -171,7 +171,7 @@ class Track:
               return __overlap
 
 
-      def MCtruthClassifySeed(self,label):
+      def MCtruthClassifyTrack(self,label):
           self.MC_truth_label=label
 
       def PrepareTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
@@ -208,7 +208,7 @@ class Track:
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
           __vector_2 = [__Zdiff, __Vardiff]
-          __Angle=Seed.angle_between(__vector_1, __vector_2)
+          __Angle=Track.angle_between(__vector_1, __vector_2)
           if np.isnan(__Angle)==True:
                     __Angle=0.0
           for __Tracks in __TempTrack:
@@ -224,7 +224,7 @@ class Track:
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
           __vector_2 = [__Zdiff, __Vardiff]
-          __Angle=Seed.angle_between(__vector_1, __vector_2)
+          __Angle=Track.angle_between(__vector_1, __vector_2)
           if np.isnan(__Angle)==True:
                     __Angle=0.0
           for __Tracks in __TempTrack:
@@ -244,7 +244,7 @@ class Track:
                  __LongestDistance=__Distance
                  __vector_1 = [__Distance, 0]
                  __vector_2 = [__X, __Y]
-                 __Angle=-Seed.angle_between(__vector_1,__vector_2)
+                 __Angle=-Track.angle_between(__vector_1,__vector_2)
           if np.isnan(__Angle)==True:
                     __Angle=0.0
           for __Tracks in __TempTrack:
@@ -314,13 +314,13 @@ class Track:
                   try:
                    __vector_1 = [__deltaZ,0]
                    __vector_2 = [__deltaZ, __deltaX]
-                   __ThetaAngle=Seed.angle_between(__vector_1, __vector_2)
+                   __ThetaAngle=Track.angle_between(__vector_1, __vector_2)
                   except:
                     __ThetaAngle=0.0
                   try:
                     __vector_1 = [__deltaZ,0]
                     __vector_2 = [__deltaZ, __deltaY]
-                    __PhiAngle=Seed.angle_between(__vector_1, __vector_2)
+                    __PhiAngle=Track.angle_between(__vector_1, __vector_2)
                   except:
                     __PhiAngle=0.0
                   __TotalDistance=math.sqrt((__deltaX**2)+(__deltaY**2)+(__deltaZ**2))
@@ -389,7 +389,7 @@ class Track:
           import matplotlib as plt
           from matplotlib.colors import LogNorm
           from matplotlib import pyplot as plt
-          plt.title('Seed '+':'.join(self.SegmentHeader))
+          plt.title('Track '+':'.join(self.SegmentHeader))
           plt.xlabel('Z [microns /'+str(int(self.Resolution))+']')
           plt.ylabel('X [microns /'+str(int(self.Resolution))+']')
           __image=plt.imshow(__Matrix,cmap='gray_r',extent=[0,self.bZ,self.bX,-self.bX])
@@ -408,7 +408,7 @@ class Track:
           import matplotlib as plt
           from matplotlib.colors import LogNorm
           from matplotlib import pyplot as plt
-          plt.title('Seed '+':'.join(self.SegmentHeader))
+          plt.title('Track '+':'.join(self.SegmentHeader))
           plt.xlabel('Z [microns /'+str(int(self.Resolution))+']')
           plt.ylabel('Y [microns /'+str(int(self.Resolution))+']')
           __image=plt.imshow(__Matrix,cmap='gray_r',extent=[0,self.bZ,self.bY,-self.bY])
@@ -427,7 +427,7 @@ class Track:
           import matplotlib as plt
           from matplotlib.colors import LogNorm
           from matplotlib import pyplot as plt
-          plt.title('Seed '+':'.join(self.SegmentHeader))
+          plt.title('Track '+':'.join(self.SegmentHeader))
           plt.xlabel('Y [microns /'+str(int(self.Resolution))+']')
           plt.ylabel('X [microns /'+str(int(self.Resolution))+']')
           __image=plt.imshow(__Matrix,cmap='gray_r',extent=[-self.bY,self.bY,self.bX,-self.bX])
@@ -442,8 +442,8 @@ class Track:
           return vector / np.linalg.norm(vector)
 
       def angle_between(v1, v2):
-            v1_u = Seed.unit_vector(v1)
-            v2_u = Seed.unit_vector(v2)
+            v1_u = Track.unit_vector(v1)
+            v2_u = Track.unit_vector(v2)
             dot = v1_u[0]*v2_u[0] + v1_u[1]*v2_u[1]      # dot product
             det = v1_u[0]*v2_u[1] - v1_u[1]*v2_u[0]      # determinant
             return np.arctan2(det, dot)
@@ -646,26 +646,26 @@ def TrainCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
       folder =  AFS_DIR+'/HTCondor/MSG'
       CleanFolder(folder,'MSG_'+Process+'_')
 
-def LoadRenderImages(Seeds,StartSeed,EndSeed):
+def LoadRenderImages(Tracks,StartTrack,EndTrack):
     import tensorflow as tf
     from tensorflow import keras
-    NewSeeds=Seeds[StartSeed-1:min(EndSeed,len(Seeds))]
-    ImagesY=np.empty([len(NewSeeds),1])
-    ImagesX=np.empty([len(NewSeeds),NewSeeds[0].H,NewSeeds[0].W,NewSeeds[0].L],dtype=np.bool)
-    for im in range(len(NewSeeds)):
-        if hasattr(NewSeeds[im],'MC_truth_label'):
-           ImagesY[im]=int(float(NewSeeds[im].MC_truth_label))
+    NewTracks=Tracks[StartTrack-1:min(EndTrack,len(Tracks))]
+    ImagesY=np.empty([len(NewTracks),1])
+    ImagesX=np.empty([len(NewTracks),NewTracks[0].H,NewTracks[0].W,NewTracks[0].L],dtype=np.bool)
+    for im in range(len(NewTracks)):
+        if hasattr(NewTracks[im],'MC_truth_label'):
+           ImagesY[im]=int(float(NewTracks[im].MC_truth_label))
         else:
            ImagesY[im]=0
         BlankRenderedImage=[]
-        for x in range(-NewSeeds[im].bX,NewSeeds[im].bX):
-          for y in range(-NewSeeds[im].bY,NewSeeds[im].bY):
-            for z in range(0,NewSeeds[im].bZ):
+        for x in range(-NewTracks[im].bX,NewTracks[im].bX):
+          for y in range(-NewTracks[im].bY,NewTracks[im].bY):
+            for z in range(0,NewTracks[im].bZ):
              BlankRenderedImage.append(0)
         RenderedImage = np.array(BlankRenderedImage)
-        RenderedImage = np.reshape(RenderedImage,(NewSeeds[im].H,NewSeeds[im].W,NewSeeds[im].L))
-        for Hits in NewSeeds[im].TrackPrint:
-                   RenderedImage[Hits[0]+NewSeeds[im].bX][Hits[1]+NewSeeds[im].bY][Hits[2]]=1
+        RenderedImage = np.reshape(RenderedImage,(NewTracks[im].H,NewTracks[im].W,NewTracks[im].L))
+        for Hits in NewTracks[im].TrackPrint:
+                   RenderedImage[Hits[0]+NewTracks[im].bX][Hits[1]+NewTracks[im].bY][Hits[2]]=1
         ImagesX[im]=RenderedImage
     ImagesX= ImagesX[..., np.newaxis]
     ImagesY=tf.keras.utils.to_categorical(ImagesY,2)
