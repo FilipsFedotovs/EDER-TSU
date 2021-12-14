@@ -1,7 +1,7 @@
 #This simple script generates Truth 2-Track seeds for the reconstruction efficiency tests
-# Part of EDER-VIANN package
+# Part of EDER-TSU package
 #Made by Filips Fedotovs
-#Current version 2.0
+#Current version 1.0
 
 ########################################    Import libraries    #############################################
 import argparse
@@ -35,9 +35,9 @@ AFS_DIR=args.AFS
 import Utility_Functions as UF #This is where we keep routine utility functions
 
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E1_TRACKS.csv'
-output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E2_E2_RawSeeds_'+str(Subset)+'.csv'
-output_result_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E2_E2_RawSeeds_'+str(Subset)+'_RES.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET//E1_TRACK_SEGMENTS.csv'
+output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E2_RawTracks_'+str(Subset)+'.csv'
+output_result_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E2_RawTracks_'+str(Subset)+'_RES.csv'
 print(UF.TimeStamp(), "Modules Have been imported successfully...")
 print(UF.TimeStamp(),'Loading pre-selected data from ',input_file_location)
 data=pd.read_csv(input_file_location)
@@ -45,13 +45,13 @@ data=pd.read_csv(input_file_location)
 
 
 print(UF.TimeStamp(),'Creating seeds... ')
-data_header = data.groupby('Track_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data_header=data_header.reset_index()
 Records=len(data_header.axes[0])
 print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
 Steps=math.ceil(MaxTracks/Cut)  #Calculating number of cuts
-data=pd.merge(data, data_header, how="inner", on=["Track_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
+data=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
 
 #What section of data will we cut?
 StartDataCut=Subset*MaxTracks
@@ -67,8 +67,8 @@ Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'tracks in the starting plate')
 r_data=r_data.rename(columns={"y": "r_y"})
 r_data=r_data.rename(columns={"z": "r_z"})
-r_data=r_data.rename(columns={"Track_ID": "Track_2"})
-data=data.rename(columns={"Track_ID": "Track_1"})
+r_data=r_data.rename(columns={"FEDRA_Seg_ID": "Track_2"})
+data=data.rename(columns={"FEDRA_Seg_ID": "Track_1"})
 
 result_list=[]  #We will keep the result in list rather then Panda Dataframe to save memory
 
@@ -91,8 +91,8 @@ UF.LogOperations(output_file_location,'StartLog',result_list)
 for i in range(0,Steps):
   r_temp_data=r_data.iloc[0:min(Cut,len(r_data.axes[0]))] #Taking a small slice of the data
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
-  merged_data=pd.merge(data, r_temp_data, how="inner", on=['Mother_ID']) #Merging Tracks to check whether they could form a seed
-  merged_data.drop(['y','z','x','r_x','r_y','r_z','Mother_ID'],axis=1,inplace=True) #Removing the information that we don't need anymore
+  merged_data=pd.merge(data, r_temp_data, how="inner", on=['MC_Mother_Track_ID']) #Merging Tracks to check whether they could form a seed
+  merged_data.drop(['y','z','x','r_x','r_y','r_z','MC_Mother_Track_ID'],axis=1,inplace=True) #Removing the information that we don't need anymore
   merged_data.drop(merged_data.index[merged_data['Track_1'] == merged_data['Track_2']], inplace = True) #Removing the cases where Seed tracks are the same
   merged_list = merged_data.values.tolist() #Convirting the result to List data type
   result_list+=merged_list #Adding the result to the list
