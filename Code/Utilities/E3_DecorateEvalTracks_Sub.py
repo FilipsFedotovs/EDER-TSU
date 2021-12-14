@@ -58,9 +58,9 @@ GoodTracks=[]
 print(UF.TimeStamp(),'Beginning the decorating part...')
 for s in range(0,limit):
     track=Track(tracks.pop(0))
-    print(track.SegmentHeader)
+    track.DecorateSegments(segments)
+    print(track.SegmentHits)
     exit()
-    track.DecorateTracks(segments)
     try:
        track.DecorateTrackGeoInfo()
        new_track=[track.TrackHeader[0],track.TrackHeader[1],track.Vx,track.Vy,track.Vz,track.DOCA,track.V_Tr[0],track.V_Tr[1],track.Tr_Tr,track.angle]
