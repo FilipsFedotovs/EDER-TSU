@@ -17,7 +17,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--SubSet',help="SubSet Number", default='1')
-parser.add_argument('--Fraction',help="Fraction", default='1')
+parser.add_argument('--Fraction',help="Fraction", default='0')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
 ########################################     Main body functions    #########################################
