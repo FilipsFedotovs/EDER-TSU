@@ -68,7 +68,7 @@ class Track:
                 __x1=self.SegmentHits[__subleading_seg][len(self.SegmentHits[__subleading_seg])-1][0]
                 __y2=float(self.SegmentHits[__leading_seg][0][1])
                 __y1=self.SegmentHits[__subleading_seg][len(self.SegmentHits[__subleading_seg])-1][1]
-                self.Seg_Transv_Gap=math.sqrt(((x2-x1)**2)+((y2-y1)**2))
+                self.Seg_Transv_Gap=math.sqrt(((__x2-__x1)**2)+((__y2-__y1)**2))
              else:
                  raise ValueError("Method 'DecorateTrackGeoInfo' currently works for seeds with track multiplicity of 2 only")
           else:
