@@ -27,7 +27,7 @@ fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
-input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawSegments_'+SubSet+'_'+fraction+'.csv'
+input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+SubSet+'_'+fraction+'.csv'
 output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_E3_DecoratedTracks_'+SubSet+'_'+fraction+'.csv'
 print(UF.TimeStamp(),'Loading the data')
 tracks=pd.read_csv(input_seed_file_location)
