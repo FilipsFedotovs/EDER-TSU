@@ -27,10 +27,10 @@ fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
-input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+SubSet+'_'+fraction+'.csv'
-output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_E3_DecoratedTracks_'+SubSet+'_'+fraction+'.csv'
+input_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+SubSet+'_'+fraction+'.csv'
+output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_E3_DecoratedTracks_'+SubSet+'_'+fraction+'.csv'
 print(UF.TimeStamp(),'Loading the data')
-tracks=pd.read_csv(input_seed_file_location)
+tracks=pd.read_csv(input_track_file_location)
 tracks_1=tracks.drop(['Track_2'],axis=1)
 tracks_1=tracks_1.rename(columns={"Track_1": "FEDRA_Seg_ID"})
 tracks_2=tracks.drop(['Track_1'],axis=1)
@@ -59,18 +59,12 @@ print(UF.TimeStamp(),'Beginning the decorating part...')
 for s in range(0,limit):
     track=Track(tracks.pop(0))
     track.DecorateSegments(segments)
-    print(track.SegmentHits)
-
-    #try:
-    track.DecorateTrackGeoInfo()
-    print(track.Seg_Gap)
-
-    new_track=[track.SegmentHeader[0],track.SegmentHeader[1],track.DOCA,track.Seg_Gap,track.angle]
-    print(new_track)
-    exit()
-   # except:
- #      new_track=[track.TrackHeader[0],track.TrackHeader[1],'Fail','Fail','Fail','Fail','Fail','Fail','Fail','Fail']
-   # GoodTracks.append(new_track)
+    try:
+        track.DecorateTrackGeoInfo()
+        new_track=[track.SegmentHeader[0],track.SegmentHeader[1],track.DOCA,track.Seg_Gap,track.angle]
+    except:
+       new_track=[track.SegmentHeader[0],track.SegmentHeader[1],'Fail','Fail','Fail']
+    GoodTracks.append(new_track)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The evaluation track decoration has been completed..'+bcolors.ENDC)
 del segments
 del tracks
