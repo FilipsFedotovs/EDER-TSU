@@ -60,13 +60,15 @@ for s in range(0,limit):
     track=Track(tracks.pop(0))
     track.DecorateSegments(segments)
     print(track.SegmentHits)
+
+    #try:
+    track.DecorateTrackGeoInfo()
+    print(track.Seg_Gap)
     exit()
-    try:
-       track.DecorateTrackGeoInfo()
-       new_track=[track.TrackHeader[0],track.TrackHeader[1],track.Vx,track.Vy,track.Vz,track.DOCA,track.V_Tr[0],track.V_Tr[1],track.Tr_Tr,track.angle]
-    except:
-       new_track=[track.TrackHeader[0],track.TrackHeader[1],'Fail','Fail','Fail','Fail','Fail','Fail','Fail','Fail']
-    GoodTracks.append(new_track)
+    #new_track=[track.TrackHeader[0],track.TrackHeader[1],track.Vx,track.Vy,track.Vz,track.DOCA,track.V_Tr[0],track.V_Tr[1],track.Tr_Tr,track.angle]
+   # except:
+ #      new_track=[track.TrackHeader[0],track.TrackHeader[1],'Fail','Fail','Fail','Fail','Fail','Fail','Fail','Fail']
+   # GoodTracks.append(new_track)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The evaluation track decoration has been completed..'+bcolors.ENDC)
 del segments
 del tracks

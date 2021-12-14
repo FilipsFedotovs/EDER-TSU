@@ -55,9 +55,15 @@ class Track:
                 __midpoint=(__result[0]+__result[1])/2
                 __v1=np.subtract(__vector_1_end,__midpoint)
                 __v2=np.subtract(__vector_2_end,__midpoint)
+                if self.SegmentHits[0][len(self.SegmentHits)-1][2]>self.SegmentHits[1][len(self.SegmentHits)-1][2]: #Workout which track is leading (has highest z-coordinate)
+                    __leading_seg=0
+                    __subleading_seg=1
+                else:
+                    __leading_seg=1
+                    __subleading_seg=0
                 self.angle=Track.angle_between(__v1, __v2)
                 self.DOCA=__result[2]
-                self.Tr_Tr=math.sqrt(((float(self.SegmentHits[0][0][0])-float(self.SegmentHits[1][0][0]))**2)+((float(self.SegmentHits[0][0][1])-float(self.SegmentHits[1][0][1]))**2)+((float(self.SegmentHits[0][0][2])-float(self.SegmentHits[1][0][2]))**2))
+                self.Seg_Gap=float(self.SegmentHits[__leading_seg][0][2])-float(self.SegmentHits[__subleading_seg][len(self.SegmentHits[__subleading_seg])-1][2])
              else:
                  raise ValueError("Method 'DecorateTrackGeoInfo' currently works for seeds with track multiplicity of 2 only")
           else:
