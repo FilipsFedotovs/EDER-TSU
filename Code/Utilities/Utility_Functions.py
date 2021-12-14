@@ -16,60 +16,54 @@ import copy
 def TimeStamp():
  return "["+datetime.datetime.now().strftime("%D")+' '+datetime.datetime.now().strftime("%H:%M:%S")+"]"
 
-class Seed:
-      def __init__(self,tracks):
-          self.TrackHeader=sorted(tracks, key=str.lower)
-          self.Multiplicity=len(self.TrackHeader)
+class Track:
+      def __init__(self,segments):
+          self.SegmentHeader=sorted(segments, key=str.lower)
+          self.Segmentation=len(self.SegmentHeader)
       def __eq__(self, other):
-        return ('-'.join(self.TrackHeader)) == ('-'.join(other.TrackHeader))
+        return ('-'.join(self.SegmentHeader)) == ('-'.join(other.SegmentHeader))
       def __hash__(self):
-        return hash(('-'.join(self.TrackHeader)))
-      def DecorateTracks(self,RawHits): #Decorate hit information
-          self.TrackHits=[]
-          for s in range(len(self.TrackHeader)):
-              self.TrackHits.append([])
+        return hash(('-'.join(self.SegmentHeader)))
+      def DecorateSegments(self,RawHits): #Decorate hit information
+          self.SegmentHits=[]
+          for s in range(len(self.SegmentHeader)):
+              self.SegmentHits.append([])
               for t in RawHits:
-                   if self.TrackHeader[s]==t[3]:
-                      self.TrackHits[s].append(t[:3])
-          for Hit in range(0, len(self.TrackHits)):
-             self.TrackHits[Hit]=sorted(self.TrackHits[Hit],key=lambda x: float(x[2]),reverse=False)
+                   if self.SegmentHeader[s]==t[3]:
+                      self.SegmentHits[s].append(t[:3])
+          for Hit in range(0, len(self.SegmentHits)):
+             self.SegmentHits[Hit]=sorted(self.SegmentHits[Hit],key=lambda x: float(x[2]),reverse=False)
 
-      def DecorateSeedGeoInfo(self):
-          if hasattr(self,'TrackHits'):
-             if self.Multiplicity==2:
-                __XZ1=Seed.GetEquationOfTrack(self.TrackHits[0])[0]
-                __XZ2=Seed.GetEquationOfTrack(self.TrackHits[1])[0]
-                __YZ1=Seed.GetEquationOfTrack(self.TrackHits[0])[1]
-                __YZ2=Seed.GetEquationOfTrack(self.TrackHits[1])[1]
-                __X1S=Seed.GetEquationOfTrack(self.TrackHits[0])[3]
-                __X2S=Seed.GetEquationOfTrack(self.TrackHits[1])[3]
-                __Y1S=Seed.GetEquationOfTrack(self.TrackHits[0])[4]
-                __Y2S=Seed.GetEquationOfTrack(self.TrackHits[1])[4]
-                __Z1S=Seed.GetEquationOfTrack(self.TrackHits[0])[5]
-                __Z2S=Seed.GetEquationOfTrack(self.TrackHits[1])[5]
-                __vector_1_st = np.array([np.polyval(__XZ1,self.TrackHits[0][0][2]),np.polyval(__YZ1,self.TrackHits[0][0][2]),self.TrackHits[0][0][2]])
-                __vector_1_end = np.array([np.polyval(__XZ1,self.TrackHits[0][len(self.TrackHits[0])-1][2]),np.polyval(__YZ1,self.TrackHits[0][len(self.TrackHits[0])-1][2]),self.TrackHits[0][len(self.TrackHits[0])-1][2]])
-                __vector_2_st = np.array([np.polyval(__XZ2,self.TrackHits[0][0][2]),np.polyval(__YZ2,self.TrackHits[0][0][2]),self.TrackHits[0][0][2]])
-                __vector_2_end = np.array([np.polyval(__XZ2,self.TrackHits[0][len(self.TrackHits[0])-1][2]),np.polyval(__YZ2,self.TrackHits[0][len(self.TrackHits[0])-1][2]),self.TrackHits[0][len(self.TrackHits[0])-1][2]])
-                __result=Seed.closestDistanceBetweenLines(__vector_1_st,__vector_1_end,__vector_2_st,__vector_2_end,clampAll=False,clampA0=False,clampA1=False,clampB0=False,clampB1=False)
+      def DecorateTrackGeoInfo(self):
+          if hasattr(self,'SegmentHits'):
+             if self.Segmentation==2:
+                __XZ1=Track.GetEquationOfTrack(self.SegmentHits[0])[0]
+                __XZ2=Track.GetEquationOfTrack(self.SegmentHits[1])[0]
+                __YZ1=Track.GetEquationOfTrack(self.SegmentHits[0])[1]
+                __YZ2=Track.GetEquationOfTrack(self.SegmentHits[1])[1]
+                __X1S=Track.GetEquationOfTrack(self.SegmentHits[0])[3]
+                __X2S=Track.GetEquationOfTrack(self.SegmentHits[1])[3]
+                __Y1S=Track.GetEquationOfTrack(self.SegmentHits[0])[4]
+                __Y2S=Track.GetEquationOfTrack(self.SegmentHits[1])[4]
+                __Z1S=Track.GetEquationOfTrack(self.SegmentHits[0])[5]
+                __Z2S=Track.GetEquationOfTrack(self.SegmentHits[1])[5]
+                __vector_1_st = np.array([np.polyval(__XZ1,self.SegmentHits[0][0][2]),np.polyval(__YZ1,self.SegmentHits[0][0][2]),self.SegmentHits[0][0][2]])
+                __vector_1_end = np.array([np.polyval(__XZ1,self.SegmentHits[0][len(self.SegmentHits[0])-1][2]),np.polyval(__YZ1,self.SegmentHits[0][len(self.SegmentHits[0])-1][2]),self.SegmentHits[0][len(self.SegmentHits[0])-1][2]])
+                __vector_2_st = np.array([np.polyval(__XZ2,self.SegmentHits[0][0][2]),np.polyval(__YZ2,self.SegmentHits[0][0][2]),self.SegmentHits[0][0][2]])
+                __vector_2_end = np.array([np.polyval(__XZ2,self.SegmentHits[0][len(self.SegmentHits[0])-1][2]),np.polyval(__YZ2,self.SegmentHits[0][len(self.SegmentHits[0])-1][2]),self.SegmentHits[0][len(self.SegmentHits[0])-1][2]])
+                __result=Track.closestDistanceBetweenLines(__vector_1_st,__vector_1_end,__vector_2_st,__vector_2_end,clampAll=False,clampA0=False,clampA1=False,clampB0=False,clampB1=False)
                 __midpoint=(__result[0]+__result[1])/2
-                __D1M=math.sqrt(((__midpoint[0]-__X1S)**2) + ((__midpoint[1]-__Y1S)**2) + ((__midpoint[2]-__Z1S)**2))
-                __D2M=math.sqrt(((__midpoint[0]-__X2S)**2) + ((__midpoint[1]-__Y2S)**2) + ((__midpoint[2]-__Z2S)**2))
                 __v1=np.subtract(__vector_1_end,__midpoint)
                 __v2=np.subtract(__vector_2_end,__midpoint)
-                self.angle=Seed.angle_between(__v1, __v2)
-                self.Vx=__midpoint[0]
-                self.Vy=__midpoint[1]
-                self.Vz=__midpoint[2]
+                self.angle=Track.angle_between(__v1, __v2)
                 self.DOCA=__result[2]
-                self.V_Tr=[__D1M,__D2M]
-                self.Tr_Tr=math.sqrt(((float(self.TrackHits[0][0][0])-float(self.TrackHits[1][0][0]))**2)+((float(self.TrackHits[0][0][1])-float(self.TrackHits[1][0][1]))**2)+((float(self.TrackHits[0][0][2])-float(self.TrackHits[1][0][2]))**2))
+                self.Tr_Tr=math.sqrt(((float(self.SegmentHits[0][0][0])-float(self.SegmentHits[1][0][0]))**2)+((float(self.SegmentHits[0][0][1])-float(self.SegmentHits[1][0][1]))**2)+((float(self.SegmentHits[0][0][2])-float(self.SegmentHits[1][0][2]))**2))
              else:
-                 raise ValueError("Method 'DecorateSeedGeoInfo' currently works for seeds with track multiplicity of 2 only")
+                 raise ValueError("Method 'DecorateTrackGeoInfo' currently works for seeds with track multiplicity of 2 only")
           else:
-                raise ValueError("Method 'DecorateSeedGeoInfo' works only if 'DecorateTracks' method has been acted upon the seed before")
+                raise ValueError("Method 'DecorateTrackGeoInfo' works only if 'DecorateTracks' method has been acted upon the seed before")
 
-      def SeedQualityCheck(self,VO_min_Z,VO_max_Z,MaxDoca,TV_Min_Dist, min_angle, max_angle):
+      def TrackQualityCheck(self,VO_min_Z,VO_max_Z,MaxDoca,TV_Min_Dist, min_angle, max_angle):
                     self.GeoFit = (self.DOCA<=MaxDoca and min(self.V_Tr)<=TV_Min_Dist and self.Vz>=VO_min_Z and self.Vz<=VO_max_Z and abs(self.angle)>=min_angle and abs(self.angle)<=max_angle)
 
       def CNNFitSeed(self,Prediction):
@@ -78,33 +72,25 @@ class Seed:
       def AssignCNNVxId(self,ID):
           self.VX_CNN_ID=ID
 
-      # def CheckOverlap(self,OtherHeader):
-      #     OtherHeader=sorted(OtherHeader, key=str.lower)
-      #     for t in range(len(self.TrackHeader)):
-      #         if self.TrackHeader[t]!=OtherHeader[t]:
-      #             return False
-      #     return True
-      # def CNNLinkFitSeed(self,LinkFit):
-      #     self.Seed_Bond_Fit=LinkFit
       def InjectSeed(self,OtherSeed):
           __overlap=False
-          for t1 in self.TrackHeader:
-              for t2 in OtherSeed.TrackHeader:
+          for t1 in self.SegmentHeader:
+              for t2 in OtherSeed.SegmentHeader:
                   if t1==t2:
                       __overlap=True
                       break
           if __overlap:
               overlap_matrix=[]
-              for t1 in range(len(self.TrackHeader)):
-                 for t2 in range(len(OtherSeed.TrackHeader)):
-                    if self.TrackHeader[t1]==OtherSeed.TrackHeader[t2]:
+              for t1 in range(len(self.SegmentHeader)):
+                 for t2 in range(len(OtherSeed.SegmentHeader)):
+                    if self.SegmentHeader[t1]==OtherSeed.SegmentHeader[t2]:
                        overlap_matrix.append(t2)
 
-              for t2 in range(len(OtherSeed.TrackHeader)):
+              for t2 in range(len(OtherSeed.SegmentHeader)):
                 if (t2 in overlap_matrix)==False:
-                  self.TrackHeader.append(OtherSeed.TrackHeader[t2])
-                  if hasattr(self,'TrackHits') and hasattr(OtherSeed,'TrackHits'):
-                          self.TrackHits.append(OtherSeed.TrackHits[t2])
+                  self.SegmentHeader.append(OtherSeed.SegmentHeader[t2])
+                  if hasattr(self,'SegmentHits') and hasattr(OtherSeed,'SegmentHits'):
+                          self.SegmentHits.append(OtherSeed.SegmentHits[t2])
               if hasattr(self,'MC_truth_label') and hasattr(OtherSeed,'MC_truth_label'):
                          self.MC_truth_label=(self.MC_truth_label and OtherSeed.MC_truth_label)
               if hasattr(self,'VX_CNN_Fit') and hasattr(OtherSeed,'VX_CNN_Fit'):
@@ -157,7 +143,7 @@ class Seed:
               self.VX_x=list(set(self.VX_x))
               self.VX_y=list(set(self.VX_y))
               self.VX_CNN_Fit=list(set(self.VX_CNN_Fit))
-              self.Multiplicity=len(self.TrackHeader)
+              self.Segmentation=len(self.SegmentHeader)
               self.Seed_CNN_Fit=sum(self.VX_CNN_Fit)/len(self.VX_CNN_Fit)
               self.Vx=sum(self.VX_x)/len(self.VX_x)
               self.Vy=sum(self.VX_y)/len(self.VX_y)
@@ -183,7 +169,7 @@ class Seed:
           self.MC_truth_label=label
 
       def PrepareTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
-          __TempTrack=copy.deepcopy(self.TrackHits)
+          __TempTrack=copy.deepcopy(self.SegmentHits)
           self.Resolution=Res
           self.bX=int(round(MaxX/self.Resolution,0))
           self.bY=int(round(MaxY/self.Resolution,0))
@@ -397,7 +383,7 @@ class Seed:
           import matplotlib as plt
           from matplotlib.colors import LogNorm
           from matplotlib import pyplot as plt
-          plt.title('Seed '+':'.join(self.TrackHeader))
+          plt.title('Seed '+':'.join(self.SegmentHeader))
           plt.xlabel('Z [microns /'+str(int(self.Resolution))+']')
           plt.ylabel('X [microns /'+str(int(self.Resolution))+']')
           __image=plt.imshow(__Matrix,cmap='gray_r',extent=[0,self.bZ,self.bX,-self.bX])
@@ -416,7 +402,7 @@ class Seed:
           import matplotlib as plt
           from matplotlib.colors import LogNorm
           from matplotlib import pyplot as plt
-          plt.title('Seed '+':'.join(self.TrackHeader))
+          plt.title('Seed '+':'.join(self.SegmentHeader))
           plt.xlabel('Z [microns /'+str(int(self.Resolution))+']')
           plt.ylabel('Y [microns /'+str(int(self.Resolution))+']')
           __image=plt.imshow(__Matrix,cmap='gray_r',extent=[0,self.bZ,self.bY,-self.bY])
@@ -435,7 +421,7 @@ class Seed:
           import matplotlib as plt
           from matplotlib.colors import LogNorm
           from matplotlib import pyplot as plt
-          plt.title('Seed '+':'.join(self.TrackHeader))
+          plt.title('Seed '+':'.join(self.SegmentHeader))
           plt.xlabel('Y [microns /'+str(int(self.Resolution))+']')
           plt.ylabel('X [microns /'+str(int(self.Resolution))+']')
           __image=plt.imshow(__Matrix,cmap='gray_r',extent=[-self.bY,self.bY,self.bX,-self.bX])
