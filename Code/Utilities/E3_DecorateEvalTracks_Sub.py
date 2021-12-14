@@ -64,8 +64,10 @@ for s in range(0,limit):
     #try:
     track.DecorateTrackGeoInfo()
     print(track.Seg_Gap)
+
+    new_track=[track.SegmentHeader[0],track.SegmentHeader[1],track.DOCA,track.Seg_Gap,track.angle]
+    print(new_track)
     exit()
-    #new_track=[track.TrackHeader[0],track.TrackHeader[1],track.Vx,track.Vy,track.Vz,track.DOCA,track.V_Tr[0],track.V_Tr[1],track.Tr_Tr,track.angle]
    # except:
  #      new_track=[track.TrackHeader[0],track.TrackHeader[1],'Fail','Fail','Fail','Fail','Fail','Fail','Fail','Fail']
    # GoodTracks.append(new_track)
