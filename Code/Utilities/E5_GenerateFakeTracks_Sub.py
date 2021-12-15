@@ -85,23 +85,22 @@ StartDataCut=Subset*MaxSegments
 EndDataCut=(Subset+1)*MaxSegments
 
 #Specifying the right join
-r_data=data.rename(columns={"x": "r_x"})
+
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'There are  ', Records, 'tracks in the starting plate')
 r_data=r_data.iloc[StartDataCut:min(EndDataCut,Records)]
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'tracks in the starting plate')
+r_data.drop(['y'],axis=1,inplace=True)
+r_data.drop(['x'],axis=1,inplace=True)
+r_data.drop(['z'],axis=1,inplace=True)
+data.drop(['e_y'],axis=1,inplace=True)
+data.drop(['e_x'],axis=1,inplace=True)
+data.drop(['e_z'],axis=1,inplace=True)
+r_data=r_data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
+data=data.rename(columns={"FEDRA_Seg_ID": "Segment_1"})
 
-r_data=r_data.rename(columns={"y": "r_y"})
-r_data=r_data.rename(columns={"z": "r_z"})
-r_data=r_data.rename(columns={"e_x": "r_e_y"})
-r_data=r_data.rename(columns={"e_z": "r_e_z"})
-r_data=r_data.rename(columns={"e_y": "r_e_y"})
-r_data=r_data.rename(columns={"FEDRA_Seg_ID": "Track_2"})
-data=data.rename(columns={"FEDRA_Seg_ID": "Track_1"})
-print(r_data)
-exit()
 data['join_key'] = 'join_key'
 r_data['join_key'] = 'join_key'
 
@@ -111,9 +110,10 @@ result_list=[]  #We will keep the result in list rather then Panda Dataframe to 
 data["x"] = pd.to_numeric(data["x"],downcast='float')
 data["y"] = pd.to_numeric(data["y"],downcast='float')
 data["z"] = pd.to_numeric(data["z"],downcast='float')
-r_data["r_x"] = pd.to_numeric(r_data["r_x"],downcast='float')
-r_data["r_y"] = pd.to_numeric(r_data["r_y"],downcast='float')
-r_data["r_z"] = pd.to_numeric(r_data["r_z"],downcast='float')
+
+r_data["e_x"] = pd.to_numeric(r_data["e_x"],downcast='float')
+r_data["e_y"] = pd.to_numeric(r_data["e_y"],downcast='float')
+r_data["e_z"] = pd.to_numeric(r_data["e_z"],downcast='float')
 
 #Cleaning memory
 del data_header
@@ -127,6 +127,8 @@ for i in range(0,Steps):
   r_temp_data=r_data.iloc[0:min(Cut,len(r_data.axes[0]))] #Taking a small slice of the data
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
   merged_data=pd.merge(data, r_temp_data, how="inner", on=['join_key']) #Merging Tracks to check whether they could form a seed
+  print(merged_data)
+  exit()
   merged_data['separation']=np.sqrt(((merged_data['x']-merged_data['r_x'])**2)+((merged_data['y']-merged_data['r_y'])**2)+((merged_data['z']-merged_data['r_z'])**2)) #Calculating the Euclidean distance between Track start hits
   merged_data.drop(['y','z','x','r_x','r_y','r_z','join_key'],axis=1,inplace=True) #Removing the information that we don't need anymore
   merged_data.drop(merged_data.index[merged_data['separation'] > SI_7], inplace = True) #Dropping the Seeds that are too far apart
