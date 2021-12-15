@@ -134,9 +134,9 @@ for i in range(0,Steps):
   merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(merged_data.index[merged_data['STG'] > MaxSTG], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(['y','z','x','e_x','e_y','e_z','join_key','STG','SLG'],axis=1,inplace=True) #Removing the information that we don't need anymore
+  merged_data.drop(merged_data.index[merged_data['Track_1'] == merged_data['Track_2']], inplace = True) #Removing the cases where Seed tracks are the same
   print(merged_data)
   exit()
-  merged_data.drop(merged_data.index[merged_data['Track_1'] == merged_data['Track_2']], inplace = True) #Removing the cases where Seed tracks are the same
   merged_list = merged_data.values.tolist() #Convirting the result to List data type
   result_list+=merged_list #Adding the result to the list
   if len(result_list)>=2000000: #Once the list gets too big we dump the results into csv to save memory
