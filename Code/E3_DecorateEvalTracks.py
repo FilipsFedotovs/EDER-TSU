@@ -45,7 +45,7 @@ import sys
 sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
-MaxEvalSegmentsPerJob = PM.MaxEvalSegmentssPerJob
+MaxEvalSegmentsPerJob = PM.MaxEvalSegmentsPerJob
 MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
