@@ -61,7 +61,7 @@ data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
 data.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 Records=len(data.axes[0])
-SubSets=math.ceil(Records/MaxEvalTracksPerJob)
+SubSets=math.ceil(Records/MaxEvalSegmentsPerJob)
 if Mode=='R':
    print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to create the seeds from the scratch'+bcolors.ENDC)
    print(UF.TimeStamp(),bcolors.WARNING+'This option will erase all the previous Seed Creation jobs/results'+bcolors.ENDC)
