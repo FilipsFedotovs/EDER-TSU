@@ -66,8 +66,10 @@ print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 
 Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
 Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
-data=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
-print(data)
+data_s=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
+print(data_s)
+data_e=pd.merge(data, data_header, how="inner", left_on=["FEDRA_Seg_ID","z"], right_on=["FEDRA_Seg_ID","e_z"]) #Shrinking the Track data so just a star hit for each track is present.
+print(data_e)
 exit()
 #What section of data will we cut?
 StartDataCut=Subset*MaxSegments
