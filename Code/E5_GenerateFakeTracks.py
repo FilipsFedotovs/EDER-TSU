@@ -70,7 +70,7 @@ data=data.reset_index()
 data = data.groupby('z')['FEDRA_Seg_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
 data=data.sort_values(['z'],ascending=True)
-data['Sub_Sets']=np.ceil(data['Track_ID']/MaxSegmentsPerJob)
+data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxSegmentsPerJob)
 data['Sub_Sets'] = data['Sub_Sets'].astype(int)
 data = data.values.tolist() #Convirting the result to List data type
 if Mode=='R':
