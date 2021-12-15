@@ -85,7 +85,7 @@ StartDataCut=Subset*MaxSegments
 EndDataCut=(Subset+1)*MaxSegments
 
 #Specifying the right join
-
+r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'There are  ', Records, 'tracks in the starting plate')
@@ -98,7 +98,7 @@ r_data.drop(['z'],axis=1,inplace=True)
 data.drop(['e_y'],axis=1,inplace=True)
 data.drop(['e_x'],axis=1,inplace=True)
 data.drop(['e_z'],axis=1,inplace=True)
-r_data=r_data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
+
 data=data.rename(columns={"FEDRA_Seg_ID": "Segment_1"})
 
 data['join_key'] = 'join_key'
