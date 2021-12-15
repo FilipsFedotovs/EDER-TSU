@@ -130,6 +130,7 @@ for i in range(0,Steps):
   merged_data['SLD']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
 
   merged_data['STD']=np.sqrt((merged_data['x']-merged_data['e_x'])**2+((merged_data['y']-merged_data['e_y'])**2)) #Calculating the Euclidean distance between Track start hits
+  merged_data.drop(merged_data.index[merged_data['SLD'] < 0], inplace = True) #Dropping the Seeds that are too far apart
   print(merged_data)
   exit()
   merged_data.drop(['y','z','x','r_x','r_y','r_z','join_key'],axis=1,inplace=True) #Removing the information that we don't need anymore
