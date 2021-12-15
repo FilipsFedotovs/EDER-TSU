@@ -21,13 +21,8 @@ MaxVxPerJob=10000
 MaxSeedsPerVxPool=20000
 
 ######List of geometrical constain parameters
-SI_1=1200
-SI_2=1310
-SI_3=1600
-SI_4=2620
-SI_5=3120
-SI_6=3940
-SI_7=4000 #This parameter restricts the maximum euclidean distance between the first hits of the 2-track seeds that are subject to the Vertex Fit.
+MaxSLG=20000
+MaxSTG=10000#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
 MinHitsTrack=2
 MaxTrainSampleSize=50000
 MaxValSampleSize=100000

@@ -51,7 +51,7 @@ data=pd.read_csv(input_file_location)
 
 
 
-print(UF.TimeStamp(),'Creating seeds... ')
+print(UF.TimeStamp(),'Creating segment combinations... ')
 data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data_header=data_header.reset_index()
 data_end_header = data.groupby('FEDRA_Seg_ID')['z'].max()  #Keeping only ending hits for the each track record (we do not require the full information about track in this script)
@@ -88,10 +88,10 @@ EndDataCut=(Subset+1)*MaxSegments
 r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
 Records=len(r_data.axes[0])
-print(UF.TimeStamp(),'There are  ', Records, 'tracks in the starting plate')
+print(UF.TimeStamp(),'There are  ', Records, 'segments in the starting plate')
 r_data=r_data.iloc[StartDataCut:min(EndDataCut,Records)]
 Records=len(r_data.axes[0])
-print(UF.TimeStamp(),'However we will only attempt  ', Records, 'tracks in the starting plate')
+print(UF.TimeStamp(),'However we will only attempt  ', Records, 'track segments in the starting plate')
 r_data.drop(['y'],axis=1,inplace=True)
 r_data.drop(['x'],axis=1,inplace=True)
 r_data.drop(['z'],axis=1,inplace=True)
@@ -130,8 +130,8 @@ for i in range(0,Steps):
   merged_data['SLG']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
   merged_data['STG']=np.sqrt((merged_data['x']-merged_data['e_x'])**2+((merged_data['y']-merged_data['e_y'])**2)) #Calculating the Euclidean distance between Track start hits
   merged_data.drop(merged_data.index[merged_data['SLG'] < 0], inplace = True) #Dropping the Seeds that are too far apart
-  merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the Seeds that are too far apart
-  merged_data.drop(merged_data.index[merged_data['STG'] > MaxSTG], inplace = True) #Dropping the Seeds that are too far apart
+  merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the track segment combinations where the length of the gap between segments is too large
+  merged_data.drop(merged_data.index[merged_data['STG'] > MaxSTG], inplace = True) #Dropping the track segment combinations where the transverse distance between ending point of the subleeading and starting point of the leading track is too large
   merged_data.drop(['y','z','x','e_x','e_y','e_z','join_key','STG','SLG'],axis=1,inplace=True) #Removing the information that we don't need anymore
   merged_data.drop(merged_data.index[merged_data['Segment_1'] == merged_data['Segment_2']], inplace = True) #Removing the cases where Seed tracks are the same
   merged_list = merged_data.values.tolist() #Convirting the result to List data type
