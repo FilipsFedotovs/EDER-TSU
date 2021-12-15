@@ -17,19 +17,21 @@ parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--PlateZ',help="The Z coordinate of the starting plate", default='-36820.0')
 parser.add_argument('--Set',help="Set number", default='1')
 parser.add_argument('--Subset',help="Subset number", default='1')
-parser.add_argument('--SI_7',help="Separation Interval Point", default='4000')
+parser.add_argument('--MaxSLG',help="Maximum allowed longitudinal gap value between segments", default='20000')
+parser.add_argument('--MaxSTG',help="Maximim allowed transverse gap value between segments", default='10000')
 parser.add_argument('--EOS',help="EOS directory location", default='.')
 parser.add_argument('--AFS',help="AFS directory location", default='.')
-parser.add_argument('--MaxTracks',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
+parser.add_argument('--MaxSegments',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 PlateZ=float(args.PlateZ)   #The coordinate of the st plate in the current scope
 Set=args.Set    #This is just used to name the output file
 Subset=int(args.Subset)  #The subset helps to determine what portion of the track list is used to create the Seeds
-SI_7=float(args.SI_7)
+MaxSLG=float(args.MaxSLG)
+MaxSTG=float(args.MaxSTG)
 ########################################     Preset framework parameters    #########################################
 MaxRecords=10000000 #A set parameter that helps to manage memory load of this script (Please do not exceed 10000000)
-MaxTracks=int(args.MaxTracks)
+MaxSegments=int(args.MaxSegments)
 
 #Loading Directory locations
 EOS_DIR=args.EOS
@@ -40,17 +42,18 @@ AFS_DIR=args.AFS
 import Utility_Functions as UF #This is where we keep routine utility functions
 
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-VIANN/Data/REC_SET/R1_TRACKS.csv'
-output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E5_RawSeeds_'+Set+'_'+str(Subset)+'.csv'
-output_result_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E5_RawSeeds_'+Set+'_'+str(Subset)+'_RES.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
+output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E5_RawTracks_'+Set+'_'+str(Subset)+'.csv'
+output_result_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E5_RawTracks_'+Set+'_'+str(Subset)+'_RES.csv'
 print(UF.TimeStamp(), "Modules Have been imported successfully...")
 print(UF.TimeStamp(),'Loading pre-selected data from ',input_file_location)
 data=pd.read_csv(input_file_location)
 
-
+print(data)
+exit()
 
 print(UF.TimeStamp(),'Creating seeds... ')
-data_header = data.groupby('Track_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data_header=data_header.reset_index()
 #Doing a plate region cut for the Main Data
 data_header.drop(data_header.index[data_header['z'] > (PlateZ+SI_7)], inplace = True)
