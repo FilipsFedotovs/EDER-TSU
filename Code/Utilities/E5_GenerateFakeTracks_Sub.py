@@ -54,6 +54,14 @@ data=pd.read_csv(input_file_location)
 print(UF.TimeStamp(),'Creating seeds... ')
 data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data_header=data_header.reset_index()
+data_end_header = data.groupby('FEDRA_Seg_ID')['z'].max()  #Keeping only ending hits for the each track record (we do not require the full information about track in this script)
+data_end_header=data_end_header.reset_index()
+data_end_header=data_end_header.rename(columns={"x": "e_x"})
+data_end_header=data_end_header.rename(columns={"y": "e_y"})
+data_end_header=data_end_header.rename(columns={"z": "e_z"})
+print(data_header)
+print(data_end_header)
+exit()
 #Doing a plate region cut for the Main Data
 data_header.drop(data_header.index[data_header['z'] > (PlateZ+MaxSLG)], inplace = True)
 data_header.drop(data_header.index[data_header['z'] < PlateZ], inplace = True)
@@ -63,11 +71,10 @@ print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
 Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
 data=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
-print(data)
-exit()
+
 #What section of data will we cut?
-StartDataCut=Subset*MaxTracks
-EndDataCut=(Subset+1)*MaxTracks
+StartDataCut=Subset*MaxSegments
+EndDataCut=(Subset+1)*MaxSegments
 
 #Specifying the right join
 r_data=data.rename(columns={"x": "r_x"})
@@ -79,8 +86,8 @@ Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'tracks in the starting plate')
 r_data=r_data.rename(columns={"y": "r_y"})
 r_data=r_data.rename(columns={"z": "r_z"})
-r_data=r_data.rename(columns={"Track_ID": "Track_2"})
-data=data.rename(columns={"Track_ID": "Track_1"})
+r_data=r_data.rename(columns={"FEDRA_Seg_ID": "Track_2"})
+data=data.rename(columns={"FEDRA_Seg_ID": "Track_1"})
 data['join_key'] = 'join_key'
 r_data['join_key'] = 'join_key'
 
