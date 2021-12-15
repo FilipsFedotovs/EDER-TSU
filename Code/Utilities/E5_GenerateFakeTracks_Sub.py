@@ -49,22 +49,22 @@ print(UF.TimeStamp(), "Modules Have been imported successfully...")
 print(UF.TimeStamp(),'Loading pre-selected data from ',input_file_location)
 data=pd.read_csv(input_file_location)
 
-print(data)
-exit()
+
 
 print(UF.TimeStamp(),'Creating seeds... ')
 data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data_header=data_header.reset_index()
 #Doing a plate region cut for the Main Data
-data_header.drop(data_header.index[data_header['z'] > (PlateZ+SI_7)], inplace = True)
+data_header.drop(data_header.index[data_header['z'] > (PlateZ+MaxSLG)], inplace = True)
 data_header.drop(data_header.index[data_header['z'] < PlateZ], inplace = True)
 Records=len(data_header.axes[0])
 print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 
 Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
-Steps=math.ceil(MaxTracks/Cut)  #Calculating number of cuts
-data=pd.merge(data, data_header, how="inner", on=["Track_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
-
+Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
+data=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
+print(data)
+exit()
 #What section of data will we cut?
 StartDataCut=Subset*MaxTracks
 EndDataCut=(Subset+1)*MaxTracks
