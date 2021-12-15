@@ -56,16 +56,10 @@ data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hi
 data_header=data_header.reset_index()
 data_end_header = data.groupby('FEDRA_Seg_ID')['z'].max()  #Keeping only ending hits for the each track record (we do not require the full information about track in this script)
 data_end_header=data_end_header.reset_index()
-data_end_header=data_end_header.rename(columns={"x": "e_x"})
-data_end_header=data_end_header.rename(columns={"y": "e_y"})
 data_end_header=data_end_header.rename(columns={"z": "e_z"})
-
-
 data_header=pd.merge(data_header, data_end_header, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each track is present.
-print(data_header)
-exit()
 #Doing a plate region cut for the Main Data
-data_header.drop(data_header.index[data_header['z'] > (PlateZ+MaxSLG)], inplace = True)
+#data_header.drop(data_header.index[data_header['e_z'] > (PlateZ+MaxSLG)], inplace = True) #Not applicable for TSU
 data_header.drop(data_header.index[data_header['z'] < PlateZ], inplace = True)
 Records=len(data_header.axes[0])
 print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
@@ -73,7 +67,8 @@ print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
 Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
 data=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
-
+print(data)
+exit()
 #What section of data will we cut?
 StartDataCut=Subset*MaxSegments
 EndDataCut=(Subset+1)*MaxSegments
