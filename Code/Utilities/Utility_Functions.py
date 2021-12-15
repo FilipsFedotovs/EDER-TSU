@@ -607,7 +607,7 @@ def LogOperations(flocation,mode, message):
 
 def RecCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
       subprocess.call(['condor_rm', '-constraint', ProcessId])
-      EOSsubDIR=EOS_DIR+'/'+'EDER-VIANN'
+      EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
       EOSsubModelDIR=EOSsubDIR+'/'+'Data/REC_SET'
       folder =  EOSsubModelDIR
       for f in FileNames:
@@ -621,7 +621,7 @@ def RecCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
 
 def EvalCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
       subprocess.call(['condor_rm', '-constraint', ProcessId])
-      EOSsubDIR=EOS_DIR+'/'+'EDER-VIANN'
+      EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
       EOSsubModelDIR=EOSsubDIR+'/'+'Data/TEST_SET'
       folder =  EOSsubModelDIR
       for f in FileNames:
@@ -635,7 +635,7 @@ def EvalCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
 
 def TrainCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
       subprocess.call(['condor_rm', '-constraint', ProcessId])
-      EOSsubDIR=EOS_DIR+'/'+'EDER-VIANN'
+      EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
       EOSsubModelDIR=EOSsubDIR+'/'+'Data/TRAIN_SET'
       folder =  EOSsubModelDIR
       for f in FileNames:
