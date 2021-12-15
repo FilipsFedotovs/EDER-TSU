@@ -92,7 +92,7 @@ if Mode=='R':
           SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E5_' + str(j) + '.sub'
           MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E5_' + str(j)
           ScriptName = AFS_DIR + '/Code/Utilities/E5_GenerateFakeTracks_Sub.py '
-          UF.SubmitJobs2Condor([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, int(data[j][2]), 'EDER-VIANN-E5', False,False])
+          UF.SubmitJobs2Condor([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, int(data[j][2]), 'EDER-TSU-E5', False,False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
    bad_pop=[]
