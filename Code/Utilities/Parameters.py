@@ -21,8 +21,8 @@ MaxVxPerJob=10000
 MaxSeedsPerVxPool=20000
 
 ######List of geometrical constain parameters
-MaxSLG=20000
-MaxSTG=10000#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
+MaxSLG=10000
+MaxSTG=5000#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
 MinHitsTrack=2
 MaxTrainSampleSize=50000
 MaxValSampleSize=100000
