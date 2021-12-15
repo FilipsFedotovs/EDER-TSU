@@ -73,7 +73,9 @@ data_e=data_e.rename(columns={"x": "e_x"})
 data_e=data_e.rename(columns={"y": "e_y"})
 data_e.drop(['z_x'],axis=1,inplace=True)
 data_e.drop(['z_y'],axis=1,inplace=True)
-
+print(data_s)
+print(data_e)
+exit()
 data=pd.merge(data_s, data_e, how="inner", on=["FEDRA_Seg_ID"])
 del data_e
 del data_s
