@@ -92,12 +92,16 @@ print(UF.TimeStamp(),'There are  ', Records, 'tracks in the starting plate')
 r_data=r_data.iloc[StartDataCut:min(EndDataCut,Records)]
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'tracks in the starting plate')
-print(r_data)
-exit()
+
 r_data=r_data.rename(columns={"y": "r_y"})
 r_data=r_data.rename(columns={"z": "r_z"})
+r_data=r_data.rename(columns={"e_x": "r_e_y"})
+r_data=r_data.rename(columns={"e_z": "r_e_z"})
+r_data=r_data.rename(columns={"e_y": "r_e_y"})
 r_data=r_data.rename(columns={"FEDRA_Seg_ID": "Track_2"})
 data=data.rename(columns={"FEDRA_Seg_ID": "Track_1"})
+print(r_data)
+exit()
 data['join_key'] = 'join_key'
 r_data['join_key'] = 'join_key'
 
