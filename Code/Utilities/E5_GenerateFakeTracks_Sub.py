@@ -128,15 +128,12 @@ for i in range(0,Steps):
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
   merged_data=pd.merge(data, r_temp_data, how="inner", on=['join_key']) #Merging Tracks to check whether they could form a seed
   merged_data['SLG']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
-
   merged_data['STG']=np.sqrt((merged_data['x']-merged_data['e_x'])**2+((merged_data['y']-merged_data['e_y'])**2)) #Calculating the Euclidean distance between Track start hits
   merged_data.drop(merged_data.index[merged_data['SLG'] < 0], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(merged_data.index[merged_data['STG'] > MaxSTG], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(['y','z','x','e_x','e_y','e_z','join_key','STG','SLG'],axis=1,inplace=True) #Removing the information that we don't need anymore
   merged_data.drop(merged_data.index[merged_data['Segment_1'] == merged_data['Segment_2']], inplace = True) #Removing the cases where Seed tracks are the same
-  print(merged_data)
-  exit()
   merged_list = merged_data.values.tolist() #Convirting the result to List data type
   result_list+=merged_list #Adding the result to the list
   if len(result_list)>=2000000: #Once the list gets too big we dump the results into csv to save memory
@@ -148,7 +145,7 @@ for i in range(0,Steps):
 
 UF.LogOperations(output_file_location,'UpdateLog',result_list) #Writing the remaining data into the csv
 UF.LogOperations(output_result_location,'StartLog',[])
-print(UF.TimeStamp(), "Fake seed generation is finished...")
+print(UF.TimeStamp(), "Fake track generation is finished...")
 #End of the script
 
 
