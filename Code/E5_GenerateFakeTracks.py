@@ -106,8 +106,8 @@ if Mode=='C':
            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E5_' + str(j) + '_' + str(sj)
            ScriptName = AFS_DIR + '/Code/Utilities/E5_GenerateFakeTracks_Sub.py '
            job_details = [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-E5', False,False]
-           output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E5_RawTracks_'+str(j)+'_'+str(sj)+'.csv'
-           output_result_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E5_RawTracks_'+str(j)+'_'+str(sj)+'_RES.csv'
+           output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E5_RawTracks_'+str(j)+'_'+str(sj)+'.csv'
+           output_result_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E5_RawTracks_'+str(j)+'_'+str(sj)+'_RES.csv'
            if os.path.isfile(output_result_location) == False:
               bad_pop.append(job_details)
    if len(bad_pop)>0:
@@ -127,7 +127,7 @@ if Mode=='C':
    else:
        print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor track creation jobs have finished'+bcolors.ENDC)
        print(UF.TimeStamp(),'Collating the results...')
-       input_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
+       input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
        eval_data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
        eval_data.drop_duplicates(subset=['FEDRA_Seg_ID','MC_Mother_Track_ID'],keep='first',inplace=True)
        eval_data=eval_data.rename(columns={'FEDRA_Seg_ID': 'Track_1'})
@@ -158,7 +158,7 @@ if Mode=='C':
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
             fractions=int(math.ceil(Records_After_Compression/MaxTracksPerJob))
             for f in range(0,fractions):
-             new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+             new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              result[(f*MaxTracksPerJob):min(Records_After_Compression,((f+1)*MaxTracksPerJob))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
