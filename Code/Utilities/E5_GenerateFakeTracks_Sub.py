@@ -127,9 +127,10 @@ for i in range(0,Steps):
   r_temp_data=r_data.iloc[0:min(Cut,len(r_data.axes[0]))] #Taking a small slice of the data
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
   merged_data=pd.merge(data, r_temp_data, how="inner", on=['join_key']) #Merging Tracks to check whether they could form a seed
+  merged_data['SLD']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
   print(merged_data)
   exit()
-  merged_data['separation']=np.sqrt(((merged_data['x']-merged_data['r_x'])**2)+((merged_data['y']-merged_data['r_y'])**2)+((merged_data['z']-merged_data['r_z'])**2)) #Calculating the Euclidean distance between Track start hits
+  merged_data['SLD']=np.sqrt(((merged_data['x']-merged_data['r_x'])**2)+((merged_data['y']-merged_data['r_y'])**2)+((merged_data['z']-merged_data['r_z'])**2)) #Calculating the Euclidean distance between Track start hits
   merged_data.drop(['y','z','x','r_x','r_y','r_z','join_key'],axis=1,inplace=True) #Removing the information that we don't need anymore
   merged_data.drop(merged_data.index[merged_data['separation'] > SI_7], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(['separation'],axis=1,inplace=True) #We don't need thius field anymore
