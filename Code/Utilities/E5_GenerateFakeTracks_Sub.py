@@ -85,12 +85,12 @@ StartDataCut=Subset*MaxSegments
 EndDataCut=(Subset+1)*MaxSegments
 
 #Specifying the right join
-r_data=data.iloc[StartDataCut:min(EndDataCut,Records)]
+
 r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'There are  ', Records, 'segments in the starting plate')
-
+r_data=data.iloc[StartDataCut:min(EndDataCut,Records)]
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'track segments in the starting plate')
 r_data.drop(['y'],axis=1,inplace=True)
