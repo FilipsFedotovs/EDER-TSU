@@ -130,14 +130,13 @@ for i in range(0,Steps):
   merged_data=pd.merge(data, r_temp_data, how="inner", on=['join_key']) #Merging Tracks to check whether they could form a seed
   merged_data['SLG']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
   merged_data['STG']=np.sqrt((merged_data['x']-merged_data['e_x'])**2+((merged_data['y']-merged_data['e_y'])**2)) #Calculating the Euclidean distance between Track start hits
-  print(merged_data)
+  print(len(merged_data))
   merged_data.drop(merged_data.index[merged_data['SLG'] < 0], inplace = True) #Dropping the Seeds that are too far apart
-  print(merged_data)
+  print(len(merged_data))
   merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the track segment combinations where the length of the gap between segments is too large
-  print(merged_data)
+  print(len(merged_data))
   merged_data.drop(merged_data.index[merged_data['STG'] > MaxSTG], inplace = True) #Dropping the track segment combinations where the transverse distance between ending point of the subleeading and starting point of the leading track is too large
-  print(merged_data)
-  exit()
+  print(len(merged_data))
   merged_data.drop(['y','z','x','e_x','e_y','e_z','join_key','STG','SLG'],axis=1,inplace=True) #Removing the information that we don't need anymore
   merged_data.drop(merged_data.index[merged_data['Segment_1'] == merged_data['Segment_2']], inplace = True) #Removing the cases where Seed tracks are the same
   merged_list = merged_data.values.tolist() #Convirting the result to List data type
