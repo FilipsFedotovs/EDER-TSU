@@ -62,8 +62,6 @@ data_header=pd.merge(data_header, data_end_header, how="inner", on=["FEDRA_Seg_I
 #Doing a plate region cut for the Main Data
 #data_header.drop(data_header.index[data_header['e_z'] > (PlateZ+MaxSLG)], inplace = True) #Not applicable for TSU
 data_header.drop(data_header.index[data_header['z'] < PlateZ], inplace = True)
-print(data_header)
-exit()
 Records=len(data_header.axes[0])
 print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 
@@ -80,7 +78,8 @@ data=pd.merge(data_s, data_e, how="inner", on=["FEDRA_Seg_ID"]) #Combining datas
 del data_e
 del data_s
 gc.collect()
-
+print(data)
+exit()
 #What section of data will we cut?
 StartDataCut=Subset*MaxSegments
 EndDataCut=(Subset+1)*MaxSegments
