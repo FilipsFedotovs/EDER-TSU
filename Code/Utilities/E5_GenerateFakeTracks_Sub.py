@@ -87,11 +87,12 @@ EndDataCut=(Subset+1)*MaxSegments
 
 r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
-print(r_data)
+
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'There are  ', Records, 'segments in the starting plate')
+
 r_data=r_data.iloc[StartDataCut:min(EndDataCut,Records)]
-print(r_data)
+
 
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'track segments in the starting plate')
@@ -103,10 +104,10 @@ data.drop(['e_x'],axis=1,inplace=True)
 data.drop(['e_z'],axis=1,inplace=True)
 data.drop(data.index[data['z'] <= PlateZ], inplace = True)
 data=data.rename(columns={"FEDRA_Seg_ID": "Segment_1"})
-print('Data',data)
+
 data['join_key'] = 'join_key'
 r_data['join_key'] = 'join_key'
-exit()
+
 result_list=[]  #We will keep the result in list rather then Panda Dataframe to save memory
 
 #Downcasting Panda Data frame data types in order to save memory
@@ -128,11 +129,16 @@ UF.LogOperations(output_file_location,'StartLog',result_list)
 
 for i in range(0,Steps):
   r_temp_data=r_data.iloc[0:min(Cut,len(r_data.axes[0]))] #Taking a small slice of the data
+  print(r_temp_data)
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
+  print(r_data)
   merged_data=pd.merge(data, r_temp_data, how="inner", on=['join_key']) #Merging Tracks to check whether they could form a seed
+  print('md',merged_data)
   merged_data['SLG']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
   merged_data['STG']=np.sqrt((merged_data['x']-merged_data['e_x'])**2+((merged_data['y']-merged_data['e_y'])**2)) #Calculating the Euclidean distance between Track start hits
   merged_data['DynamicCut']=1200+(merged_data['SLG']*0.96)
+  print('res',merged_data)
+  exit()
   merged_data.drop(merged_data.index[merged_data['SLG'] < 0], inplace = True) #Dropping the Seeds that are too far apart
   merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the track segment combinations where the length of the gap between segments is too large
   merged_data.drop(merged_data.index[merged_data['STG'] > MaxSTG], inplace = True) #Dropping the track segment combinations where the transverse distance between ending point of the subleeading and starting point of the leading track is too large
