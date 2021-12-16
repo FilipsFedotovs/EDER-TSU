@@ -129,11 +129,8 @@ UF.LogOperations(output_file_location,'StartLog',result_list)
 
 for i in range(0,Steps):
   r_temp_data=r_data.iloc[0:min(Cut,len(r_data.axes[0]))] #Taking a small slice of the data
-  print(r_temp_data)
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
-  print(r_data)
   merged_data=pd.merge(data, r_temp_data, how="inner", on=['join_key']) #Merging Tracks to check whether they could form a seed
-  print('md',merged_data)
   merged_data['SLG']=merged_data['z']-merged_data['e_z'] #Calculating the Euclidean distance between Track start hits
   merged_data['STG']=np.sqrt((merged_data['x']-merged_data['e_x'])**2+((merged_data['y']-merged_data['e_y'])**2)) #Calculating the Euclidean distance between Track start hits
   merged_data['DynamicCut']=1200+(merged_data['SLG']*0.96)
@@ -153,8 +150,6 @@ for i in range(0,Steps):
       del result_list
       result_list=[]
       gc.collect()
-print(result_list)
-exit()
 UF.LogOperations(output_file_location,'UpdateLog',result_list) #Writing the remaining data into the csv
 UF.LogOperations(output_result_location,'StartLog',[])
 print(UF.TimeStamp(), "Fake track generation is finished...")
