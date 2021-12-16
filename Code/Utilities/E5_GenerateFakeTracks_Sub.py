@@ -143,8 +143,6 @@ for i in range(0,Steps):
   merged_data.drop(merged_data.index[merged_data['STG'] > merged_data['DynamicCut']], inplace = True)
 
   merged_data.drop(['y','z','x','e_x','e_y','e_z','join_key','STG','SLG','DynamicCut'],axis=1,inplace=True) #Removing the information that we don't need anymore
-  print(merged_data)
-  exit()
   if df.empty==False:
     merged_data.drop(merged_data.index[merged_data['Segment_1'] == merged_data['Segment_2']], inplace = True) #Removing the cases where Seed tracks are the same
     merged_list = merged_data.values.tolist() #Convirting the result to List data type
@@ -155,7 +153,8 @@ for i in range(0,Steps):
       del result_list
       result_list=[]
       gc.collect()
-
+print(result_list)
+exit()
 UF.LogOperations(output_file_location,'UpdateLog',result_list) #Writing the remaining data into the csv
 UF.LogOperations(output_result_location,'StartLog',[])
 print(UF.TimeStamp(), "Fake track generation is finished...")
