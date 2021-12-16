@@ -122,8 +122,11 @@ gc.collect()
 
 #Creating csv file for the results
 UF.LogOperations(output_file_location,'StartLog',result_list)
-
+print(Steps)
 #This is where we start
+print(data)
+print(r_data)
+exit()
 for i in range(0,Steps):
   r_temp_data=r_data.iloc[0:min(Cut,len(r_data.axes[0]))] #Taking a small slice of the data
   r_data.drop(r_data.index[0:min(Cut,len(r_data.axes[0]))],inplace=True) #Shrinking the right join dataframe
