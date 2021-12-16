@@ -78,8 +78,7 @@ data=pd.merge(data_s, data_e, how="inner", on=["FEDRA_Seg_ID"]) #Combining datas
 del data_e
 del data_s
 gc.collect()
-print(data)
-exit()
+
 #What section of data will we cut?
 StartDataCut=Subset*MaxSegments
 EndDataCut=(Subset+1)*MaxSegments
@@ -88,9 +87,12 @@ EndDataCut=(Subset+1)*MaxSegments
 
 r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
+print(r_data)
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'There are  ', Records, 'segments in the starting plate')
 r_data=r_data.iloc[StartDataCut:min(EndDataCut,Records)]
+print(r_data)
+
 Records=len(r_data.axes[0])
 print(UF.TimeStamp(),'However we will only attempt  ', Records, 'track segments in the starting plate')
 r_data.drop(['y'],axis=1,inplace=True)
@@ -101,10 +103,10 @@ data.drop(['e_x'],axis=1,inplace=True)
 data.drop(['e_z'],axis=1,inplace=True)
 data.drop(data.index[data['z'] <= PlateZ], inplace = True)
 data=data.rename(columns={"FEDRA_Seg_ID": "Segment_1"})
-
+print('Data',data)
 data['join_key'] = 'join_key'
 r_data['join_key'] = 'join_key'
-
+exit()
 result_list=[]  #We will keep the result in list rather then Panda Dataframe to save memory
 
 #Downcasting Panda Data frame data types in order to save memory
