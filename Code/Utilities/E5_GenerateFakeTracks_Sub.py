@@ -59,11 +59,11 @@ data_end_header = data.groupby('FEDRA_Seg_ID')['z'].max()  #Keeping only ending 
 data_end_header=data_end_header.reset_index()
 data_end_header=data_end_header.rename(columns={"z": "e_z"})
 data_header=pd.merge(data_header, data_end_header, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each track is present.
-print(data_header)
-exit()
 #Doing a plate region cut for the Main Data
 #data_header.drop(data_header.index[data_header['e_z'] > (PlateZ+MaxSLG)], inplace = True) #Not applicable for TSU
 data_header.drop(data_header.index[data_header['z'] < PlateZ], inplace = True)
+print(data_header)
+exit()
 Records=len(data_header.axes[0])
 print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 
