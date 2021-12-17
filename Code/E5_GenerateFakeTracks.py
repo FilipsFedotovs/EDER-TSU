@@ -27,14 +27,11 @@ class bcolors:   #We use it for the interface
 #Setting the parser - this script is usually not run directly, but is used by a Master version Counterpart that passes the required arguments
 parser = argparse.ArgumentParser(description='This script selects and prepares 2-segment tracks that do not have a common Mother particle.')
 parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default='C')
-
+parser.add_argument('--MaxSLG',help="Maximum allowed longitudinal gap value between segments", default='8000')
+parser.add_argument('--MaxSTG',help="Maximum allowed transverse gap value between segments per SLG length", default='1000')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
-
-
-
-
 #Loading Directory locations
 csv_reader=open('../config',"r")
 config = list(csv.reader(csv_reader))
@@ -49,8 +46,8 @@ sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################     Preset framework parameters    #########################################
-MaxSLG=PM.MaxSLG
-MaxSTG=PM.MaxSTG #These parameters restricts the maximum length of of the longitudinal and transverse distance between track segments.
+MaxSLG=float(args.MaxSLG)
+MaxSTG=float(args.MaxSTG) #These parameters restricts the maximum length of of the longitudinal and transverse distance between track segments.
 MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
