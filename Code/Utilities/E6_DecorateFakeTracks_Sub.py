@@ -81,7 +81,7 @@ for s in range(0,limit):
     except:
       new_track=[track.SegmentHeader[0],track.SegmentHeader[1],'Fail','Fail','Fail','Fail']
     track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
-    if track.GeoFit(MaxDOCA,MaxSLG,MaxSTG, MaxAngle):
+    if track.GeoFit:
        print(new_track)
        GoodTracks.append(new_track)
 
