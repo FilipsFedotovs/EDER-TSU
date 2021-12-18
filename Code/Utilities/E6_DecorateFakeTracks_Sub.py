@@ -80,8 +80,9 @@ for s in range(0,limit):
       new_track=[track.SegmentHeader[0],track.SegmentHeader[1],track.DOCA,track.Seg_Lon_Gap,track.Seg_Transv_Gap,track.angle]
     except:
       new_track=[track.SegmentHeader[0],track.SegmentHeader[1],'Fail','Fail','Fail','Fail']
+    print(new_track)
     if track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle):
-       print(new_track)
+       print('Pass')
        GoodTracks.append(new_track)
 
 print(UF.TimeStamp(),bcolors.OKGREEN+'The fake track decoration has been completed..'+bcolors.ENDC)
