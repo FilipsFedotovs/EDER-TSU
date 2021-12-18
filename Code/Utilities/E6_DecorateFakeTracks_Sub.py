@@ -58,14 +58,13 @@ del tracks_1
 del tracks_2
 del track_list
 gc.collect()
-print(tracks)
-exit()
+
 limit=len(tracks)
 track_counter=0
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
 #create tracks
 GoodTracks=[]
-Header=['Track_1','Track_2','DOCA','Opening Angle']
+Header=['Track_1','Track_2','DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle']
 GoodTracks.append(Header)
 print(UF.TimeStamp(),'Beginning the vertexing part...')
 for s in range(0,limit):

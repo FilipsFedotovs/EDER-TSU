@@ -140,17 +140,17 @@ if Mode=='C':
                  print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
              elif os.path.isfile(required_output_file_location):
                  if sj==f==0:
-                    base_data=pd.read_csv(required_output_file_location,names=['Track_1','Track_2','DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
+                    base_data=pd.read_csv(required_output_file_location,names=['Segment_1','Segment_2','DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
                  else:
-                    new_data=pd.read_csv(required_output_file_location,names=['Track_1','Track_2','DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
+                    new_data=pd.read_csv(required_output_file_location,names=['Segment_1','Segment_2','DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
                     frames=[base_data,new_data]
                     base_data=pd.concat(frames)
        Records=len(base_data.axes[0])
        print(UF.TimeStamp(),'Set contains', Records, '2-track vertices',bcolors.ENDC)
        output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
-       base_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(base_data['Track_1'], base_data['Track_2'])]
+       base_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(base_data['Segment_1'], base_data['Segment_2'])]
        base_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
-       base_data.drop(base_data.index[base_data['Track_1'] == base_data['Track_2']], inplace = True)
+       base_data.drop(base_data.index[base_data['Segment_1'] == base_data['Segment_2']], inplace = True)
        base_data.drop(["Track_ID"],axis=1,inplace=True)
        Records_After_Compression=len(base_data.axes[0])
        if Records>0:
