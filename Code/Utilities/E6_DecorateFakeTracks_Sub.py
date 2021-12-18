@@ -69,6 +69,8 @@ GoodTracks.append(Header)
 print(UF.TimeStamp(),'Beginning the vertexing part...')
 for s in range(0,limit):
     track=Track(tracks.pop(0))
+    print(track)
+    exit()
     track.DecorateTracks(segments)
     try:
       track.DecorateTrackGeoInfo()

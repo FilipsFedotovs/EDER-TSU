@@ -31,8 +31,6 @@ input_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+Sub
 output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_E3_DecoratedTracks_'+SubSet+'_'+fraction+'.csv'
 print(UF.TimeStamp(),'Loading the data')
 tracks=pd.read_csv(input_track_file_location)
-print(tracks)
-exit()
 tracks_1=tracks.drop(['Segment_2'],axis=1)
 tracks_1=tracks_1.rename(columns={"Segment_1": "FEDRA_Seg_ID"})
 tracks_2=tracks.drop(['Track_1'],axis=1)
