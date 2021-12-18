@@ -70,7 +70,7 @@ class Track:
                 __y1=self.SegmentHits[__subleading_seg][len(self.SegmentHits[__subleading_seg])-1][1]
                 self.Seg_Transv_Gap=math.sqrt(((__x2-__x1)**2)+((__y2-__y1)**2))
              else:
-                 raise ValueError("Method 'DecorateTrackGeoInfo' currently works for seeds with track multiplicity of 2 only")
+                 raise ValueError("Method 'DecorateTrackGeoInfo' currently works for track segment combinations with number of segments of 2 only")
           else:
                 raise ValueError("Method 'DecorateTrackGeoInfo' works only if 'DecorateTracks' method has been acted upon the seed before")
 
