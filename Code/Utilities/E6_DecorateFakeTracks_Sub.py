@@ -46,6 +46,8 @@ tracks_2=tracks_2.rename(columns={"Segment_2": "Track_ID"})
 track_list=result = pd.concat([tracks_1,tracks_2])
 track_list=track_list.sort_values(['Track_ID'])
 track_list.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
+print(track_list)
+exit()
 segments=pd.read_csv(input_segment_file_location)
 print(UF.TimeStamp(),'Analysing the data')
 segments=pd.merge(segments, track_list, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each segment is present.
