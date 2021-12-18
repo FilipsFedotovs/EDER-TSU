@@ -127,23 +127,23 @@ if Mode=='C':
        input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
        eval_data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
        eval_data.drop_duplicates(subset=['FEDRA_Seg_ID','MC_Mother_Track_ID'],keep='first',inplace=True)
-       eval_data=eval_data.rename(columns={'FEDRA_Seg_ID': 'Track_1'})
+       eval_data=eval_data.rename(columns={'FEDRA_Seg_ID': 'Segment_1'})
        eval_data=eval_data.rename(columns={'MC_Mother_Track_ID': 'Mother_1'})
-       eval_data2=eval_data.rename(columns={'Track_1': 'Track_2'})
+       eval_data2=eval_data.rename(columns={'Segment_1': 'Segment_2'})
        eval_data2=eval_data2.rename(columns={'Mother_1': 'Mother_2'})
        for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
            output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E5_RawTracks_'+str(j)+'_'+str(sj)+'.csv'
            if os.path.isfile(output_file_location):
-            result=pd.read_csv(output_file_location,names = ['Track_1','Track_2'])
+            result=pd.read_csv(output_file_location,names = ['Segment_1','Segment_2'])
             Records=len(result.axes[0])
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'contains', Records, 'tracks',bcolors.ENDC)
-            result["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(result['Track_1'], result['Track_2'])]
+            result["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(result['Segment_1'], result['Segment_2'])]
             result.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
-            result.drop(result.index[result['Track_1'] == result['Track_2']], inplace = True)
+            result.drop(result.index[result['Segment_1'] == result['Segment_2']], inplace = True)
             result.drop(["Track_ID"],axis=1,inplace=True)
-            result=pd.merge(result, eval_data, how="left", on=['Track_1'])
-            result=pd.merge(result, eval_data2, how="left", on=['Track_2'])
+            result=pd.merge(result, eval_data, how="left", on=['Segment_1'])
+            result=pd.merge(result, eval_data2, how="left", on=['Segment_2'])
             result.drop(result.index[(result['Mother_1'] == result['Mother_2']) & (result['Mother_1']!='') & (result['Mother_2']!='')], inplace = True)
             result.drop(['Mother_1'],axis=1,inplace=True)
             result.drop(['Mother_2'],axis=1,inplace=True)
