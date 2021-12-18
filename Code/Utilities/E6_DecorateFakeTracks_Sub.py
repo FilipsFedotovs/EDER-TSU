@@ -48,7 +48,7 @@ track_list=track_list.sort_values(['Track_ID'])
 track_list.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
 segments=pd.read_csv(input_segment_file_location)
 print(UF.TimeStamp(),'Analysing the data')
-segments=pd.merge(segments, track_list, how="inner", on=["Track_ID"]) #Shrinking the Track data so just a star hit for each segment is present.
+segments=pd.merge(segments, track_list, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each segment is present.
 segments["x"] = pd.to_numeric(segments["x"],downcast='float')
 segments["y"] = pd.to_numeric(segments["y"],downcast='float')
 segments["z"] = pd.to_numeric(segments["z"],downcast='float')
