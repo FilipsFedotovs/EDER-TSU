@@ -70,13 +70,13 @@ print(UF.TimeStamp(),'Beginning the vertexing part...')
 for s in range(0,limit):
     track=Track(tracks.pop(0))
     track.DecorateSegments(segments)
-    print(track.SegmentHits)
-    exit()
     try:
       track.DecorateTrackGeoInfo()
-      new_track=[track.TrackHeader[0],track.TrackHeader[1],track.DOCA,track.V_Tr[0],track.V_Tr[1],track.Tr_Tr,track.angle]
+      new_track=[track.SegmentHeader[0],track.SegmentHeader[1],track.DOCA,track.Seg_Lon_Gap,track.Seg_Transv_Gap,track.angle]
+      print(new_track)
+      exit()
     except:
-      new_track=[track.TrackHeader[0],track.TrackHeader[1],'Fail','Fail','Fail','Fail','Fail','Fail','Fail','Fail']
+      new_track=[track.SegmentHeader[0],track.SegmentHeader[1],'Fail','Fail','Fail','Fail']
     GoodTracks.append(new_track)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The fake track decoration has been completed..'+bcolors.ENDC)
 del segments
