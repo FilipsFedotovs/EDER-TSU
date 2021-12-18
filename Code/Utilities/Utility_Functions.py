@@ -74,8 +74,8 @@ class Track:
           else:
                 raise ValueError("Method 'DecorateTrackGeoInfo' works only if 'DecorateTracks' method has been acted upon the seed before")
 
-      def TrackQualityCheck(self,VO_min_Z,VO_max_Z,MaxDoca,TV_Min_Dist, min_angle, max_angle):
-                    self.GeoFit = (self.DOCA<=MaxDoca and min(self.V_Tr)<=TV_Min_Dist and self.Vz>=VO_min_Z and self.Vz<=VO_max_Z and abs(self.angle)>=min_angle and abs(self.angle)<=max_angle)
+      def TrackQualityCheck(self,MaxDoca,MaxSLG, MaxSTG,MaxAngle):
+                    self.GeoFit = (self.DOCA<=MaxDoca and self.Seg_Lon_Gap<=MaxSLG and self.Seg_Transv_Gap<=(MaxSTG*(self.Seg_Lon_Gap*0.96)) and abs(self.angle)<=MaxAngle)
 
       def CNNFitTrack(self,Prediction):
           self.Track_CNN_Fit=Prediction

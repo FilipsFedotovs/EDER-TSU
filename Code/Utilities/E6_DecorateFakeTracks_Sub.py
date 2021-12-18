@@ -24,6 +24,8 @@ parser.add_argument('--SubSet',help="SubSet Number", default='1')
 parser.add_argument('--Fraction',help="Fraction", default='1')
 parser.add_argument('--MaxDOCA',help="Maximum DOCA allowed", default='1')
 parser.add_argument('--MaxAngle',help="Maximum magnitude of angle allowed", default='1')
+parser.add_argument('--MaxSTG',help="Maximum Segment Transverse gap per SLG", default='1')
+parser.add_argument('--MaxSLG',help="Maximum Segment Longitudinal Gap", default='1')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
 ########################################     Main body functions    #########################################
@@ -33,7 +35,10 @@ SubSet=args.SubSet
 fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
-
+MaxDOCA=float(args.MaxDOCA)
+MaxSTG=float(args.MaxSTG)
+MaxSLG=float(args.MaxSLG)
+MaxAngle=float(args.MaxAngle)
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
 input_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+Set+'_'+SubSet+'_'+fraction+'.csv'
 output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_DEC_FAKE_SEEDS_'+Set+'_'+SubSet+'_'+fraction+'.csv'
@@ -73,11 +78,10 @@ for s in range(0,limit):
     try:
       track.DecorateTrackGeoInfo()
       new_track=[track.SegmentHeader[0],track.SegmentHeader[1],track.DOCA,track.Seg_Lon_Gap,track.Seg_Transv_Gap,track.angle]
-      print(new_track)
-      exit()
     except:
       new_track=[track.SegmentHeader[0],track.SegmentHeader[1],'Fail','Fail','Fail','Fail']
     GoodTracks.append(new_track)
+
 print(UF.TimeStamp(),bcolors.OKGREEN+'The fake track decoration has been completed..'+bcolors.ENDC)
 del segments
 del tracks
