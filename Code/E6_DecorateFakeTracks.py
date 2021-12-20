@@ -164,10 +164,24 @@ if Mode=='C':
                    if created_file==False:
                       track_data=pd.read_csv(required_output_file_location,usecols=['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
                       track_data['DOCA'] = track_data['DOCA'].astype(float)
-                      print(track_data.dtypes)
-                      track_data['DOCA_Test']=(track_data['DOCA']/DOCABin)
-                      track_data['DOCA_Test']=track_data['DOCA_Test'].apply(np.ceil)
-                      track_data['DOCA_Test']=track_data['DOCA_Test']*DOCABin
+                      track_data['DOCA']=(track_data['DOCA']/DOCABin)
+                      track_data['DOCA']=track_data['DOCA'].apply(np.ceil)
+                      track_data['DOCA']=track_data['DOCA']*DOCABin
+                      
+                      track_data['Seg_Lon_Gap'] = track_data['Seg_Lon_Gap'].astype(float)
+                      track_data['Seg_Lon_Gap']=(track_data['Seg_Lon_Gap']/SLGBin)
+                      track_data['Seg_Lon_Gap']=track_data['Seg_Lon_Gap'].apply(np.ceil)
+                      track_data['Seg_Lon_Gap']=track_data['Seg_Lon_Gap']*SLGBin
+                      
+                      track_data['Seg_Transv_Gap'] = track_data['Seg_Transv_Gap'].astype(float)
+                      track_data['Seg_Transv_Gap']=(track_data['Seg_Transv_Gap']/STGBin)
+                      track_data['Seg_Transv_Gap']=track_data['Seg_Transv_Gap'].apply(np.ceil)
+                      track_data['Seg_Transv_Gap']=track_data['Seg_Transv_Gap']*STGBin
+
+                      track_data['angle'] = track_data['angle'].astype(float)
+                      track_data['angle']=(track_data['angle']/AngleBin)
+                      track_data['angle']=track_data['angle'].apply(np.ceil)
+                      track_data['angle']=track_data['angle']*AngleBin
                       print(track_data)
                       exit()
    exit()
