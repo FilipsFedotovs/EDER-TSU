@@ -156,6 +156,8 @@ if Mode=='C':
    print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
    created_file=False
    for j in range(0,len(data)):
+       progress=round((float(j)/float(len(data)))*100,2)
+       print(UF.TimeStamp(),'Compressing output, progress is ',progress,' %', end="\r", flush=True) #Progress display
        for sj in range(0,int(data[j][2])):
             for f in range (0,1000):
                new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
@@ -186,7 +188,6 @@ if Mode=='C':
                       track_data['tracks']=1
                       track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])['tracks'].sum().reset_index()
                       track_data['track_type']='Fake'
-                      print(track_data)
                       created_file=True
                    else:
                       new_track_data=pd.read_csv(required_output_file_location,usecols=['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
@@ -219,8 +220,7 @@ if Mode=='C':
 
                       track_data = pd.concat(combo_track_data)
                       track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle','track_type'])['tracks'].sum().reset_index()
-                      print(track_data)
-                      exit()
+   print(track_data)
    exit()
 #    print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
 #        UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6'], "SoftUsed == \"EDER-VIANN-E6\"")
