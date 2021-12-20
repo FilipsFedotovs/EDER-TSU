@@ -182,6 +182,10 @@ if Mode=='C':
                       track_data['angle']=(track_data['angle']/AngleBin)
                       track_data['angle']=track_data['angle'].apply(np.ceil)
                       track_data['angle']=track_data['angle']*AngleBin
+
+                      track_data['tracks']=1
+                      print(track_data)
+                      track_data.groupby('DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle')['tracks'].sum()
                       print(track_data)
                       exit()
    exit()
