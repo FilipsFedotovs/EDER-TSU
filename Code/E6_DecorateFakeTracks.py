@@ -185,7 +185,7 @@ if Mode=='C':
 
                       track_data['tracks']=1
                       print(track_data)
-                      track_data.groupby('DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle')['tracks'].sum()
+                      track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])['tracks'].sum()
                       print(track_data)
                       exit()
    exit()
