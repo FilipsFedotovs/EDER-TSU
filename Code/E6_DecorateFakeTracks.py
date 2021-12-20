@@ -122,7 +122,7 @@ if Mode=='C':
               SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E6_' + str(j) + '_' + str(sj)+'_' + str(f)
-              ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeSeeds_Sub.py '
+              ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeTracks_Sub.py '
               job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-E6', False,
                  False]
               if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
