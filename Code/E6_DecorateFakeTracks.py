@@ -93,7 +93,7 @@ if Mode=='R':
               new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
               if os.path.isfile(new_output_file_location):
                f_counter=f
-            OptionHeader = [' --Set ',' --SubSet ', ' --EOS ', " --AFS ", " --Fraction ",'--MaxDOCA', '--MaxAngle', '--MaxSTG', '--MaxSLG']
+            OptionHeader = [' --Set ',' --SubSet ', ' --EOS ', " --AFS ", " --Fraction ",' --MaxDOCA ', ' --MaxAngle ', ' --MaxSTG ', ' --MaxSLG ']
             OptionLine = [j,sj, EOS_DIR, AFS_DIR, '$1', MaxDOCA,MaxAngle,MaxSTG,MaxSLG]
             SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E6_' + str(j) + '_' + str(sj) + '.sub'
