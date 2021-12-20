@@ -66,7 +66,7 @@ MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"######################    Initialising EDER-VIANN fake track decoration module  ########################"+bcolors.ENDC)
+print(bcolors.HEADER+"######################    Initialising EDER-TSU fake track decoration module    ########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -220,7 +220,7 @@ if Mode=='C':
 
                           track_data = pd.concat(combo_track_data)
                           track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle','track_type'])['tracks'].sum().reset_index()
-       print(UF.TimeStamp(),'Adding genuine data from', bcolors.OKGREEN+EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'+bcolors.ENDC)
+       print(UF.TimeStamp(),'Adding genuine data from', bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'+bcolors.ENDC)
        truth_track_data=pd.read_csv(EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv',usecols=['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
 
        truth_track_data['DOCA'] = truth_track_data['DOCA'].astype(float)
@@ -250,10 +250,10 @@ if Mode=='C':
        combo_track_data = [track_data,truth_track_data]
        track_data = pd.concat(combo_track_data)
        output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_FAKE_GENUINE_TRACKS.csv'
-       print(UF.TimeStamp(),'Writing combined data into', bcolors.OKGREEN+output_file_location+bcolors.ENDC)
+       print(UF.TimeStamp(),'Writing combined data into', bcolors.OKBLUE+output_file_location+bcolors.ENDC)
        track_data.to_csv(output_file_location,index=False)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       #UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6','E6_E6'], "SoftUsed == \"EDER-TSU-E6\"")
+       UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6','E6_E6'], "SoftUsed == \"EDER-TSU-E6\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
        print(UF.TimeStamp(), bcolors.OKGREEN+"Fake 2-track decoration is completed"+bcolors.ENDC)
        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
