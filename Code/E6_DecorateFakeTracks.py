@@ -112,46 +112,57 @@ if Mode=='C':
    #    exit()
    bad_pop=[]
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
+   # for j in range(0,len(data)):
+   #     for sj in range(0,int(data[j][2])):
+   #         for f in range (0,1000):
+   #            new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+   #            required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+   #            OptionHeader = [' --Set ', ' --SubSet ', ' --EOS ', " --AFS ", " --Fraction ",' --MaxDOCA ', ' --MaxAngle ', ' --MaxSTG ', ' --MaxSLG ']
+   #            OptionLine = [j, sj, EOS_DIR, AFS_DIR, f,MaxDOCA,MaxAngle,MaxSTG,MaxSLG]
+   #            SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sh'
+   #            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sub'
+   #            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E6_' + str(j) + '_' + str(sj)+'_' + str(f)
+   #            ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeTracks_Sub.py '
+   #            job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-E6', False,
+   #               False]
+   #            if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
+   #               bad_pop.append(job_details)
+   #            else:
+   #             continue
+   #if len(bad_pop)>0:
+     # print(UF.TimeStamp(),bcolors.WARNING+'Warning, there are still', len(bad_pop), 'HTCondor jobs remaining'+bcolors.ENDC)
+     # print(bcolors.BOLD+'If you would like to wait and try again later please enter W'+bcolors.ENDC)
+     # print(bcolors.BOLD+'If you would like to resubmit please enter R'+bcolors.ENDC)
+     # UserAnswer=input(bcolors.BOLD+"Please, enter your option\n"+bcolors.ENDC)
+     # if UserAnswer=='W':
+     #     print(UF.TimeStamp(),'OK, exiting now then')
+     #     exit()
+     # if UserAnswer=='R':
+     #    for bp in bad_pop:
+     #        UF.SubmitJobs2Condor(bp)
+     #    print(UF.TimeStamp(), bcolors.OKGREEN+"All jobs have been resubmitted"+bcolors.ENDC)
+     #    print(bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC)
+     #    exit()
+   #else:
+   print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
+   created_file=False
    for j in range(0,len(data)):
        for sj in range(0,int(data[j][2])):
-           for f in range (0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              OptionHeader = [' --Set ', ' --SubSet ', ' --EOS ', " --AFS ", " --Fraction ",' --MaxDOCA ', ' --MaxAngle ', ' --MaxSTG ', ' --MaxSLG ']
-              OptionLine = [j, sj, EOS_DIR, AFS_DIR, f,MaxDOCA,MaxAngle,MaxSTG,MaxSLG]
-              SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sh'
-              SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sub'
-              MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E6_' + str(j) + '_' + str(sj)+'_' + str(f)
-              ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeTracks_Sub.py '
-              job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-E6', False,
-                 False]
-              if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
-                 bad_pop.append(job_details)
-              else:
-               continue
-   if len(bad_pop)>0:
-     print(UF.TimeStamp(),bcolors.WARNING+'Warning, there are still', len(bad_pop), 'HTCondor jobs remaining'+bcolors.ENDC)
-     print(bcolors.BOLD+'If you would like to wait and try again later please enter W'+bcolors.ENDC)
-     print(bcolors.BOLD+'If you would like to resubmit please enter R'+bcolors.ENDC)
-     UserAnswer=input(bcolors.BOLD+"Please, enter your option\n"+bcolors.ENDC)
-     if UserAnswer=='W':
-         print(UF.TimeStamp(),'OK, exiting now then')
-         exit()
-     if UserAnswer=='R':
-        for bp in bad_pop:
-            UF.SubmitJobs2Condor(bp)
-        print(UF.TimeStamp(), bcolors.OKGREEN+"All jobs have been resubmitted"+bcolors.ENDC)
-        print(bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC)
-        exit()
-   else:
-       print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
-       exit()
-       print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6'], "SoftUsed == \"EDER-VIANN-E6\"")
-       print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-       print(UF.TimeStamp(), bcolors.OKGREEN+"Fake 2-track decoration is completed"+bcolors.ENDC)
-       print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
-#End of the script
+            for f in range (0,1000):
+               new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+               if os.path.isfile(new_output_file_location):
+                   if created_file==False:
+                      track_data=pd.read_csv(required_output_file_location)
+                      print(track_data)
+                      exit()
+   exit()
+#    print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
+#        UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6'], "SoftUsed == \"EDER-VIANN-E6\"")
+#        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
+#        print(UF.TimeStamp(), bcolors.OKGREEN+"Fake 2-track decoration is completed"+bcolors.ENDC)
+#        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
+# #End of the script
 
 
 
