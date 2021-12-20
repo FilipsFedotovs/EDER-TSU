@@ -30,6 +30,10 @@ parser.add_argument('--MaxDOCA',help="Maximum DOCA allowed", default='500')
 parser.add_argument('--MaxAngle',help="Maximum magnitude of angle allowed", default='1.5')
 parser.add_argument('--MaxSTG',help="Maximum Segment Transverse gap per SLG", default='1000')
 parser.add_argument('--MaxSLG',help="Maximum Segment Longitudinal Gap", default='6000')
+parser.add_argument('--DOCABin',help="The size of bins for DOCA values", default='100')
+parser.add_argument('--AngleBin',help="The size of bins for Angle values", default='0.1')
+parser.add_argument('--STGBin',help="The size of bins for STG values", default='100')
+parser.add_argument('--SLGBin',help="The size of bins for SLG values", default='100')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
@@ -37,6 +41,11 @@ MaxDOCA=float(args.MaxDOCA)
 MaxSTG=float(args.MaxSTG)
 MaxSLG=float(args.MaxSLG)
 MaxAngle=float(args.MaxAngle)
+
+DOCABin=float(args.DOCABin)
+STGBin=float(args.STGBin)
+SLGBin=float(args.SLGBin)
+AngleBin=float(args.AngleBin)
 #Loading Directory locations
 csv_reader=open('../config',"r")
 config = list(csv.reader(csv_reader))
@@ -153,7 +162,8 @@ if Mode=='C':
                required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
                if os.path.isfile(new_output_file_location):
                    if created_file==False:
-                      track_data=pd.read_csv(required_output_file_location)
+                      track_data=pd.read_csv(required_output_file_location,usecols=['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
+                      track_data['DOCA_Test']=math.ceil(track_data['DOCA']/DOCABin)*DOCABin
                       print(track_data)
                       exit()
    exit()
