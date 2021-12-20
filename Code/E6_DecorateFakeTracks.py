@@ -52,8 +52,8 @@ import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################     Preset framework parameters    #########################################
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
+MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 MaxTracksPerJob = PM.MaxTracksPerJob
-MaxSeedsPerJob = PM.MaxSeedsPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -72,7 +72,7 @@ data=data.reset_index()
 data = data.groupby('z')['FEDRA_Seg_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
 data=data.sort_values(['z'],ascending=True)
-data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxTracksPerJob)
+data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxSegmentsPerJob)
 data['Sub_Sets'] = data['Sub_Sets'].astype(int)
 data = data.values.tolist() #Convirting the result to List data type
 if Mode=='R':
