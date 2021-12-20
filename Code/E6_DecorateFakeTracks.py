@@ -26,10 +26,17 @@ class bcolors:   #We use it for the interface
 #Setting the parser - this script is usually not run directly, but is used by a Master version Counterpart that passes the required arguments
 parser = argparse.ArgumentParser(description='This script takes preselected 2-track seeds from the previous step and decorates them with additional information such as DOCA and opening angle.')
 parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default='C')
-
+parser.add_argument('--MaxDOCA',help="Maximum DOCA allowed", default='500')
+parser.add_argument('--MaxAngle',help="Maximum magnitude of angle allowed", default='1.5')
+parser.add_argument('--MaxSTG',help="Maximum Segment Transverse gap per SLG", default='1000')
+parser.add_argument('--MaxSLG',help="Maximum Segment Longitudinal Gap", default='6000')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
+MaxDOCA=float(args.MaxDOCA)
+MaxSTG=float(args.MaxSTG)
+MaxSLG=float(args.MaxSLG)
+MaxAngle=float(args.MaxAngle)
 #Loading Directory locations
 csv_reader=open('../config',"r")
 config = list(csv.reader(csv_reader))
@@ -48,24 +55,24 @@ import Parameters as PM #This is where we keep framework global parameters
 MaxTracksPerJob = PM.MaxTracksPerJob
 MaxSeedsPerJob = PM.MaxSeedsPerJob
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-VIANN/Data/REC_SET/R1_TRACKS.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"######################     Initialising EDER-VIANN fake seed decoration module  ########################"+bcolors.ENDC)
+print(bcolors.HEADER+"######################    Initialising EDER-VIANN fake track decoration module  ########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 print(UF.TimeStamp(),'Loading preselected data from ',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
-data=pd.read_csv(input_file_location,header=0,usecols=['Track_ID','z'])
+data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID','z'])
 
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
 
-data = data.groupby('Track_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
-data = data.groupby('z')['Track_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data = data.groupby('z')['FEDRA_Seg_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
 data=data.sort_values(['z'],ascending=True)
-data['Sub_Sets']=np.ceil(data['Track_ID']/MaxTracksPerJob)
+data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxTracksPerJob)
 data['Sub_Sets'] = data['Sub_Sets'].astype(int)
 data = data.values.tolist() #Convirting the result to List data type
 if Mode=='R':
@@ -77,23 +84,23 @@ if Mode=='R':
          print(UF.TimeStamp(),'OK, continuing then...')
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E6_DEC_FAKE_SEEDS'], "SoftUsed == \"EDER-VIANN-E6\"")
+      UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E6_E6_Dec_Fake_Tracks'], "SoftUsed == \"EDER-TSU-E6\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
             f_counter=0
             for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E6_RawSeeds_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
               if os.path.isfile(new_output_file_location):
                f_counter=f
-            OptionHeader = [' --Set ',' --SubSet ', ' --EOS ', " --AFS ", " --Fraction "]
-            OptionLine = [j,sj, EOS_DIR, AFS_DIR, '$1']
+            OptionHeader = [' --Set ',' --SubSet ', ' --EOS ', " --AFS ", " --Fraction ",'--MaxDOCA', '--MaxAngle', '--MaxSTG', '--MaxSLG']
+            OptionLine = [j,sj, EOS_DIR, AFS_DIR, '$1', MaxDOCA,MaxAngle,MaxSTG,MaxSLG]
             SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E6_' + str(j) + '_' + str(sj) + '.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E6_' + str(j) + '_' + str(sj)
-            ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeSeeds_Sub.py '
+            ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeTracks_Sub.py '
             UF.SubmitJobs2Condor(
-                [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter + 1, 'EDER-VIANN-E6', False,
+                [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter + 1, 'EDER-TSU-E6', False,
                  False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
@@ -108,8 +115,8 @@ if Mode=='C':
    for j in range(0,len(data)):
        for sj in range(0,int(data[j][2])):
            for f in range (0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E6_RawSeeds_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E6_DEC_FAKE_SEEDS_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              required_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
               OptionHeader = [' --Set ', ' --SubSet ', ' --EOS ', " --AFS ", " --Fraction "]
               OptionLine = [j, sj, EOS_DIR, AFS_DIR, f]
               SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sh'
