@@ -167,7 +167,7 @@ if Mode=='C':
                       print(track_data.dtypes)
                       track_data['DOCA_Test']=(track_data['DOCA']/DOCABin)
                       track_data['DOCA_Test']=track_data['DOCA_Test'].apply(np.ceil)
-                      track_data['DOCA_Test']=track_data['DOCA_Test']/DOCABin
+                      track_data['DOCA_Test']=track_data['DOCA_Test']*DOCABin
                       print(track_data)
                       exit()
    exit()
