@@ -184,7 +184,37 @@ if Mode=='C':
                       track_data['angle']=track_data['angle']*AngleBin
 
                       track_data['tracks']=1
-                      print(track_data)
+                      track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])['tracks'].sum().reset_index()
+                      track_data['track_type']='Fake'
+                   else:
+                      new_track_data=pd.read_csv(required_output_file_location,usecols=['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
+                      new_track_data['DOCA'] = new_track_data['DOCA'].astype(float)
+                      new_track_data['DOCA']=(new_track_data['DOCA']/DOCABin)
+                      new_track_data['DOCA']=new_track_data['DOCA'].apply(np.ceil)
+                      new_track_data['DOCA']=new_track_data['DOCA']*DOCABin
+
+                      new_track_data['Seg_Lon_Gap'] = new_track_data['Seg_Lon_Gap'].astype(float)
+                      new_track_data['Seg_Lon_Gap']=(new_track_data['Seg_Lon_Gap']/SLGBin)
+                      new_track_data['Seg_Lon_Gap']=new_track_data['Seg_Lon_Gap'].apply(np.ceil)
+                      new_track_data['Seg_Lon_Gap']=new_track_data['Seg_Lon_Gap']*SLGBin
+
+                      new_track_data['Seg_Transv_Gap'] = new_track_data['Seg_Transv_Gap'].astype(float)
+                      new_track_data['Seg_Transv_Gap']=(new_track_data['Seg_Transv_Gap']/STGBin)
+                      new_track_data['Seg_Transv_Gap']=new_track_data['Seg_Transv_Gap'].apply(np.ceil)
+                      new_track_data['Seg_Transv_Gap']=new_track_data['Seg_Transv_Gap']*STGBin
+
+                      new_track_data['angle'] = new_track_data['angle'].astype(float)
+                      new_track_data['angle']=(new_track_data['angle']/AngleBin)
+                      new_track_data['angle']=new_track_data['angle'].apply(np.ceil)
+                      new_track_data['angle']=new_track_data['angle']*AngleBin
+
+                      new_track_data['tracks']=1
+                      new_track_data=new_track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])['tracks'].sum().reset_index()
+                      new_track_data['track_type']='Fake'
+
+                      combo_track_data = [track_data,new_track_data]
+
+                      track_data = pd.concat(combo_track_data)
                       track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])['tracks'].sum().reset_index()
                       print(track_data)
                       exit()
