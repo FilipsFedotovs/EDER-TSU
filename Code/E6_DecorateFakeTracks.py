@@ -165,7 +165,9 @@ if Mode=='C':
                       track_data=pd.read_csv(required_output_file_location,usecols=['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])
                       track_data['DOCA'] = track_data['DOCA'].astype(float)
                       print(track_data.dtypes)
-                      track_data['DOCA_Test']=math.ceil(track_data['DOCA']/DOCABin)*DOCABin
+                      track_data['DOCA_Test']=(track_data['DOCA']/DOCABin)
+                      track_data['DOCA_Test']=track_data['DOCA_Test'].apply(np.ceil)
+                      track_data['DOCA_Test']=track_data['DOCA_Test']/DOCABin
                       print(track_data)
                       exit()
    exit()
