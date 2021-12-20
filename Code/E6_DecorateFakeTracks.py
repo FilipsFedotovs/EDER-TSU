@@ -105,25 +105,25 @@ if Mode=='R':
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
    print(UF.TimeStamp(),'Checking results... ',bcolors.ENDC)
-   test_file=EOS_DIR+'/EDER-VIANN/Data/REC_SET/E6_DEC_FAKE_SEEDS_1.csv'
-   if os.path.isfile(test_file):
-       print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-       print(UF.TimeStamp(), bcolors.OKGREEN+"The process has been completed before, if you want to restart, please rerun with '--Mode R' option"+bcolors.ENDC)
-       exit()
+   #test_file=EOS_DIR+'/EDER-TSU/Data/REC_SET/E6_E6_DEC_FAKE_SEEDS_1.csv'
+   #if os.path.isfile(test_file):
+   #    print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
+   #    print(UF.TimeStamp(), bcolors.OKGREEN+"The process has been completed before, if you want to restart, please rerun with '--Mode R' option"+bcolors.ENDC)
+   #    exit()
    bad_pop=[]
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
    for j in range(0,len(data)):
        for sj in range(0,int(data[j][2])):
            for f in range (0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              OptionHeader = [' --Set ', ' --SubSet ', ' --EOS ', " --AFS ", " --Fraction "]
-              OptionLine = [j, sj, EOS_DIR, AFS_DIR, f]
+              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_E6_Dec_Fake_Tracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              OptionHeader = [' --Set ', ' --SubSet ', ' --EOS ', " --AFS ", " --Fraction ",' --MaxDOCA ', ' --MaxAngle ', ' --MaxSTG ', ' --MaxSLG ']
+              OptionLine = [j, sj, EOS_DIR, AFS_DIR, f,MaxDOCA,MaxAngle,MaxSTG,MaxSLG]
               SHName = AFS_DIR + '/HTCondor/SH/SH_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E6_' + str(j) + '_' + str(sj) + '_' + str(f)+'.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E6_' + str(j) + '_' + str(sj)+'_' + str(f)
               ScriptName = AFS_DIR + '/Code/Utilities/E6_DecorateFakeSeeds_Sub.py '
-              job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-VIANN-E6', False,
+              job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-E6', False,
                  False]
               if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
                  bad_pop.append(job_details)
@@ -145,6 +145,7 @@ if Mode=='C':
         exit()
    else:
        print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
+       exit()
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6'], "SoftUsed == \"EDER-VIANN-E6\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
