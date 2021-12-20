@@ -218,7 +218,7 @@ if Mode=='C':
                       combo_track_data = [track_data,new_track_data]
 
                       track_data = pd.concat(combo_track_data)
-                      track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle'])['tracks'].sum().reset_index()
+                      track_data=track_data.groupby(['DOCA','Seg_Lon_Gap','Seg_Transv_Gap','angle','track_type'])['tracks'].sum().reset_index()
                       print(track_data)
                       exit()
    exit()
