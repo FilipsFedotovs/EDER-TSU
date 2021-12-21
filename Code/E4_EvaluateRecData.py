@@ -193,7 +193,6 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_FEDRA_TRACK_PROPERTY_STATS.csv'
     seg_data['Displacement']=np.sqrt((seg_data['fedra_s_x']-seg_data['mc_s_x'])**2+((seg_data['fedra_s_y']-seg_data['mc_s_y'])**2)+((seg_data['fedra_s_z']-seg_data['mc_s_z'])**2))
     seg_data.to_csv(output_file_location,index=False)
-    print(seg_data)
     print(UF.TimeStamp(), bcolors.OKGREEN+"Stats have on FEDRA Track properties has been written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
     print('Number of tracks expected from Monte Carlo that were at least partially reconstructed:',TotalFullMCTracks)
     print('Number of track segments reconstructed by FEDRA:',TotalFullFEDRATracks)
