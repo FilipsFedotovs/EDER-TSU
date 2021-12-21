@@ -129,9 +129,10 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
 
     eval_data=eval_data.drop(eval_data.index[eval_data['MC_Mother_Track_ID'] != '113862-1260'])
+
+    eval_data.drop_duplicates(keep='first',inplace=True)
     print(eval_data)
     exit()
-    eval_data.drop_duplicates(keep='first',inplace=True)
     rec_data=pd.read_csv(input_rec_file_location,header=0)
     rec_data=pd.merge(rec_data, eval_data, how="left", on=['FEDRA_Seg_ID'])
     seg_data=rec_data.drop(['x','y','z'],axis=1)
