@@ -131,10 +131,9 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     eval_data=eval_data.drop(eval_data.index[eval_data['MC_Mother_Track_ID'] != '113862-1260'])
 
     eval_data.drop_duplicates(keep='first',inplace=True)
-    print(eval_data)
-    exit()
+
     rec_data=pd.read_csv(input_rec_file_location,header=0)
-    rec_data=pd.merge(rec_data, eval_data, how="left", on=['FEDRA_Seg_ID'])
+    rec_data=pd.merge(rec_data, eval_data, how="inner", on=['FEDRA_Seg_ID'])
     seg_data=rec_data.drop(['x','y','z'],axis=1)
     seg_data['FEDRA_Seg_No']=seg_data['FEDRA_Seg_ID']
     seg_data=seg_data.groupby(by=['MC_Mother_Track_ID','FEDRA_Seg_ID'])['FEDRA_Seg_No'].count().reset_index()
@@ -144,6 +143,8 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     TotalFullMCTracks=seg_data_segm_kpi['MC_Mother_Track_ID'].nunique()
     TotalFullFEDRATracks=seg_data_segm_kpi['FEDRA_Seg_ID'].sum()
     Segmentation=seg_data_segm_kpi['FEDRA_Seg_ID'].mean()
+    print(seg_data)
+    exit()
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_MC_TRACK_SEGMENTATION_STATS.csv'
     seg_data_segm_kpi.to_csv(output_file_location,index=False)
     print(UF.TimeStamp(), bcolors.OKGREEN+"Stats have on MC Track segmentation has been written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
