@@ -143,7 +143,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     TotalFullMCTracks=seg_data_segm_kpi['MC_Mother_Track_ID'].nunique()
     TotalFullFEDRATracks=seg_data_segm_kpi['FEDRA_Seg_ID'].sum()
     Segmentation=seg_data_segm_kpi['FEDRA_Seg_ID'].mean()
-    print(seg_data)
+    print(seg_data_segm_kpi)
     exit()
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_MC_TRACK_SEGMENTATION_STATS.csv'
     seg_data_segm_kpi.to_csv(output_file_location,index=False)
