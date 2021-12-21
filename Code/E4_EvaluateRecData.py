@@ -187,7 +187,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     rec_data_fedra=rec_data_fedra.drop(['e_y'],axis=1)
     rec_data_fedra=rec_data_fedra.drop(['e_z'],axis=1)
     print(rec_data_fedra)
-
+    print(seg_data2)
     seg_data2=seg_data2.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_ID','Fedra_Seg_No'],ascending=[1,1,0])
     print(seg_data2)
     exit()
