@@ -192,7 +192,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(seg_data)
     seg_data=pd.merge(seg_data, rec_data_fedra, how="inner", on=['FEDRA_Seg_ID'])
     seg_data=pd.merge(seg_data, rec_data_mc, how="inner", on=['MC_Mother_Track_ID'])
-    print(seg_data)
+    print(seg_data['MC_Mother_Track_ID'].nunique())
     exit()
     #ev_file=open(rec_file_location,'rb')
     #ev_data=pickle.load(ev_file)
