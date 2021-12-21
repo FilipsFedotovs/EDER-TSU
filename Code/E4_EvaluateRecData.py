@@ -188,7 +188,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     rec_data_fedra=rec_data_fedra.drop(['e_z'],axis=1)
     print(rec_data_fedra)
     print(rec_data_mc)
-    seg_data=seg_data.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_ID','FEDRA_Seg_No'],ascending=[1,1,1])
+    seg_data=seg_data.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_No'],ascending=[1,0])
     print(seg_data)
     seg_data.drop_duplicates(subset='MC_Mother_Track_ID',keep='first',inplace=True)
     print(seg_data)
