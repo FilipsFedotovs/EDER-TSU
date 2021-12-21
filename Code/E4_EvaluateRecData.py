@@ -167,7 +167,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
 
     fedra_min = rec_data.groupby('FEDRA_Seg_ID')['z'].min()
     fedra_min=fedra_min.reset_index()
-    rec_data_fedra_min=pd.merge(fedra_min, rec_data, how="inner", on=['MC_Mother_Track_ID','z'])
+    rec_data_fedra_min=pd.merge(fedra_min, rec_data, how="inner", on=['FEDRA_Seg_ID','z'])
     rec_data_fedra_min=rec_data_fedra_min.drop(['MC_Mother_Track_ID'],axis=1)
     rec_data_fedra_min=rec_data_fedra_min.rename(columns={"x": "fedra_s_x"})
     rec_data_fedra_min=rec_data_fedra_min.rename(columns={"y": "fedra_s_y"})
@@ -175,7 +175,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(rec_data_fedra_min)
     fedra_max = rec_data.groupby('FEDRA_Seg_ID')['z'].max()
     fedra_max=fedra_max.reset_index()
-    rec_data_fedra_max=pd.merge(fedra_max, rec_data, how="inner", on=['MC_Mother_Track_ID','z'])
+    rec_data_fedra_max=pd.merge(fedra_max, rec_data, how="inner", on=['FEDRA_Seg_ID','z'])
     rec_data_fedra_max=rec_data_fedra_max.drop(['MC_Mother_Track_ID'],axis=1)
     rec_data_fedra_max=rec_data_fedra_max.rename(columns={"x": "e_x"})
     rec_data_fedra_max=rec_data_fedra_max.rename(columns={"y": "e_y"})
