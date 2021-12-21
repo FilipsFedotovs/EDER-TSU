@@ -143,6 +143,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(seg_data_segm_kpi['MC_Mother_Track_ID'].nunique())
     print(seg_data_segm_kpi['FEDRA_Seg_ID'].sum())
     print(seg_data_segm_kpi['FEDRA_Seg_ID'].mean())
+    print(rec_data)
     exit()
     #ev_file=open(rec_file_location,'rb')
     #ev_data=pickle.load(ev_file)
