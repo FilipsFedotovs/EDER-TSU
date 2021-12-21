@@ -125,12 +125,15 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     print('The F1 score of the current model is',bcolors.BOLD+str(F1_Score), '%'+bcolors.ENDC)
 
 elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
-    print(UF.TimeStamp(), bcolors.OKGREEN+'Evaluating FEDRA tracking reconstruction performance'+bcolors.ENDC)
+    print(UF.TimeStamp(), 'Evaluating FEDRA tracking reconstruction performance')
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
     eval_data.drop_duplicates(keep='first',inplace=True)
     rec_data=pd.read_csv(input_rec_file_location,header=0)
     rec_data=pd.merge(rec_data, eval_data, how="left", on=['FEDRA_Seg_ID'])
-    print(rec_data)
+    seg_data=rec_data.drop(['x','y','z'],axis=1)
+    print(seg_data)
+    seg_data.groupby(by=['MC_Mother_Track_ID'])['FEDRA_Seg_ID'].count().reset_index()
+    print(seg_data)
     exit()
     #ev_file=open(rec_file_location,'rb')
     #ev_data=pickle.load(ev_file)
