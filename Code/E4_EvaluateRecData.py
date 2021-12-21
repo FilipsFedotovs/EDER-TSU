@@ -126,7 +126,7 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
 
 elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(UF.TimeStamp(), bcolors.OKGREEN+'Evaluating FEDRA tracking reconstruction performance'+bcolors.ENDC)
-    eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_No'])
+    eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
     eval_data.drop_duplicates(keep='first',inplace=True)
     print(eval_data)
     rec_data=pd.read_csv(input_rec_file_location,header=0)
