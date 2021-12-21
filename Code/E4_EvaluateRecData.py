@@ -189,7 +189,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(rec_data_fedra)
     seg_data=seg_data.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_ID','FEDRA_Seg_No'],ascending=[1,1,0])
     print(seg_data)
-    seg_data=pd.merge(rec_data_fedra, rec_data_mc, how="inner", on=['MC_Mother_Track_ID','FEDRA_Seg_ID'])
+    seg_data=pd.merge(rec_data_fedra, rec_data_mc, how="inner", on=['FEDRA_Seg_ID'])
     print(seg_data)
     exit()
     #ev_file=open(rec_file_location,'rb')
