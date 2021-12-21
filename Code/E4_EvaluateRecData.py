@@ -139,7 +139,10 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(seg_data)
     seg_data_segm_kpi=seg_data.drop(['FEDRA_Seg_No'],axis=1)
     seg_data_segm_kpi=seg_data_segm_kpi.groupby(by=['MC_Mother_Track_ID'])['FEDRA_Seg_ID'].count().reset_index()
-    print(seg_data_segm_kpi)
+    seg_data
+    print(seg_data_segm_kpi['MC_Mother_Track_ID'].count())
+    print(seg_data_segm_kpi['FEDRA_Seg_ID'].sum())
+    print(seg_data_segm_kpi['FEDRA_Seg_ID'].avg())
     exit()
     #ev_file=open(rec_file_location,'rb')
     #ev_data=pickle.load(ev_file)
