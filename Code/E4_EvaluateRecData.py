@@ -128,7 +128,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(UF.TimeStamp(), 'Evaluating FEDRA tracking reconstruction performance')
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
 
-    eval_data=eval_data.drop(eval_data.index[eval_data['MC_Mother_Track_ID'] != '113862-1260'])
+    #eval_data=eval_data.drop(eval_data.index[eval_data['MC_Mother_Track_ID'] != '113862-1260'])
 
     eval_data.drop_duplicates(keep='first',inplace=True)
 
@@ -186,12 +186,8 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     rec_data_fedra=rec_data_fedra.drop(['e_x'],axis=1)
     rec_data_fedra=rec_data_fedra.drop(['e_y'],axis=1)
     rec_data_fedra=rec_data_fedra.drop(['e_z'],axis=1)
-    print(rec_data_fedra)
-    print(rec_data_mc)
     seg_data=seg_data.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_No'],ascending=[1,0])
-    print(seg_data)
     seg_data.drop_duplicates(subset='MC_Mother_Track_ID',keep='first',inplace=True)
-    print(seg_data)
     seg_data=pd.merge(seg_data, rec_data_fedra, how="inner", on=['FEDRA_Seg_ID'])
     seg_data=pd.merge(seg_data, rec_data_mc, how="inner", on=['MC_Mother_Track_ID'])
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_FEDRA_TRACK_PROPERTY_STATS.csv'
