@@ -187,6 +187,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     print(rec_data_fedra)
     seg_data=seg_data.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_ID','FEDRA_Seg_No'],ascending=[1,1,0])
     seg_data.drop_duplicates(subset='MC_Mother_Track_ID',keep='first',inplace=True)
+    print(seg_data)
     seg_data=pd.merge(seg_data, rec_data_fedra, how="inner", on=['FEDRA_Seg_ID'])
     seg_data=pd.merge(seg_data, rec_data_mc, how="inner", on=['MC_Mother_Track_ID'])
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_FEDRA_TRACK_PROPERTY_STATS.csv'
