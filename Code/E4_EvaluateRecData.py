@@ -186,11 +186,11 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     rec_data_fedra=rec_data_fedra.drop(['e_y'],axis=1)
     rec_data_fedra=rec_data_fedra.drop(['e_z'],axis=1)
     print(rec_data_fedra)
+
+    seg_data=seg_data.sort_values(['MC_Mother_Track_ID','FEDRA_Seg_ID','Fedra_Seg_No'],ascending=[1,1,0])
+    print(seg_data)
     exit()
-    rec_data_mc_min = rec_data.groupby('MC_Mother_Track_ID')['z'].min()
-    rec_data_mc_min=rec_data_mc_min.reset_index()
-    print(rec_data_mc_min)
-    exit()
+
     #ev_file=open(rec_file_location,'rb')
     #ev_data=pickle.load(ev_file)
     #ev_file.close()
