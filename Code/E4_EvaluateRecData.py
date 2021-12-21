@@ -135,6 +135,8 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     seg_data['FEDRA_Seg_No']=seg_data['FEDRA_Seg_ID']
     seg_data=seg_data.groupby(by=['MC_Mother_Track_ID','FEDRA_Seg_ID'])['FEDRA_Seg_No'].count().reset_index()
     print(seg_data)
+    seg_data_segm_kpi=seg_data.drop(seg_data.index[seg_data['FEDRA_Seg_No'] < 2])
+    print(seg_data_segm_kpi)
     exit()
     #ev_file=open(rec_file_location,'rb')
     #ev_data=pickle.load(ev_file)
