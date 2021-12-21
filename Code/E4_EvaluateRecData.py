@@ -132,7 +132,7 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     rec_data=pd.merge(rec_data, eval_data, how="left", on=['FEDRA_Seg_ID'])
     seg_data=rec_data.drop(['x','y','z'],axis=1)
     print(seg_data)
-    seg_data.groupby(by=['MC_Mother_Track_ID'])['FEDRA_Seg_ID'].count().reset_index()
+    seg_data=seg_data.groupby(by=['MC_Mother_Track_ID'])['FEDRA_Seg_ID'].count().reset_index()
     print(seg_data)
     exit()
     #ev_file=open(rec_file_location,'rb')
