@@ -186,18 +186,15 @@ elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
     seg_data=pd.merge(seg_data, rec_data_mc, how="inner", on=['MC_Mother_Track_ID'])
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_FEDRA_TRACK_PROPERTY_STATS.csv'
     seg_data['Displacement']=np.sqrt((seg_data['fedra_s_x']-seg_data['mc_s_x'])**2+((seg_data['fedra_s_y']-seg_data['mc_s_y'])**2)+((seg_data['fedra_s_z']-seg_data['mc_s_z'])**2))
-
     seg_data.to_csv(output_file_location,index=False)
     print(UF.TimeStamp(), bcolors.OKGREEN+"Stats have on FEDRA Track properties has been written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
     print('Number of tracks expected from Monte Carlo that were at least partially reconstructed:',TotalFullMCTracks)
     print('Number of tracks reconstructed:',TotalFullFEDRATracks)
     print('Therefore the segmentation is:',round(Segmentation,3))
-    print(seg_data)
-    exit()
-    print('Therefore the overall recall of EDER-VIANN vertex reconstruction is',bcolors.BOLD+str(overall_recall), '%'+bcolors.ENDC)
-    print('And the overall precision of the EDER-VIANN is',bcolors.BOLD+str(overall_precision), '%'+bcolors.ENDC)
-    print('The average matched vertex reconstruction completeness is ',bcolors.BOLD+str(round(new_ev_data_map['row_recall'].mean(),4)*100), '%'+bcolors.ENDC)
-    print('And the average vertex purity is',bcolors.BOLD+str(round(new_ev_data_map['row_precision'].mean(),4)*100), '%'+bcolors.ENDC)
+    print('The average discrepency between MC and FEDRA track start position is',bcolors.BOLD+str(seg_data['Displacement'].mean()), 'microns'+bcolors.ENDC)
+    print('On average MC Track is ',bcolors.BOLD+str(seg_data['MC_Track_Rec_Len'].mean()), 'microns in length'+bcolors.ENDC)
+    print('On average the largest segment of MC track that was reconstructed is:',bcolors.BOLD+str(seg_data['FEDRA_Track_Rec_Len'].mean()), 'microns in length'+bcolors.ENDC)
+    print('On average only  ',bcolors.BOLD+str(round(seg_data['FEDRA_Track_Rec_Len'].sum()/seg_data['MC_Track_Rec_Len'].sum(),2)*100), '% of MC track is reconstructed'+bcolors.ENDC)
     print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
     #End of the script
 
