@@ -93,7 +93,7 @@ if Mode=='R':
          print(UF.TimeStamp(),'OK, continuing then...')
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E6'], "SoftUsed == \"EDER-TSU-E6\"")
+      UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E6_E6'], "SoftUsed == \"EDER-TSU-E6\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
@@ -252,8 +252,11 @@ if Mode=='C':
        output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E6_FAKE_GENUINE_TRACKS.csv'
        print(UF.TimeStamp(),'Writing combined data into', bcolors.OKBLUE+output_file_location+bcolors.ENDC)
        track_data.to_csv(output_file_location,index=False)
-       print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6','E6_E6'], "SoftUsed == \"EDER-TSU-E6\"")
+       print(bcolors.BOLD+'Would you like to delete filtered seeds data?'+bcolors.ENDC)
+       UserAnswer=input(bcolors.BOLD+"Please, enter your option Y/N \n"+bcolors.ENDC)
+       if UserAnswer=='Y':
+            print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
+            UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E6', ['E5_E6','E6_E6'], "SoftUsed == \"EDER-TSU-E6\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
        print(UF.TimeStamp(), bcolors.OKGREEN+"Fake 2-track decoration is completed"+bcolors.ENDC)
        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
