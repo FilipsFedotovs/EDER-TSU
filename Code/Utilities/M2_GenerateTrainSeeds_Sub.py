@@ -73,12 +73,12 @@ Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the 
 Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
 data_s=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
 data_s.drop(['e_z'],axis=1,inplace=True)
-data_e=pd.merge(data, data_header, how="inner", left_on=["FEDRA_Seg_ID",'MC_Mother_Track_ID',"z"], right_on=["FEDRA_Seg_ID",'MC_Mother_Track_ID',"e_z"]) #Shrinking the Track data so just a star hit for each track is present.
+data_e=pd.merge(data, data_header, how="inner", left_on=["FEDRA_Seg_ID","z"], right_on=["FEDRA_Seg_ID","e_z"]) #Shrinking the Track data so just a star hit for each track is present.
 data_e=data_e.rename(columns={"x": "e_x"})
 data_e=data_e.rename(columns={"y": "e_y"})
 data_e.drop(['z_x'],axis=1,inplace=True)
 data_e.drop(['z_y'],axis=1,inplace=True)
-data=pd.merge(data_s, data_e, how="inner", on=["FEDRA_Seg_ID"]) #Combining datasets so for each track we know its starting and ending coordinates
+data=pd.merge(data_s, data_e, how="inner", on=["FEDRA_Seg_ID",'MC_Mother_Track_ID']) #Combining datasets so for each track we know its starting and ending coordinates
 del data_e
 del data_s
 gc.collect()
