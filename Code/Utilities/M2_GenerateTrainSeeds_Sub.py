@@ -120,6 +120,7 @@ data["x"] = pd.to_numeric(data["x"],downcast='float')
 data["y"] = pd.to_numeric(data["y"],downcast='float')
 data["z"] = pd.to_numeric(data["z"],downcast='float')
 
+print(r_data)
 r_data["e_x"] = pd.to_numeric(r_data["e_x"],downcast='float')
 r_data["e_y"] = pd.to_numeric(r_data["e_y"],downcast='float')
 r_data["e_z"] = pd.to_numeric(r_data["e_z"],downcast='float')
