@@ -36,7 +36,6 @@ MaxSTG=float(args.MaxSTG)
 ########################################     Preset framework parameters    #########################################
 MaxRecords=10000000 #A set parameter that helps to manage memory load of this script (Please do not exceed 10000000)
 MaxSegments=int(args.MaxSegments)
-
 #Loading Directory locations
 EOS_DIR=args.EOS
 AFS_DIR=args.AFS
@@ -144,12 +143,13 @@ for i in range(0,Steps):
   merged_data.drop(merged_data.index[merged_data['SLG'] > MaxSLG], inplace = True) #Dropping the track segment combinations where the length of the gap between segments is too large
   merged_data.drop(merged_data.index[merged_data['STG'] > merged_data['DynamicCut']], inplace = True)
   merged_data.drop(['y','z','x','e_x','e_y','e_z','join_key','STG','SLG','DynamicCut'],axis=1,inplace=True) #Removing the information that we don't need anymore
-  merged_data.drop(merged_data.index[merged_data['Segment_1'] == merged_data['Segment_2']], inplace = True) #Removing the cases where Seed tracks are the same
-  merged_data['Track_Type']=(merged_data['Mother_1']==merged_data['Mother_2'])
-  merged_data.drop(['Mother_1'],axis=1,inplace=True)
-  merged_data.drop(['Mother_2'],axis=1,inplace=True)
-  merged_list = merged_data.values.tolist() #Convirting the result to List data type
-  result_list+=merged_list #Adding the result to the list
+  if merged_data.empty==False:
+    merged_data.drop(merged_data.index[merged_data['Segment_1'] == merged_data['Segment_2']], inplace = True) #Removing the cases where Seed tracks are the same
+    merged_data['Track_Type']=(merged_data['Mother_1']==merged_data['Mother_2'])
+    merged_data.drop(['Mother_1'],axis=1,inplace=True)
+    merged_data.drop(['Mother_2'],axis=1,inplace=True)
+    merged_list = merged_data.values.tolist() #Convirting the result to List data type
+    result_list+=merged_list #Adding the result to the list
   if len(result_list)>=2000000: #Once the list gets too big we dump the results into csv to save memory
       UF.LogOperations(output_file_location,'UpdateLog',result_list) #Write to the csv
       #Clearing the memory
