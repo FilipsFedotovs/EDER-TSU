@@ -56,7 +56,7 @@ MaxTracks = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"####################     Initialising EDER-VIANN Train Seed Creation module          ###################"+bcolors.ENDC)
+print(bcolors.HEADER+"####################     Initialising EDER-TSU Train Seed Creation module            ###################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -110,8 +110,8 @@ if Mode=='C':
            ScriptName = AFS_DIR + '/Code/Utilities/M2_GenerateTrainSeeds_Sub.py '
            job_details = [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M2', False,
                           False]
-           output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M2_RawSeeds_'+str(j)+'_'+str(sj)+'.csv'
-           output_result_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M2_RawSeeds_'+str(j)+'_'+str(sj)+'_RES.csv'
+           output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M2_RawTracks_'+str(j)+'_'+str(sj)+'.csv'
+           output_result_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M2_RawTracks_'+str(j)+'_'+str(sj)+'_RES.csv'
            if os.path.isfile(output_result_location)==False:
               bad_pop.append(job_details)
    if len(bad_pop)>0:
@@ -154,7 +154,7 @@ if Mode=='C':
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
             fractions=int(math.ceil(Records_After_Compression/MaxTracks))
             for f in range(0,fractions):
-             new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawSeeds_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+             new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              result[(f*MaxTracks):min(Records_After_Compression,((f+1)*MaxTracks))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
