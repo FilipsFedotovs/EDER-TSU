@@ -73,7 +73,7 @@ Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the 
 Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
 data_s=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
 data_s.drop(['e_z'],axis=1,inplace=True)
-data_e=pd.merge(data, data_header, how="inner", left_on=["FEDRA_Seg_ID","z"], right_on=["FEDRA_Seg_ID","e_z"]) #Shrinking the Track data so just a star hit for each track is present.
+data_e=pd.merge(data, data_header, how="inner", left_on=["FEDRA_Seg_ID",'MC_Mother_Track_ID',"z"], right_on=["FEDRA_Seg_ID",'MC_Mother_Track_ID',"e_z"]) #Shrinking the Track data so just a star hit for each track is present.
 data_e=data_e.rename(columns={"x": "e_x"})
 data_e=data_e.rename(columns={"y": "e_y"})
 data_e.drop(['z_x'],axis=1,inplace=True)
@@ -90,7 +90,7 @@ EndDataCut=(Subset+1)*MaxSegments
 #Specifying the right join
 
 r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
-r_data=r_data.rename(columns={'MC_Mother_Track_ID_y': "Mother_2"})
+r_data=r_data.rename(columns={'MC_Mother_Track_ID': "Mother_2"})
 r_data.drop(r_data.index[r_data['z'] != PlateZ], inplace = True)
 
 Records=len(r_data.axes[0])
@@ -109,7 +109,7 @@ data.drop(['e_x'],axis=1,inplace=True)
 data.drop(['e_z'],axis=1,inplace=True)
 data.drop(data.index[data['z'] <= PlateZ], inplace = True)
 data=data.rename(columns={"FEDRA_Seg_ID": "Segment_1"})
-data=data.rename(columns={'MC_Mother_Track_ID_x': "Mother_1"})
+data=data.rename(columns={'MC_Mother_Track_ID': "Mother_1"})
 data['join_key'] = 'join_key'
 r_data['join_key'] = 'join_key'
 
