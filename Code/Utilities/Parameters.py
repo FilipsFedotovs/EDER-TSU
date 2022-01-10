@@ -17,12 +17,12 @@ MC_Event_ID='MCEvent' #Column name for Event id for MC truth reconstruction data
 MaxSegmentsPerJob=20000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
 MaxEvalSegmentsPerJob=20000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
 MaxTracksPerJob=40000
-MaxVxPerJob=10000
-MaxSeedsPerVxPool=20000
+#MaxVxPerJob=10000
+#MaxSeedsPerVxPool=20000
 
 ######List of geometrical constain parameters
-MaxSLG=12000
-MaxSTG=5000#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
+MaxSLG=4000
+MaxSTG=50#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
 MinHitsTrack=2
 MaxTrainSampleSize=50000
 MaxValSampleSize=100000

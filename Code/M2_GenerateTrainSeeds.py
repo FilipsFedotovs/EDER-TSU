@@ -49,18 +49,11 @@ sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################     Preset framework parameters    #########################################
-SI_1=PM.SI_1
-SI_2=PM.SI_2
-SI_3=PM.SI_3
-SI_4=PM.SI_4
-SI_5=PM.SI_5
-SI_6=PM.SI_6
-SI_7=PM.SI_7 #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
-NV=PM.MC_NV_VX_ID
-MaxTracksPerJob = PM.MaxTracksPerJob
-MaxSeedsPerJob = PM.MaxSeedsPerJob
+MaxSLG=PM.MaxSLG
+MaxSTG=PM.MaxSTG#The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
+MaxSegments = PM.MaxSegmentsPerJob
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M1_TRACKS.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(bcolors.HEADER+"####################     Initialising EDER-VIANN Train Seed Creation module          ###################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
@@ -68,14 +61,14 @@ print(bcolors.HEADER+"#########################                 PhD Student at U
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 print(UF.TimeStamp(),'Loading preselected data from ',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
-data=pd.read_csv(input_file_location,header=0,usecols=['Track_ID','z'])
+data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID','z'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
-data = data.groupby('Track_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
-data = data.groupby('z')['Track_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data = data.groupby('z')['FEDRA_Seg_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
 data=data.sort_values(['z'],ascending=True)
-data['Sub_Sets']=np.ceil(data['Track_ID']/MaxTracksPerJob)
+data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxTracksPerJob)
 data['Sub_Sets'] = data['Sub_Sets'].astype(int)
 data = data.values.tolist() #Convirting the result to List data type
 if Mode=='R':
