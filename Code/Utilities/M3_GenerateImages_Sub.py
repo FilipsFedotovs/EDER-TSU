@@ -77,7 +77,7 @@ for s in range(0,limit):
     else:
         num_label = 0
     track.MCtruthClassifyTrack(num_label)
-    track.DecorateTracks(tracks)
+    track.DecorateSegments(segments)
     try:
       track.DecorateTrackGeoInfo()
     except:
