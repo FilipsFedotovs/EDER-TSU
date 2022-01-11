@@ -181,7 +181,6 @@ class Track:
 
       def PrepareTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
           __TempTrack=copy.deepcopy(self.SegmentHits)
-          print(self.SegmentHits)
 
           self.Resolution=Res
           self.bX=int(round(MaxX/self.Resolution,0))
@@ -199,13 +198,11 @@ class Track:
                 __FinY=float(__Track[0][1])
                 __FinZ=float(__Track[0][2])
                 self.PrecedingTrackInd=__TempTrack.index(__Track)
-          print(self.PrecedingTrackInd)
           for __Tracks in __TempTrack:
               for __Hits in __Tracks:
                   __Hits[0]=float(__Hits[0])-__FinX
                   __Hits[1]=float(__Hits[1])-__FinY
                   __Hits[2]=float(__Hits[2])-__FinZ
-          print(__TempTrack)
 
           #
           #Lon Rotate x
@@ -258,7 +255,6 @@ class Track:
                  __Y=float(__hits[1])
                  __hits[0]=(__X*math.cos(__Angle)) - (__Y * math.sin(__Angle))
                  __hits[1]=(__X*math.sin(__Angle)) + (__Y * math.cos(__Angle))
-          print(__TempTrack)
 
           #After shift
           #
@@ -313,7 +309,7 @@ class Track:
                      __hits[0]=int(round(__hits[0]/__min_scale,0))
                      __hits[1]=int(round(__hits[1]/__min_scale,0))
                      __hits[2]=int(round(__hits[2]/__min_scale,0))
-          print(__TempTrack)
+
           #
           #Enchance track
           __TempEnchTrack=[]
