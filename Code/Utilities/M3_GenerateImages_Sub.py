@@ -2,11 +2,11 @@
 ########################################    Import libraries    #############################################
 #import csv
 import Utility_Functions as UF
+from Utility_Functions import Track
 import argparse
 import pandas as pd #We use Panda for a routine data processing
 import os, psutil #helps to monitor the memory
 import gc  #Helps to clear memory
-from Utility_Functions import Seed
 import pickle
 class bcolors:
     HEADER = '\033[95m'
@@ -21,42 +21,36 @@ parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--Set',help="Set Number", default='1')
 parser.add_argument('--SubSet',help="SubSet Number", default='1')
 parser.add_argument('--Fraction',help="Fraction", default='1')
+parser.add_argument('--MaxDOCA',help="Maximum DOCA allowed", default='50')
+parser.add_argument('--MaxAngle',help="Maximum magnitude of angle allowed", default='1')
+parser.add_argument('--MaxSTG',help="Maximum Segment Transverse gap per SLG", default='50')
+parser.add_argument('--MaxSLG',help="Maximum Segment Longitudinal Gap", default='4000')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
-parser.add_argument('--VO_T',help="The maximum distance between vertex reconstructed origin and the start hit of either tracks", default='3900')
-parser.add_argument('--VO_min_Z',help="Minimal Z coordinate of the reconstructed vertex origin", default='-39500')
-parser.add_argument('--VO_max_Z',help="Maximum Z coordinate of the reconstructed vertex origin", default='0')
-parser.add_argument('--MaxDoca',help="Doca cut in microns", default='200')
-parser.add_argument('--MinAngle',help="Minimal angle in radians", default='0.0')
-parser.add_argument('--MaxAngle',help="Maximum angle in radians", default='2.0')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
 SubSet=args.SubSet
 fraction=args.Fraction
-MaxDoca=float(args.MaxDoca)
-VO_min_Z=float(args.VO_min_Z)
-VO_max_Z=float(args.VO_max_Z)
-VO_T=float(args.VO_T)
-MinAngle=float(args.MinAngle)
-MaxAngle=float(args.MaxAngle)
-
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
-
-input_track_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M1_TRACKS.csv'
-input_seed_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M2_M3_RawSeeds_'+Set+'_'+SubSet+'_'+fraction+'.csv'
-output_seed_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_RawImages_'+Set+'_'+SubSet+'_'+fraction+'.pkl'
+MaxDOCA=float(args.MaxDOCA)
+MaxSTG=float(args.MaxSTG)
+MaxSLG=float(args.MaxSLG)
+MaxAngle=float(args.MaxAngle)
+input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
+input_track_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+Set+'_'+SubSet+'_'+fraction+'.csv'
+output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+Set+'_'+SubSet+'_'+fraction+'.pkl'
 print(UF.TimeStamp(),'Loading the data')
-seeds=pd.read_csv(input_seed_file_location)
-seeds_1=seeds.drop(['Track_2'],axis=1)
-seeds_1=seeds_1.rename(columns={"Track_1": "Track_ID"})
-seeds_2=seeds.drop(['Track_1'],axis=1)
-seeds_2=seeds_2.rename(columns={"Track_2": "Track_ID"})
-seed_list=result = pd.concat([seeds_1,seeds_2])
-seed_list=seed_list.sort_values(['Track_ID'])
-seed_list.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
 tracks=pd.read_csv(input_track_file_location)
+tracks_1=tracks.drop(['Segment_2'],axis=1)
+tracks_1=tracks_1.rename(columns={"Segment_1": "FEDRA_Seg_ID"})
+tracks_2=tracks.drop(['Segment_1'],axis=1)
+tracks_2=tracks_2.rename(columns={"Segment_2": "FEDRA_Seg_ID"})
+track_list=result = pd.concat([tracks_1,tracks_2])
+track_list=track_list.sort_values(['FEDRA_Seg_ID'])
+track_list.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)
+segments=pd.read_csv(input_segment_file_location)
 print(UF.TimeStamp(),'Analysing the data')
 tracks=pd.merge(tracks, seed_list, how="inner", on=["Track_ID"]) #Shrinking the Track data so just a star hit for each track is present.
 tracks["x"] = pd.to_numeric(tracks["x"],downcast='float')
@@ -64,42 +58,48 @@ tracks["y"] = pd.to_numeric(tracks["y"],downcast='float')
 tracks["z"] = pd.to_numeric(tracks["z"],downcast='float')
 tracks = tracks.values.tolist() #Convirting the result to List data type
 seeds = seeds.values.tolist() #Convirting the result to List data type
-del seeds_1
-del seeds_2
-del seed_list
+segments=pd.merge(segments, track_list, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each segment is present.
+segments["x"] = pd.to_numeric(segments["x"],downcast='float')
+segments["y"] = pd.to_numeric(segments["y"],downcast='float')
+segments["z"] = pd.to_numeric(segments["z"],downcast='float')
+segments = segments.values.tolist() #Convirting the result to List data type
+tracks = tracks.values.tolist() #Convirting the result to List data type
+del tracks_1
+del tracks_2
+del track_list
 gc.collect()
-limit=len(seeds)
-seed_counter=0
+limit=len(tracks)
+track_counter=0
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
 #create seeds
-GoodSeeds=[]
+GoodTracks=[]
 print(UF.TimeStamp(),'Beginning the image generation part...')
 for s in range(0,limit):
-    seed=seeds.pop(0)
-    label=seed[2]
-    seed=Seed(seed[:2])
+    track=tracks.pop(0)
+    label=track[2]
+    track=Track(track[:2])
     if label:
         num_label = 1
     else:
         num_label = 0
-    seed.MCtruthClassifySeed(num_label)
-    seed.DecorateTracks(tracks)
+    track.MCtruthClassifyTrack(num_label)
+    track.DecorateTracks(tracks)
     try:
-      seed.DecorateSeedGeoInfo()
+      track.DecorateTrackGeoInfo()
     except:
       continue
-    seed.SeedQualityCheck(VO_min_Z,VO_max_Z,MaxDoca,VO_T,MinAngle,MaxAngle)
-    if seed.GeoFit:
-           GoodSeeds.append(seed)
+    track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
+    if track.GeoFit:
+           GoodTracks.append(track)
     else:
-        del seed
+        del track
         continue
 print(UF.TimeStamp(),bcolors.OKGREEN+'The raw image generation has been completed..'+bcolors.ENDC)
 del tracks
-del seeds
+del segments
 gc.collect()
 print(UF.TimeStamp(),'Saving the results..')
-open_file = open(output_seed_file_location, "wb")
-pickle.dump(GoodSeeds, open_file)
+open_file = open(output_track_file_location, "wb")
+pickle.dump(GoodTracks, open_file)
 open_file.close()
 exit()
