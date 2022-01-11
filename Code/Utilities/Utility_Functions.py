@@ -259,56 +259,58 @@ class Track:
                  __hits[0]=(__X*math.cos(__Angle)) - (__Y * math.sin(__Angle))
                  __hits[1]=(__X*math.sin(__Angle)) + (__Y * math.cos(__Angle))
           print(__TempTrack)
-          exit()
+
           #After shift
           #
-          __FinZ=666666.0
-          for __Track in __TempTrack:
-               if __FinZ>float(__Track[0][2]):
-                  __FinZ=float(__Track[0][2])-self.Resolution
-          __FinX=float(__TempTrack[self.LongestTrackInd][0][0])
-          __FinY=float(__TempTrack[self.LongestTrackInd][0][1])
-          for __Tracks in __TempTrack:
-               for __Hits in __Tracks:
-                  __Hits[0]=float(__Hits[0])-__FinX
-                  __Hits[1]=float(__Hits[1])-__FinY
-                  __Hits[2]=float(__Hits[2])-__FinZ
+          #__FinZ=666666.0
+          #for __Track in __TempTrack:
+          #     if __FinZ>float(__Track[0][2]):
+          #        __FinZ=float(__Track[0][2])-self.Resolution
+          #__FinX=float(__TempTrack[self.LongestTrackInd][0][0])
+          #__FinY=float(__TempTrack[self.LongestTrackInd][0][1])
+          #for __Tracks in __TempTrack:
+          #     for __Hits in __Tracks:
+          #        __Hits[0]=float(__Hits[0])-__FinX
+          #        __Hits[1]=float(__Hits[1])-__FinY
+          #        __Hits[2]=float(__Hits[2])-__FinZ
           #
-          # #Rescale
-          # if Rescale:
-          #     __X=[]
-          #     __Y=[]
-          #     __Z=[]
-          #     for __Tracks in __TempTrack:
-          #       for __hits in __Tracks:
-          #           __X.append(__hits[0])
-          #           __Y.append(__hits[1])
-          #           __Z.append(__hits[2])
-          #     __dUpX=MaxX-max(__X)
-          #     __dDownX=MaxX+min(__X)
-          #     __dX=(__dUpX+__dDownX)/2
-          #     __xshift=__dUpX-__dX
-          #     __X=[]
-          #     for __Tracks in __TempTrack:
-          #       for __hits in __Tracks:
-          #           __hits[0]=__hits[0]+__xshift
-          #           __X.append(__hits[0])
-          #   ##########Y
-          #     __dUpY=MaxY-max(__Y)
-          #     __dDownY=MaxY+min(__Y)
-          #     __dY=(__dUpY+__dDownY)/2
-          #     __yshift=__dUpY-__dY
-          #     __Y=[]
-          #     for __Tracks in __TempTrack:
-          #       for __hits in __Tracks:
-          #           __hits[1]=__hits[1]+__yshift
-          #           __Y.append(__hits[1])
-          #     __min_scale=max(max(__X)/(MaxX-(2*self.Resolution)),max(__Y)/(MaxY-(2*self.Resolution)), max(__Z)/(MaxZ-(2*self.Resolution)))
-          #     for __Tracks in __TempTrack:
-          #       for __hits in __Tracks:
-          #           __hits[0]=int(round(__hits[0]/__min_scale,0))
-          #           __hits[1]=int(round(__hits[1]/__min_scale,0))
-          #           __hits[2]=int(round(__hits[2]/__min_scale,0))
+          #Rescale
+          if Rescale:
+               __X=[]
+               __Y=[]
+               __Z=[]
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __X.append(__hits[0])
+                     __Y.append(__hits[1])
+                     __Z.append(__hits[2])
+               __dUpX=MaxX-max(__X)
+               __dDownX=MaxX+min(__X)
+               __dX=(__dUpX+__dDownX)/2
+               __xshift=__dUpX-__dX
+               __X=[]
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __hits[0]=__hits[0]+__xshift
+                     __X.append(__hits[0])
+             ##########Y
+               __dUpY=MaxY-max(__Y)
+               __dDownY=MaxY+min(__Y)
+               __dY=(__dUpY+__dDownY)/2
+               __yshift=__dUpY-__dY
+               __Y=[]
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __hits[1]=__hits[1]+__yshift
+                     __Y.append(__hits[1])
+               __min_scale=max(max(__X)/(MaxX-(2*self.Resolution)),max(__Y)/(MaxY-(2*self.Resolution)), max(__Z)/(MaxZ-(2*self.Resolution)))
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __hits[0]=int(round(__hits[0]/__min_scale,0))
+                     __hits[1]=int(round(__hits[1]/__min_scale,0))
+                     __hits[2]=int(round(__hits[2]/__min_scale,0))
+          print(__TempTrack)
+          exit()
           #
           #Enchance track
           __TempEnchTrack=[]
