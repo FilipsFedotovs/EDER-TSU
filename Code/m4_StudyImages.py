@@ -140,17 +140,20 @@ for sd in data:
      for Hits in sd.TrackPrint:
        if abs(Hits[0])<boundsX and abs(Hits[1])<boundsY:
          Matrix[Hits[0]+boundsX][Hits[1]+boundsY]+=1
+image_no=len(data)
 del data
 import matplotlib as plt
 from matplotlib.colors import LogNorm
+import numpy as np
+from matplotlib import pyplot as plt
 if args.PlotType=='XZ':
- import numpy as np
- from matplotlib import pyplot as plt
  plt.title(Title)
  plt.xlabel('Z [microns /'+str(int(resolution))+']')
  plt.ylabel('X [microns /'+str(int(resolution))+']')
-
- image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsX,-boundsX])#,norm=LogNorm())
+ if image_no==1:
+    image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsX,-boundsX])#,norm=LogNorm())
+ else:
+    image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsX,-boundsX],norm=LogNorm())
  plt.gca().invert_yaxis()
  plt.show()
 if args.PlotType=='YZ':
@@ -159,7 +162,10 @@ if args.PlotType=='YZ':
  plt.title(Title)
  plt.xlabel('Z [microns /'+str(int(resolution))+']')
  plt.ylabel('Y [microns /'+str(int(resolution))+']')
- image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsY,-boundsY])#,norm=LogNorm())
+ if image_no==1:
+    image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsY,-boundsY])#,norm=LogNorm())
+ else:
+    image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsY,-boundsY],norm=LogNorm())
  plt.gca().invert_yaxis()
  plt.show()
 if args.PlotType=='XY':
@@ -168,7 +174,10 @@ if args.PlotType=='XY':
  plt.title(Title)
  plt.xlabel('X [microns /'+str(int(resolution))+']')
  plt.ylabel('Y [microns /'+str(int(resolution))+']')
- image=plt.imshow(Matrix,cmap='gray_r',extent=[boundsX,-boundsX,-boundsY,boundsY])#,norm=LogNorm())
+ if image_no==1:
+    image=plt.imshow(Matrix,cmap='gray_r',extent=[boundsX,-boundsX,-boundsY,boundsY])#,norm=LogNorm())
+ else:
+    image=plt.imshow(Matrix,cmap='gray_r',extent=[boundsX,-boundsX,-boundsY,boundsY],norm=LogNorm())
  plt.gca().invert_xaxis()
  plt.show()
 exit()
