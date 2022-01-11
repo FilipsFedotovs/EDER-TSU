@@ -134,7 +134,7 @@ if Mode=='C':
        for j in range(0,len(data)): #//Temporarily measure to save space
         for sj in range(0,int(data[j][2])):
 
-           output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M2_RawSeeds_'+str(j)+'_'+str(sj)+'.csv'
+           output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M2_RawTracks_'+str(j)+'_'+str(sj)+'.csv'
            if os.path.isfile(output_file_location)==False:
               continue
            else:
@@ -157,10 +157,10 @@ if Mode=='C':
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              result[(f*MaxTracks):min(Records_After_Compression,((f+1)*MaxTracks))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
-       print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M2', ['M2_M2'], "SoftUsed == \"EDER-TSU-M2\"")
+       #print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
+       #UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M2', ['M2_M2'], "SoftUsed == \"EDER-TSU-M2\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-       print(UF.TimeStamp(), bcolors.OKGREEN+"Seed generation is completed"+bcolors.ENDC)
+       print(UF.TimeStamp(), bcolors.OKGREEN+"Track segment seed generation is completed"+bcolors.ENDC)
        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
 #End of the script
 
