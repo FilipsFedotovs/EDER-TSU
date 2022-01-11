@@ -190,6 +190,7 @@ class Track:
           self.W=(self.bY)*2
           self.L=(self.bZ)
           __StartTrackZ=6666666666
+          __EndTrackZ=-6666666666
           for __Track in __TempTrack:
             __CurrentZ=float(__Track[0][2])
             if __CurrentZ<=__StartTrackZ:
@@ -198,6 +199,8 @@ class Track:
                 __FinY=float(__Track[0][1])
                 __FinZ=float(__Track[0][2])
                 self.PrecedingTrackInd=__TempTrack.index(__Track)
+            if __CurrentZ>=__EndTrackZ:
+                self.LagTrackInd=__TempTrack.index(__Track)
           for __Tracks in __TempTrack:
               for __Hits in __Tracks:
                   __Hits[0]=float(__Hits[0])-__FinX
@@ -206,7 +209,7 @@ class Track:
 
           #
           #Lon Rotate x
-          __Track=__TempTrack[self.PrecedingTrackInd]
+          __Track=__TempTrack[self.LagTrackInd]
           __Vardiff=float(__Track[len(__Track)-1][0])
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
@@ -221,7 +224,7 @@ class Track:
                  __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
                  __hits[0]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
           #Lon Rotate y
-          __Track=__TempTrack[self.PrecedingTrackInd]
+          __Track=__TempTrack[self.LagTrackInd]
           __Vardiff=float(__Track[len(__Track)-1][1])
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
