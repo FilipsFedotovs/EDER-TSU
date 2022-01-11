@@ -26,12 +26,9 @@ MaxSTG=50#This parameter restricts the maximum length of of the longitudinal and
 MinHitsTrack=2
 MaxTrainSampleSize=50000
 MaxValSampleSize=100000
-VO_T=3900 #The minimum distance from the reconstructed Vertex Origin to the closest starting hit of any track in the seed
-VO_max_Z=0 #Fidu
-VO_min_Z=-39500
-MaxDoca=200
+MaxDoca=50
 MinAngle=0 #Seed Opening Angle (Magnitude) in radians
-MaxAngle=4 #Seed Opening Angle (Magnitude) in radians
+MaxAngle=1 #Seed Opening Angle (Magnitude) in radians
 
 
 

@@ -1,5 +1,5 @@
 #This simple script prepares 2-Track seeds for the initial CNN vertexing
-# Part of EDER-VIANN package
+# Part of EDER-TSU package
 #Made by Filips Fedotovs
 
 
@@ -53,32 +53,31 @@ sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################     Preset framework parameters    #########################################
-VO_max_Z=PM.VO_max_Z
-VO_min_Z=PM.VO_min_Z
-VO_T=PM.VO_T
 MaxDoca=PM.MaxDoca
+MaxSLG=PM.MaxSLG
+MaxSTG=PM.MaxSTG
 MinAngle=PM.MinAngle
 MaxAngle=PM.MaxAngle
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
+MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 MaxTracksPerJob = PM.MaxTracksPerJob
-MaxSeedsPerJob = PM.MaxSeedsPerJob
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M1_TRACKS.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"######################     Initialising EDER-VIANN Image Generation module      ########################"+bcolors.ENDC)
+print(bcolors.HEADER+"######################     Initialising EDER-TSU Image Generation module        ########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 print(UF.TimeStamp(),'Loading preselected data from ',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
-data=pd.read_csv(input_file_location,header=0,usecols=['Track_ID','z'])
+data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID','z'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
-data = data.groupby('Track_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
-data = data.groupby('z')['Track_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
+data = data.groupby('z')['FEDRA_Seg_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data=data.reset_index()
 data=data.sort_values(['z'],ascending=True)
-data['Sub_Sets']=np.ceil(data['Track_ID']/MaxTracksPerJob)
+data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxSegmentsPerJob)
 data['Sub_Sets'] = data['Sub_Sets'].astype(int)
 data = data.values.tolist() #Convirting the result to List data type
 if Mode=='R':
@@ -91,24 +90,23 @@ if Mode=='R':
 
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3','M3_VALIDATION','M3_TRAIN'], "SoftUsed == \"EDER-VIANN-M3\"")
+      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3','M3_VALIDATION','M3_TRAIN'], "SoftUsed == \"EDER-TSU-M3\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
             f_count=0
             for f in range(0,1000):
-             new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M2_M3_RawSeeds_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+             new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              if os.path.isfile(new_output_file_location):
                  f_count=f
-            OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --VO_T ", " --VO_max_Z ",
-                            " --VO_min_Z ", " --MaxDoca ", " --MinAngle ", " --MaxAngle "]
-            OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, VO_T, VO_max_Z, VO_min_Z, MaxDoca, MinAngle, MaxAngle]
+            OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDoca ", " --MinAngle ", " --MaxAngle "]
+            OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MinAngle, MaxAngle]
             SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj)
             ScriptName = AFS_DIR + '/Code/Utilities/M3_GenerateImages_Sub.py '
             UF.SubmitJobs2Condor(
-                [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_count + 1, 'EDER-VIANN-M3', False,
+                [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_count + 1, 'EDER-TSU-M3', False,
                  False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
@@ -120,17 +118,15 @@ if Mode=='C':
        print(UF.TimeStamp(),"Checking jobs, progress is ",progress,' %',end="\r", flush=True)
        for sj in range(0,int(data[j][2])):
            for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M2_M3_RawSeeds_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-              OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --VO_T ", " --VO_max_Z ",
-                              " --VO_min_Z ", " --MaxDoca ", " --MinAngle ", " --MaxAngle "]
-              OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, VO_T, VO_max_Z, VO_min_Z, MaxDoca, MinAngle,
-                            MaxAngle]
+              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
+              OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDoca ", " --MinAngle ", " --MaxAngle "]
+              OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MinAngle, MaxAngle]
               SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj) + '_' + str(f)
               ScriptName = AFS_DIR + '/Code/Utilities/M3_GenerateImages_Sub.py '
-              job_details = [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-VIANN-M3', False,
+              job_details = [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M3', False,
                              False]
               if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
                  bad_pop.append(job_details)
@@ -151,6 +147,7 @@ if Mode=='C':
         print(bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC)
         exit()
    else:
+       exit()
        test_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(MaxJ)+'.pkl'
        if os.path.isfile(test_file):
            print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
