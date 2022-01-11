@@ -52,7 +52,7 @@ MaxX=float(args.MaxX)
 MaxY=float(args.MaxY)
 MaxZ=float(args.MaxZ)
 StartImage=int(args.StartImage)
-if StartImage>SeedNo:
+if StartImage>TrackNo:
     TrackNo=StartImage
 if args.Rescale=='Y':
     Rescale=True
