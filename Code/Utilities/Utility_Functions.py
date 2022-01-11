@@ -199,6 +199,7 @@ class Track:
                 __FinY=float(__Track[0][1])
                 __FinZ=float(__Track[0][2])
                 self.PrecedingTrackInd=__TempTrack.index(__Track)
+          print(self.PrecedingTrackInd)
           for __Tracks in __TempTrack:
               for __Hits in __Tracks:
                   __Hits[0]=float(__Hits[0])-__FinX
