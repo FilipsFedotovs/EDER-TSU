@@ -1,5 +1,5 @@
 #This simple script prepares 2-Track seeds for the initial CNN vertexing
-# Part of EDER-VIANN package
+# Part of EDER-TSU package
 #Made by Filips Fedotovs
 
 
@@ -51,12 +51,9 @@ MaxX=PM.MaxX
 MaxY=PM.MaxY
 MaxZ=PM.MaxZ
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
-MaxTracksPerJob = PM.MaxTracksPerJob
-MaxSeedsPerJob = PM.MaxSeedsPerJob
-
 
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"######################     Initialising EDER-VIANN Vertexing module             ########################"+bcolors.ENDC)
+print(bcolors.HEADER+"######################     Initialising EDER-TSU Rendering module               ########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -71,9 +68,9 @@ if Mode=='R':
 
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M4', ['M4_M5'], "SoftUsed == \"EDER-VIANN-M4\"")
+      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M4', ['M4_M5'], "SoftUsed == \"EDER-TSU-M4\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
-      val_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
+      val_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
       if os.path.isfile(val_file)==False:
           print(UF.TimeStamp(),bcolors.FAIL+'Critical fail!', val_file, 'is missing. Please make sure that the previous script M3_GenerateImages.py has finished correctly '+bcolors.ENDC)
           exit()
@@ -86,11 +83,11 @@ if Mode=='R':
           MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M4_Val'
           ScriptName = AFS_DIR + '/Code/Utilities/M4_RenderImages_Sub.py '
           UF.SubmitJobs2Condor(
-              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-VIANN-M4', False,
+              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M4', False,
                False])
           f_counter=0
           for f in range(1,100):
-             train_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Train_Set_'+str(f)+'.pkl'
+             train_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Train_Set_'+str(f)+'.pkl'
              if os.path.isfile(train_file):
               f_counter=f
           OptionHeader = [' --SetType ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ",
@@ -101,14 +98,14 @@ if Mode=='R':
           MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M4'
           ScriptName = AFS_DIR + '/Code/Utilities/M4_RenderImages_Sub.py '
           UF.SubmitJobs2Condor(
-              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter, 'EDER-VIANN-M4', False,
+              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter, 'EDER-TSU-M4', False,
                False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
    print(UF.TimeStamp(),'Checking results... ',bcolors.ENDC)
    bad_pop=[]
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
-   val_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
+   val_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
    if os.path.isfile(val_file)==False:
            OptionHeader = [' --SetType ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ",
                            " --MaxX ", " --MaxY ", " --MaxZ "]
@@ -117,11 +114,11 @@ if Mode=='C':
            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M4_Val.sub'
            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M4_Val'
            ScriptName = AFS_DIR + '/Code/Utilities/M4_RenderImages_Sub.py '
-           bad_pop.append([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-VIANN-M4', False,
+           bad_pop.append([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M4', False,
                False])
    for f in range(1,100):
-              train_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Train_Set_'+str(f)+'.pkl'
-              req_train_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+str(f)+'.pkl'
+              train_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Train_Set_'+str(f)+'.pkl'
+              req_train_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+str(f)+'.pkl'
               OptionHeader = [' --SetType ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ",
                               " --MaxX ", " --MaxY ", " --MaxZ "]
               OptionLine = ['Train', f-1, EOS_DIR, AFS_DIR, resolution, MaxX, MaxY, MaxZ]
@@ -130,7 +127,7 @@ if Mode=='C':
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M4'+str(f-1)
               ScriptName = AFS_DIR + '/Code/Utilities/M4_RenderImages_Sub.py '
               if os.path.isfile(req_train_file)!=True  and os.path.isfile(train_file):
-                 bad_pop.append([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-VIANN-M4', False,
+                 bad_pop.append([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M4', False,
                    False])
    if len(bad_pop)>0:
      print(UF.TimeStamp(),bcolors.WARNING+'Warning, there are still', len(bad_pop), 'HTCondor jobs remaining'+bcolors.ENDC)
@@ -153,7 +150,7 @@ if Mode=='C':
        print(bcolors.BOLD+'Would you like to delete un-rendered images?'+bcolors.ENDC)
        UserAnswer=input(bcolors.BOLD+"Please, enter your option Y/N \n"+bcolors.ENDC)
        if UserAnswer=='Y':
-           UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M4', ['M3_M4'], "SoftUsed == \"EDER-VIANN-M4\"")
+           UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M4', ['M3_M4'], "SoftUsed == \"EDER-TSU-M4\"")
        else:
         print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
         print(UF.TimeStamp(), bcolors.OKGREEN+"Image rendering is completed"+bcolors.ENDC)
