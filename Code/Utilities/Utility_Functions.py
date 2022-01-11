@@ -314,7 +314,6 @@ class Track:
                      __hits[1]=int(round(__hits[1]/__min_scale,0))
                      __hits[2]=int(round(__hits[2]/__min_scale,0))
           print(__TempTrack)
-          exit()
           #
           #Enchance track
           __TempEnchTrack=[]
