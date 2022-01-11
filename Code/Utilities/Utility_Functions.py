@@ -200,7 +200,7 @@ class Track:
                 __FinZ=float(__Track[0][2])
                 self.PrecedingTrackInd=__TempTrack.index(__Track)
             if __CurrentZ>=__EndTrackZ:
-                __LagTrackZ=__CurrentZ
+                __EndTrackZ=__CurrentZ
                 self.LagTrackInd=__TempTrack.index(__Track)
           for __Tracks in __TempTrack:
               for __Hits in __Tracks:
