@@ -210,7 +210,7 @@ class Track:
 
           #
           #Lon Rotate x
-          __Track=__TempTrack[self.LagTrackInd]
+          __Track=__TempTrack[self.PrecedingTrackInd]
           __Vardiff=float(__Track[len(__Track)-1][0])
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
@@ -225,7 +225,7 @@ class Track:
                  __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
                  __hits[0]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
           #Lon Rotate y
-          __Track=__TempTrack[self.LagTrackInd]
+          __Track=__TempTrack[self.PrecedingTrackInd]
           __Vardiff=float(__Track[len(__Track)-1][1])
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
