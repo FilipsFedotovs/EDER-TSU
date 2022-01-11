@@ -304,6 +304,10 @@ class Track:
                      __hits[1]=__hits[1]+__yshift
                      __Y.append(__hits[1])
                __min_scale=max(max(__X)/(MaxX-(2*self.Resolution)),max(__Y)/(MaxY-(2*self.Resolution)), max(__Z)/(MaxZ-(2*self.Resolution)))
+               print(max(__X))
+               print(max(__Y))
+               print(max(__Z))
+               print(__min_scale)
                for __Tracks in __TempTrack:
                  for __hits in __Tracks:
                      __hits[0]=int(round(__hits[0]/__min_scale,0))
