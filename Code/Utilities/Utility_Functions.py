@@ -182,7 +182,7 @@ class Track:
       def PrepareTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
           __TempTrack=copy.deepcopy(self.SegmentHits)
           print(self.SegmentHits)
-          exit()
+
           self.Resolution=Res
           self.bX=int(round(MaxX/self.Resolution,0))
           self.bY=int(round(MaxY/self.Resolution,0))
@@ -190,23 +190,22 @@ class Track:
           self.H=(self.bX)*2
           self.W=(self.bY)*2
           self.L=(self.bZ)
-          __LongestDistance=0.0
+          __StartTrackZ=6666666666
           for __Track in __TempTrack:
-            __Xdiff=float(__Track[len(__Track)-1][0])-float(__Track[0][0])
-            __Ydiff=float(__Track[len(__Track)-1][1])-float(__Track[0][1])
-            __Zdiff=float(__Track[len(__Track)-1][2])-float(__Track[0][2])
-            __Distance=math.sqrt(__Xdiff**2+__Ydiff**2+__Zdiff**2)
-            if __Distance>=__LongestDistance:
-                __LongestDistance=__Distance
+            __CurrentZ=float(__Track[0][2])
+            if __CurrentZ<=__StartTrackZ:
+                __StartTrackZ=__CurrentZ
                 __FinX=float(__Track[0][0])
                 __FinY=float(__Track[0][1])
                 __FinZ=float(__Track[0][2])
-                self.LongestTrackInd=__TempTrack.index(__Track)
+                self.PrecedingTrackInd=__TempTrack.index(__Track)
           for __Tracks in __TempTrack:
               for __Hits in __Tracks:
                   __Hits[0]=float(__Hits[0])-__FinX
                   __Hits[1]=float(__Hits[1])-__FinY
                   __Hits[2]=float(__Hits[2])-__FinZ
+          print(self.SegmentHits)
+          exit()
           #
           #Lon Rotate x
           __LongestDistance=0.0
