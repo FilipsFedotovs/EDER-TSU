@@ -30,7 +30,7 @@ csv_reader.close()
 import sys
 sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF
-from Utility_Functions import Seed
+from Utility_Functions import Track
 import Parameters as PM
 
 parser = argparse.ArgumentParser(description='This script helps to visualise the seeds by projecting their hit coordinates to the 2-d screen.')
@@ -46,14 +46,14 @@ parser.add_argument('--Type',help="Please enter the sample type: Val or number f
 parser.add_argument('--Label',help="Which labels would you like to see: 'ANY/Fake/Truth", default='ANY')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
-SeedNo=int(args.Images)
+TrackNo=int(args.Images)
 resolution=float(args.Res)
 MaxX=float(args.MaxX)
 MaxY=float(args.MaxY)
 MaxZ=float(args.MaxZ)
 StartImage=int(args.StartImage)
 if StartImage>SeedNo:
-    SeedNo=StartImage
+    TrackNo=StartImage
 if args.Rescale=='Y':
     Rescale=True
 else:
@@ -66,15 +66,15 @@ W=(boundsY)*2
 L=(boundsZ)
 
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"#########################  Initialising EDER-VIANN image visualisation module  #########################"+bcolors.ENDC)
+print(bcolors.HEADER+"#########################  Initialising EDER-TSU image visualisation module    #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 if args.Type=='Val':
- input_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
+ input_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
 else:
- input_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Train_Set_'+args.Type+'.pkl'
+ input_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Train_Set_'+args.Type+'.pkl'
 
 
 if args.PlotType=='XZ':
@@ -111,11 +111,11 @@ if args.PlotType=='XY':
 #Locate mothers
 data_file=open(input_file_location,'rb')
 data=pickle.load(data_file)
-data=data[StartImage-1:min(SeedNo,len(data))]
+data=data[StartImage-1:min(TrackNo,len(data))]
 data_file.close()
 
 
-Title=args.Label+' Vertex Image'
+Title=args.Label+' Track Image'
 
 if args.Label=='Truth':
      data=[im for im in data if im.MC_truth_label == 1]
