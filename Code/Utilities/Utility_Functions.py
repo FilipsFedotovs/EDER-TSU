@@ -259,19 +259,19 @@ class Track:
           #       __hits[0]=(__X*math.cos(__Angle)) - (__Y * math.sin(__Angle))
           #       __hits[1]=(__X*math.sin(__Angle)) + (__Y * math.cos(__Angle))
           #
-          # #After shift
+          #After shift
           #
-          # __FinZ=666666.0
-          # for __Track in __TempTrack:
-          #     if __FinZ>float(__Track[0][2]):
-          #        __FinZ=float(__Track[0][2])-self.Resolution
-          # __FinX=float(__TempTrack[self.LongestTrackInd][0][0])
-          # __FinY=float(__TempTrack[self.LongestTrackInd][0][1])
-          # for __Tracks in __TempTrack:
-          #     for __Hits in __Tracks:
-          #        __Hits[0]=float(__Hits[0])-__FinX
-          #        __Hits[1]=float(__Hits[1])-__FinY
-          #        __Hits[2]=float(__Hits[2])-__FinZ
+          __FinZ=666666.0
+          for __Track in __TempTrack:
+               if __FinZ>float(__Track[0][2]):
+                  __FinZ=float(__Track[0][2])-self.Resolution
+          __FinX=float(__TempTrack[self.LongestTrackInd][0][0])
+          __FinY=float(__TempTrack[self.LongestTrackInd][0][1])
+          for __Tracks in __TempTrack:
+               for __Hits in __Tracks:
+                  __Hits[0]=float(__Hits[0])-__FinX
+                  __Hits[1]=float(__Hits[1])-__FinY
+                  __Hits[2]=float(__Hits[2])-__FinZ
           #
           # #Rescale
           # if Rescale:
