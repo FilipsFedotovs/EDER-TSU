@@ -128,7 +128,6 @@ for sd in data:
  counter+=1
  sd.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,Rescale)
  print(sd.TrackPrint)
- exit()
  if args.PlotType=='XZ':
   for Hits in sd.TrackPrint:
       if abs(Hits[0])<boundsX and abs(Hits[2])<boundsZ:
