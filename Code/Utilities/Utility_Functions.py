@@ -206,11 +206,10 @@ class Track:
                   __Hits[1]=float(__Hits[1])-__FinY
                   __Hits[2]=float(__Hits[2])-__FinZ
           print(__TempTrack)
-          exit()
+
           #
           #Lon Rotate x
-          __LongestDistance=0.0
-          __Track=__TempTrack[self.LongestTrackInd]
+          __Track=__TempTrack[self.PrecedingTrackInd]
           __Vardiff=float(__Track[len(__Track)-1][0])
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
@@ -225,8 +224,7 @@ class Track:
                  __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
                  __hits[0]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
           #Lon Rotate y
-          __LongestDistance=0.0
-          __Track=__TempTrack[self.LongestTrackInd]
+          __Track=__TempTrack[self.PrecedingTrackInd]
           __Vardiff=float(__Track[len(__Track)-1][1])
           __Zdiff=float(__Track[len(__Track)-1][2])
           __vector_1 = [__Zdiff, 0]
@@ -240,6 +238,8 @@ class Track:
                  __Pos=float(__hits[1])
                  __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
                  __hits[1]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
+          print(__TempTrack)
+          exit()
            #Phi rotate print
           #
           # __LongestDistance=0.0
