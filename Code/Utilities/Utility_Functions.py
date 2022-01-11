@@ -357,17 +357,17 @@ class Track:
                    __Hits[1]=int(round(float(__Hits[1])/self.Resolution,0))
                    __Hits[2]=int(round(float(__Hits[2])/self.Resolution,0))
                    self.TrackPrint.append(str(__Hits))
-           for __Hits in __TempEnchTrack:
+          for __Hits in __TempEnchTrack:
                    __Hits[0]=int(round(float(__Hits[0])/self.Resolution,0))
                    __Hits[1]=int(round(float(__Hits[1])/self.Resolution,0))
                    __Hits[2]=int(round(float(__Hits[2])/self.Resolution,0))
                    self.TrackPrint.append(str(__Hits))
-           self.TrackPrint=list(set(self.TrackPrint))
-           for p in range(len(self.TrackPrint)):
+          self.TrackPrint=list(set(self.TrackPrint))
+          for p in range(len(self.TrackPrint)):
                self.TrackPrint[p]=ast.literal_eval(self.TrackPrint[p])
-           self.TrackPrint=[p for p in self.TrackPrint if (abs(p[0])<self.bX and abs(p[1])<self.bY and abs(p[2])<self.bZ)]
-           del __TempEnchTrack
-           del __TempTrack
+          self.TrackPrint=[p for p in self.TrackPrint if (abs(p[0])<self.bX and abs(p[1])<self.bY and abs(p[2])<self.bZ)]
+          del __TempEnchTrack
+          del __TempTrack
 
       def UnloadTrackPrint(self):
           delattr(self,'TrackPrint')
