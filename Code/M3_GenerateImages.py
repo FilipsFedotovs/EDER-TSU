@@ -147,31 +147,30 @@ if Mode=='C':
         print(bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC)
         exit()
    else:
-       exit()
-       test_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(MaxJ)+'.pkl'
+       test_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(MaxJ)+'.pkl'
        if os.path.isfile(test_file):
            print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
            print(UF.TimeStamp(), bcolors.OKGREEN+"The process has been ran before, continuing the image generation"+bcolors.ENDC)
            ProcessStatus=2
-       test_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_SamplesCondensedImages_'+str(MaxJ)+'.pkl'
+       test_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_SamplesCondensedImages_'+str(MaxJ)+'.pkl'
        if os.path.isfile(test_file):
            print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
            print(UF.TimeStamp(), bcolors.OKGREEN+"The process has been ran before and image sampling has begun"+bcolors.ENDC)
            ProcessStatus=3
        if ProcessStatus==1:
-           UF.LogOperations(EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','StartLog', [[0,0]])
+           UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','StartLog', [[0,0]])
            print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
            print(UF.TimeStamp(),'Collating the results...')
            for j in range(0,len(data)):
-             output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(j)+'.pkl'
+             output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(j)+'.pkl'
              if os.path.isfile(output_file_location)==False:
-                Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','ReadLog', '_')
+                Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','ReadLog', '_')
                 TotalImages=int(Temp_Stats[0][0])
                 TrueSeeds=int(Temp_Stats[0][1])
                 for sj in range(0,int(data[j][2])):
                    for f in range(0,1000):
-                      new_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M2_M3_RawSeeds_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-                      required_output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
+                      new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+                      required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
                       if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
                          print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
                       elif os.path.isfile(required_output_file_location):
@@ -203,14 +202,14 @@ if Mode=='C':
                 except:
                     continue
 #                del new_data
-                UF.LogOperations(EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','StartLog', [[TotalImages,TrueSeeds]])
+                UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','StartLog', [[TotalImages,TrueSeeds]])
            ProcessStatus=2
 
 
        ####Stage 2
        if ProcessStatus==2:
            print(UF.TimeStamp(),'Sampling the required number of seeds',bcolors.ENDC)
-           Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','ReadLog', '_')
+           Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_Temp_Stats.csv','ReadLog', '_')
            TotalImages=int(Temp_Stats[0][0])
            TrueSeeds=int(Temp_Stats[0][1])
            if args.Samples=='ALL':
@@ -234,8 +233,8 @@ if Mode=='C':
               TrueSeedCorrection=RequiredTrueSeeds/TrueSeeds
            FakeSeedCorrection=RequiredFakeSeeds/(TotalImages-TrueSeeds)
            for j in range(0,len(data)):
-              req_file=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_SamplesCondensedImages_'+str(j)+'.pkl'
-              output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(j)+'.pkl'
+              req_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_SamplesCondensedImages_'+str(j)+'.pkl'
+              output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(j)+'.pkl'
               if os.path.isfile(req_file)==False and os.path.isfile(output_file_location):
                   progress=int( round( (float(j)/float(len(data))*100),0)  )
                   print(UF.TimeStamp(),"Sampling image from the collated data, progress is ",progress,' % of seeds generated',end="\r", flush=True)
@@ -263,7 +262,7 @@ if Mode=='C':
        if ProcessStatus==3:
            TotalData=[]
            for j in range(0,len(data)):
-               output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M3_SamplesCondensedImages_'+str(j)+'.pkl'
+               output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_SamplesCondensedImages_'+str(j)+'.pkl'
                if os.path.isfile(output_file_location):
                   progress=int( round( (float(j)/float(len(data))*100),0)  )
                   print(UF.TimeStamp(),"Re-sampling image from the collated data, progress is ",progress,' % of seeds generated',end="\r", flush=True)
@@ -275,7 +274,7 @@ if Mode=='C':
            gc.collect()
            ValidationSampleSize=int(round(min((len(TotalData)*float(args.ValidationSize)),PM.MaxValSampleSize),0))
            random.shuffle(TotalData)
-           output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
+           output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
            ValExtracted_file = open(output_file_location, "wb")
            pickle.dump(TotalData[:ValidationSampleSize], ValExtracted_file)
            ValExtracted_file.close()
@@ -283,16 +282,16 @@ if Mode=='C':
            print(UF.TimeStamp(), bcolors.OKGREEN+"Validation Set has been saved at ",bcolors.OKBLUE+output_file_location+bcolors.ENDC,bcolors.OKGREEN+'file...'+bcolors.ENDC)
            No_Train_Files=int(math.ceil(len(TotalData)/PM.MaxTrainSampleSize))
            for SC in range(0,No_Train_Files):
-             output_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Train_Set_'+str(SC+1)+'.pkl'
+             output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Train_Set_'+str(SC+1)+'.pkl'
              OldExtracted_file = open(output_file_location, "wb")
              pickle.dump(TotalData[(SC*PM.MaxTrainSampleSize):min(len(TotalData),((SC+1)*PM.MaxTrainSampleSize))], OldExtracted_file)
              OldExtracted_file.close()
              print(UF.TimeStamp(), bcolors.OKGREEN+"Train Set", str(SC+1) ," has been saved at ",bcolors.OKBLUE+output_file_location+bcolors.ENDC,bcolors.OKGREEN+'file...'+bcolors.ENDC)
-           UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3_SamplesCondensedImages','M3_M3_CondensedImages'], "SoftUsed == \"EDER-VIANN-M3\"")
+           UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3_SamplesCondensedImages','M3_M3_CondensedImages'], "SoftUsed == \"EDER-TSU-M3\"")
            print(bcolors.BOLD+'Would you like to delete filtered seeds data?'+bcolors.ENDC)
            UserAnswer=input(bcolors.BOLD+"Please, enter your option Y/N \n"+bcolors.ENDC)
            if UserAnswer=='Y':
-               UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M2_M3','M3_M3'], "SoftUsed == \"EDER-VIANN-M3\"")
+               UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M2_M3','M3_M3'], "SoftUsed == \"EDER-TSU-M3\"")
            else:
             print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
             print(UF.TimeStamp(), bcolors.OKGREEN+"Training and Validation data has been created: you can start working on the model..."+bcolors.ENDC)
