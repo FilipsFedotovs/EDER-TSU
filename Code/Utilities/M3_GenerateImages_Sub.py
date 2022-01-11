@@ -38,7 +38,7 @@ MaxDOCA=float(args.MaxDOCA)
 MaxSTG=float(args.MaxSTG)
 MaxSLG=float(args.MaxSLG)
 MaxAngle=float(args.MaxAngle)
-input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
+input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M1_TRACK_SEGMENTS.csv'
 input_track_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+Set+'_'+SubSet+'_'+fraction+'.csv'
 output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+Set+'_'+SubSet+'_'+fraction+'.pkl'
 print(UF.TimeStamp(),'Loading the data')
