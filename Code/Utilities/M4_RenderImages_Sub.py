@@ -36,11 +36,11 @@ MaxZ=float(args.MaxZ)
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 if args.SetType=='Val':
- input_seed_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
- output_seed_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
+ input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
+ output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
 if args.SetType=='Train':
- input_seed_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M3_M4_Train_Set_'+str(fraction)+'.pkl'
- output_seed_file_location=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+str(fraction)+'.pkl'
+ input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Train_Set_'+str(fraction)+'.pkl'
+ output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+str(fraction)+'.pkl'
 print(UF.TimeStamp(),'Analysing the data')
 image_file=open(input_seed_file_location,'rb')
 images=pickle.load(image_file)

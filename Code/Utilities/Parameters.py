@@ -36,9 +36,9 @@ MaxAngle=1 #Seed Opening Angle (Magnitude) in radians
 acceptance=0.5
 pre_vx_acceptance=0.662
 link_acceptance=1.2
-resolution=100
-MaxX=3500.0
-MaxY=1000.0
+resolution=50
+MaxX=2000.0
+MaxY=500.0
 MaxZ=20000.0
 CNN_Model_Name='2T_100_FEDRA_2_model'
 
