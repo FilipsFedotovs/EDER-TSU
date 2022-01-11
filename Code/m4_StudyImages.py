@@ -150,7 +150,7 @@ if args.PlotType=='XZ':
  plt.xlabel('Z [microns /'+str(int(resolution))+']')
  plt.ylabel('X [microns /'+str(int(resolution))+']')
 
- image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsX,-boundsX],norm=LogNorm())
+ image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsX,-boundsX])#,norm=LogNorm())
  plt.gca().invert_yaxis()
  plt.show()
 if args.PlotType=='YZ':
@@ -159,7 +159,7 @@ if args.PlotType=='YZ':
  plt.title(Title)
  plt.xlabel('Z [microns /'+str(int(resolution))+']')
  plt.ylabel('Y [microns /'+str(int(resolution))+']')
- image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsY,-boundsY],norm=LogNorm())
+ image=plt.imshow(Matrix,cmap='gray_r',extent=[0,boundsZ,boundsY,-boundsY])#,norm=LogNorm())
  plt.gca().invert_yaxis()
  plt.show()
 if args.PlotType=='XY':
@@ -168,7 +168,7 @@ if args.PlotType=='XY':
  plt.title(Title)
  plt.xlabel('X [microns /'+str(int(resolution))+']')
  plt.ylabel('Y [microns /'+str(int(resolution))+']')
- image=plt.imshow(Matrix,cmap='gray_r',extent=[boundsX,-boundsX,-boundsY,boundsY],norm=LogNorm())
+ image=plt.imshow(Matrix,cmap='gray_r',extent=[boundsX,-boundsX,-boundsY,boundsY])#,norm=LogNorm())
  plt.gca().invert_xaxis()
  plt.show()
 exit()
