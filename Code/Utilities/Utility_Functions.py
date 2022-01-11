@@ -181,6 +181,8 @@ class Track:
 
       def PrepareTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
           __TempTrack=copy.deepcopy(self.SegmentHits)
+          print(self.SegmentHits)
+          exit()
           self.Resolution=Res
           self.bX=int(round(MaxX/self.Resolution,0))
           self.bY=int(round(MaxY/self.Resolution,0))
