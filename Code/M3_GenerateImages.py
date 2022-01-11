@@ -99,8 +99,8 @@ if Mode=='R':
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              if os.path.isfile(new_output_file_location):
                  f_count=f
-            OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MinAngle ", " --MaxAngle "]
-            OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MinAngle, MaxAngle]
+            OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
+            OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
             SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj)
@@ -120,8 +120,8 @@ if Mode=='C':
            for f in range(0,1000):
               new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-              OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MinAngle ", " --MaxAngle "]
-              OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MinAngle, MaxAngle]
+              OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
+              OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
               SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj) + '_' + str(f)
