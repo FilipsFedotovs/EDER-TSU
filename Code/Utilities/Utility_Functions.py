@@ -238,29 +238,28 @@ class Track:
                  __Pos=float(__hits[1])
                  __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
                  __hits[1]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
+           #Phi rotate print
+
+          __LongestDistance=0.0
+          for __Track in __TempTrack:
+                 __X=float(__Track[len(__Track)-1][0])
+                 __Y=float(__Track[len(__Track)-1][1])
+                 __Distance=math.sqrt((__X**2)+(__Y**2))
+                 if __Distance>=__LongestDistance:
+                  __LongestDistance=__Distance
+                  __vector_1 = [__Distance, 0]
+                  __vector_2 = [__X, __Y]
+                  __Angle=-Track.angle_between(__vector_1,__vector_2)
+          if np.isnan(__Angle)==True:
+                     __Angle=0.0
+           for __Tracks in __TempTrack:
+             for __hits in __Tracks:
+                 __X=float(__hits[0])
+                 __Y=float(__hits[1])
+                 __hits[0]=(__X*math.cos(__Angle)) - (__Y * math.sin(__Angle))
+                 __hits[1]=(__X*math.sin(__Angle)) + (__Y * math.cos(__Angle))
           print(__TempTrack)
           exit()
-           #Phi rotate print
-          #
-          # __LongestDistance=0.0
-          # for __Track in __TempTrack:
-          #       __X=float(__Track[len(__Track)-1][0])
-          #       __Y=float(__Track[len(__Track)-1][1])
-          #       __Distance=math.sqrt((__X**2)+(__Y**2))
-          #       if __Distance>=__LongestDistance:
-          #        __LongestDistance=__Distance
-          #        __vector_1 = [__Distance, 0]
-          #        __vector_2 = [__X, __Y]
-          #        __Angle=-Track.angle_between(__vector_1,__vector_2)
-          # if np.isnan(__Angle)==True:
-          #           __Angle=0.0
-          # for __Tracks in __TempTrack:
-          #   for __hits in __Tracks:
-          #       __X=float(__hits[0])
-          #       __Y=float(__hits[1])
-          #       __hits[0]=(__X*math.cos(__Angle)) - (__Y * math.sin(__Angle))
-          #       __hits[1]=(__X*math.sin(__Angle)) + (__Y * math.cos(__Angle))
-          #
           #After shift
           #
           __FinZ=666666.0
