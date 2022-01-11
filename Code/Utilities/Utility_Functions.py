@@ -309,44 +309,44 @@ class Track:
           #           __hits[1]=int(round(__hits[1]/__min_scale,0))
           #           __hits[2]=int(round(__hits[2]/__min_scale,0))
           #
-          # #Enchance track
-          # __TempEnchTrack=[]
-          # for __Tracks in __TempTrack:
-          #     for h in range(0,len(__Tracks)-1):
-          #         __deltaX=float(__Tracks[h+1][0])-float(__Tracks[h][0])
-          #         __deltaZ=float(__Tracks[h+1][2])-float(__Tracks[h][2])
-          #         __deltaY=float(__Tracks[h+1][1])-float(__Tracks[h][1])
-          #         try:
-          #          __vector_1 = [__deltaZ,0]
-          #          __vector_2 = [__deltaZ, __deltaX]
-          #          __ThetaAngle=Track.angle_between(__vector_1, __vector_2)
-          #         except:
-          #           __ThetaAngle=0.0
-          #         try:
-          #           __vector_1 = [__deltaZ,0]
-          #           __vector_2 = [__deltaZ, __deltaY]
-          #           __PhiAngle=Track.angle_between(__vector_1, __vector_2)
-          #         except:
-          #           __PhiAngle=0.0
-          #         __TotalDistance=math.sqrt((__deltaX**2)+(__deltaY**2)+(__deltaZ**2))
-          #         __Distance=(float(self.Resolution)/3)
-          #         if __Distance>=0 and __Distance<1:
-          #            __Distance=1.0
-          #         if __Distance<0 and __Distance>-1:
-          #            __Distance=-1.0
-          #         __Iterations=int(round(__TotalDistance/__Distance,0))
-          #         for i in range(1,__Iterations):
-          #             __New_Hit=[]
-          #             if math.isnan(float(__Tracks[h][0])+float(i)*__Distance*math.sin(__ThetaAngle)):
-          #                continue
-          #             if math.isnan(float(__Tracks[h][1])+float(i)*__Distance*math.sin(__PhiAngle)):
-          #                continue
-          #             if math.isnan(float(__Tracks[h][2])+float(i)*__Distance*math.cos(__ThetaAngle)):
-          #                continue
-          #             __New_Hit.append(float(__Tracks[h][0])+float(i)*__Distance*math.sin(__ThetaAngle))
-          #             __New_Hit.append(float(__Tracks[h][1])+float(i)*__Distance*math.sin(__PhiAngle))
-          #             __New_Hit.append(float(__Tracks[h][2])+float(i)*__Distance*math.cos(__ThetaAngle))
-          #             __TempEnchTrack.append(__New_Hit)
+          #Enchance track
+          __TempEnchTrack=[]
+          for __Tracks in __TempTrack:
+               for h in range(0,len(__Tracks)-1):
+                   __deltaX=float(__Tracks[h+1][0])-float(__Tracks[h][0])
+                   __deltaZ=float(__Tracks[h+1][2])-float(__Tracks[h][2])
+                   __deltaY=float(__Tracks[h+1][1])-float(__Tracks[h][1])
+                   try:
+                    __vector_1 = [__deltaZ,0]
+                    __vector_2 = [__deltaZ, __deltaX]
+                    __ThetaAngle=Track.angle_between(__vector_1, __vector_2)
+                   except:
+                     __ThetaAngle=0.0
+                   try:
+                     __vector_1 = [__deltaZ,0]
+                     __vector_2 = [__deltaZ, __deltaY]
+                     __PhiAngle=Track.angle_between(__vector_1, __vector_2)
+                   except:
+                     __PhiAngle=0.0
+                   __TotalDistance=math.sqrt((__deltaX**2)+(__deltaY**2)+(__deltaZ**2))
+                   __Distance=(float(self.Resolution)/3)
+                   if __Distance>=0 and __Distance<1:
+                      __Distance=1.0
+                   if __Distance<0 and __Distance>-1:
+                      __Distance=-1.0
+                   __Iterations=int(round(__TotalDistance/__Distance,0))
+                   for i in range(1,__Iterations):
+                       __New_Hit=[]
+                       if math.isnan(float(__Tracks[h][0])+float(i)*__Distance*math.sin(__ThetaAngle)):
+                          continue
+                       if math.isnan(float(__Tracks[h][1])+float(i)*__Distance*math.sin(__PhiAngle)):
+                          continue
+                       if math.isnan(float(__Tracks[h][2])+float(i)*__Distance*math.cos(__ThetaAngle)):
+                          continue
+                       __New_Hit.append(float(__Tracks[h][0])+float(i)*__Distance*math.sin(__ThetaAngle))
+                       __New_Hit.append(float(__Tracks[h][1])+float(i)*__Distance*math.sin(__PhiAngle))
+                       __New_Hit.append(float(__Tracks[h][2])+float(i)*__Distance*math.cos(__ThetaAngle))
+                       __TempEnchTrack.append(__New_Hit)
           #
           # #Pixelise print
           #
