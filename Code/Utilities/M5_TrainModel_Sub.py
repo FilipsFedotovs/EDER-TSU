@@ -42,7 +42,7 @@ class bcolors:
 parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--Mode',help="Please enter the mode: Create/Test/Train", default='Test')
 parser.add_argument('--ImageSet',help="Please enter the image set", default='1')
-parser.add_argument('--DNA',help="Please enter the model dna", default='[[4, 4, 1, 2, 2, 2, 2], [5, 4, 1, 1, 2, 2, 2], [5, 4, 2, 1, 2, 2, 2], [5, 4, 2, 1, 2, 2, 2], [], [3, 4, 2], [3, 4, 2], [2, 4, 2], [], [], [7, 1, 1, 4]]')
+parser.add_argument('--DNA',help="Please enter the model dna", default='[[4, 4, 1, 2, 2, 2, 2], [], [],[], [], [4, 4, 2], [], [], [], [], [7, 1, 1, 4]]')
 parser.add_argument('--AFS',help="Please enter the user afs directory", default='.')
 parser.add_argument('--EOS',help="Please enter the user eos directory", default='.')
 parser.add_argument('--LR',help="Please enter the value of learning rate", default='Default')
@@ -79,16 +79,16 @@ import Utility_Functions as UF
 #Load data configuration
 EOSsubDIR=EOS_DIR+'/'+'EDER-VIANN'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
-flocation=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+ImageSet+'.pkl'
+flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+ImageSet+'.pkl'
 if Mode=='Test' and args.f!='':
    vlocation=args.f
 else:
-   vlocation=EOS_DIR+'/EDER-VIANN/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
+   vlocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
 
 ##############################################################################################################################
 ######################################### Starting the program ################################################################
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-print(bcolors.HEADER+"#########################  Initialising     EDER-VIANN   model creation module #########################"+bcolors.ENDC)
+print(bcolors.HEADER+"#########################  Initialising     EDER-TSU   model creation module   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
