@@ -77,7 +77,7 @@ import sys
 sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF
 #Load data configuration
-EOSsubDIR=EOS_DIR+'/'+'EDER-VIANN'
+EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
 flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+ImageSet+'.pkl'
 if Mode=='Test' and args.f!='':
