@@ -57,8 +57,8 @@ acceptance=float(args.Acceptance)
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
-input_rec_file_location=args.rf
-input_eval_file_location=args.ef
+
+
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(bcolors.HEADER+"######################     Initialising EDER-TSU Evaluation module              ########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
@@ -67,11 +67,10 @@ print(bcolors.HEADER+"##########################################################
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     print(UF.TimeStamp(),'Analysing evaluation data... ',bcolors.ENDC)
-    if os.path.isfile(input_eval_file_location)!=True:
+    input_CNN_eval_file_location=args.of
+    if os.path.isfile(input_CNN_eval_file_location)!=True:
                      print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",input_eval_file_location,'is missing, please restart the evaluation sequence scripts'+bcolors.ENDC)
-    print(pd.read_csv(input_eval_file_location))
-    exit()
-    eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['Segment_1','Segment_2'])
+    eval_data=pd.read_csv(input_CNN_eval_file_location,header=0,usecols=['Segment_1','Segment_2'])
     eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_1'])]
     eval_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
     eval_data.drop(eval_data.index[eval_data['Segment_1'] == eval_data['Segment_2']], inplace = True)
@@ -83,14 +82,10 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     FakeTracks=0
     print(UF.TimeStamp(),'Evaluating reconstructed set ',bcolors.ENDC)
     test_file_location=args.sf
-    rec_file_location=args.vf
     if os.path.isfile(test_file_location)!=True:
         print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",test_file_location,'is missing, please restart the reconstruction sequence scripts'+bcolors.ENDC)
         exit()
-    if args.LinkAcceptance!='N':
-          test_data=pd.read_csv(test_file_location,header=0,usecols=['Segment_1','Segment_2','Track_CNN_Fit'])
-    else:
-        test_data = pd.read_csv(test_file_location, header=0,
+    test_data = pd.read_csv(test_file_location, header=0,
                                 usecols=['Segment_1', 'Segment_2', 'Track_CNN_Fit'])
     test_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(test_data['Segment_1'], test_data['Segment_2'])]
     test_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
@@ -122,6 +117,8 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     print('The F1 score of the current model is',bcolors.BOLD+str(F1_Score), '%'+bcolors.ENDC)
 
 if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'TRACKING':
+    input_rec_file_location=args.rf
+    input_eval_file_location=args.ef
     print(UF.TimeStamp(), 'Evaluating FEDRA tracking reconstruction performance')
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
 
