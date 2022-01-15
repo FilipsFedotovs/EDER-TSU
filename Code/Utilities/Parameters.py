@@ -40,7 +40,7 @@ resolution=50
 MaxX=2000.0
 MaxY=500.0
 MaxZ=20000.0
-CNN_Model_Name='2T_100_FEDRA_2_model'
+CNN_Model_Name='1T_50_SHIP_1a_model'
 
 
 def Seed_Bond_Fit_Acceptance(row):
