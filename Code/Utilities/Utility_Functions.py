@@ -364,7 +364,8 @@ class Track:
           delattr(self,'H')
           delattr(self,'W')
           delattr(self,'L')
-          delattr(self,'LongestTrackInd')
+          delattr(self,'LagTrackInd')
+          delattr(self,'PrecedingTrackInd')
 
 
       def Plot(self,PlotType):
