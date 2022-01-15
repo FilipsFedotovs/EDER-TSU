@@ -96,6 +96,8 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     test_data.drop(["Track_CNN_Fit"],axis=1,inplace=True)
     CurrentRecTracks=len(test_data.axes[0])
     TotalGluedTracks+=CurrentRecTracks
+    print(test_data)
+    print(eval_data)
     test_data=pd.merge(test_data, eval_data, how="inner", on=["Track_ID"])
     RemainingRecTracks=len(test_data.axes[0])
     MatchedTracks+=RemainingRecTracks
