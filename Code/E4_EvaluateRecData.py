@@ -71,7 +71,7 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     if os.path.isfile(input_CNN_eval_file_location)!=True:
                      print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",input_eval_file_location,'is missing, please restart the evaluation sequence scripts'+bcolors.ENDC)
     eval_data=pd.read_csv(input_CNN_eval_file_location,header=0,usecols=['Segment_1','Segment_2'])
-    eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_1'])]
+    eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_2'])]
     eval_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
     eval_data.drop(eval_data.index[eval_data['Segment_1'] == eval_data['Segment_2']], inplace = True)
     eval_data.drop(["Segment_1"],axis=1,inplace=True)
@@ -96,8 +96,6 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     test_data.drop(["Track_CNN_Fit"],axis=1,inplace=True)
     CurrentRecTracks=len(test_data.axes[0])
     TotalGluedTracks+=CurrentRecTracks
-    print(test_data)
-    print(eval_data)
     test_data=pd.merge(test_data, eval_data, how="inner", on=["Track_ID"])
     RemainingRecTracks=len(test_data.axes[0])
     MatchedTracks+=RemainingRecTracks
