@@ -145,7 +145,7 @@ if Mode=='C':
              result[(f*MaxTracksPerJob):min(Records_After_Compression,((f+1)*MaxTracksPerJob))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'R2', ['R2_R2'], "SoftUsed == \"EDER-TSU-R2\"")
+       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R2', ['R2_R2'], "SoftUsed == \"EDER-TSU-R2\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
        print(UF.TimeStamp(), bcolors.OKGREEN+"Track generation is completed."+bcolors.ENDC)
        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
