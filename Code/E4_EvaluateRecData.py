@@ -43,19 +43,16 @@ import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 from Utility_Functions import Track
 #Setting the parser - this script is usually not run directly, but is used by a Master version Counterpart that passes the required arguments
-parser = argparse.ArgumentParser(description='This script compares the ouput of the previous step with the output of EDER-VIANN reconstructed data to calculate reconstruction perfromance.')
+parser = argparse.ArgumentParser(description='This script compares the ouput of the previous step with the output of EDER-VIANN reconstructed data to calculate reconstruction performance.')
 parser.add_argument('--Acceptance',help="What is the mininimum acceptance", default='0.5')
-parser.add_argument('--LinkAcceptance',help="What is the mininimum acceptance", default='N')
-parser.add_argument('--sf',help="Please choose the input file", default=EOS_DIR+'/EDER-VIANN/Data/REC_SET/R5_E4_LINK_FIT_SEEDS.csv')
-parser.add_argument('--of',help="Please choose the evaluation file (has to match the same geometrical domain and type of the track as the subject", default=EOS_DIR+'/EDER-VIANN/Data/TEST_SET/E3_TRUTH_SEEDS.csv')
-parser.add_argument('--TypeOfAnalysis',help="What type of analysis? Test CNN: 'CNN'. Test FEDRA Track Reconstruction quality: 'FEDRA'. All: 'All", default='CNN')
+parser.add_argument('--sf',help="Please choose the input file", default=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_E4_CNN_FIT_TRACK_SEGMENTS.csv')
+parser.add_argument('--of',help="Please choose the evaluation file (has to match the same geometrical domain and type of the track as the subject", default=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv')
+parser.add_argument('--TypeOfAnalysis',help="What type of analysis? Test CNN: 'CNN'. Test FEDRA Track Reconstruction quality: 'TRACKING'. All: 'ALL'", default='CNN')
 parser.add_argument('--rf',help="Please choose the input file", default=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv')
 parser.add_argument('--ef',help="Please choose the input evaluation track file (has to match the same geometrical domain and type of the track as the subject", default=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 acceptance=float(args.Acceptance)
-if args.LinkAcceptance!='N':
-   link_acceptance=float(args.LinkAcceptance)
 ########################################     Preset framework parameters    #########################################
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 MaxTracksPerJob = PM.MaxTracksPerJob
@@ -72,16 +69,16 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     print(UF.TimeStamp(),'Analysing evaluation data... ',bcolors.ENDC)
     if os.path.isfile(input_eval_file_location)!=True:
                      print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",input_eval_file_location,'is missing, please restart the evaluation sequence scripts'+bcolors.ENDC)
-    eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['Track_1','Track_2'])
-    eval_data["Seed_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Track_1'], eval_data['Track_2'])]
-    eval_data.drop_duplicates(subset="Seed_ID",keep='first',inplace=True)
-    eval_data.drop(eval_data.index[eval_data['Track_1'] == eval_data['Track_2']], inplace = True)
-    eval_data.drop(["Track_1"],axis=1,inplace=True)
-    eval_data.drop(["Track_2"],axis=1,inplace=True)
-    TotalMCVertices=len(eval_data.axes[0])
-    TotalRecVertices=0
-    MatchedVertices=0
-    FakeVertices=0
+    eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['Segment_1','Segment_2'])
+    eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_1'])]
+    eval_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
+    eval_data.drop(eval_data.index[eval_data['Segment_1'] == eval_data['Segment_2']], inplace = True)
+    eval_data.drop(["Segment_1"],axis=1,inplace=True)
+    eval_data.drop(["Segment_2"],axis=1,inplace=True)
+    TotalMCTracks=len(eval_data.axes[0])
+    TotalGluedTracks=0
+    MatchedTracks=0
+    FakeTracks=0
     print(UF.TimeStamp(),'Evaluating reconstructed set ',bcolors.ENDC)
     test_file_location=args.sf
     rec_file_location=args.vf
@@ -89,27 +86,25 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
         print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",test_file_location,'is missing, please restart the reconstruction sequence scripts'+bcolors.ENDC)
         exit()
     if args.LinkAcceptance!='N':
-          test_data=pd.read_csv(test_file_location,header=0,usecols=['Track_1','Track_2','Seed_CNN_Fit', 'Seed_Link_Fit'])
+          test_data=pd.read_csv(test_file_location,header=0,usecols=['Segment_1','Segment_2','Track_CNN_Fit'])
     else:
         test_data = pd.read_csv(test_file_location, header=0,
-                                usecols=['Track_1', 'Track_2', 'Seed_CNN_Fit'])
-    test_data["Seed_ID"]= ['-'.join(sorted(tup)) for tup in zip(test_data['Track_1'], test_data['Track_2'])]
-    test_data.drop_duplicates(subset="Seed_ID",keep='first',inplace=True)
-    test_data.drop(test_data.index[test_data['Track_1'] == test_data['Track_2']], inplace = True)
-    test_data.drop(["Track_1"],axis=1,inplace=True)
-    test_data.drop(["Track_2"],axis=1,inplace=True)
-    test_data.drop(test_data.index[test_data['Seed_CNN_Fit']<acceptance], inplace = True)
-    if args.LinkAcceptance!='N':
-         test_data.drop(test_data.index[test_data['Seed_Link_Fit']<link_acceptance], inplace = True)
-    test_data.drop(["Seed_CNN_Fit"],axis=1,inplace=True)
-    CurrentRecVertices=len(test_data.axes[0])
-    TotalRecVertices+=CurrentRecVertices
-    test_data=pd.merge(test_data, eval_data, how="inner", on=["Seed_ID"])
-    RemainingRecVertices=len(test_data.axes[0])
-    MatchedVertices+=RemainingRecVertices
-    FakeVertices+=(CurrentRecVertices-RemainingRecVertices)
-    Recall=round((float(MatchedVertices)/float(TotalMCVertices))*100,2)
-    Precision=round((float(MatchedVertices)/float(TotalRecVertices))*100,2)
+                                usecols=['Segment_1', 'Segment_2', 'Track_CNN_Fit'])
+    test_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(test_data['Segment_1'], test_data['Segment_2'])]
+    test_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
+    test_data.drop(test_data.index[test_data['Segment_1'] == test_data['Segment_2']], inplace = True)
+    test_data.drop(["Segment_1"],axis=1,inplace=True)
+    test_data.drop(["Segment_2"],axis=1,inplace=True)
+    test_data.drop(test_data.index[test_data['Track_CNN_Fit']<acceptance], inplace = True)
+    test_data.drop(["Track_CNN_Fit"],axis=1,inplace=True)
+    CurrentRecTracks=len(test_data.axes[0])
+    TotalGluedTracks+=CurrentRecTracks
+    test_data=pd.merge(test_data, eval_data, how="inner", on=["Track_ID"])
+    RemainingRecTracks=len(test_data.axes[0])
+    MatchedTracks+=RemainingRecTracks
+    FakeTracks+=(CurrentRecTracks-RemainingRecTracks)
+    Recall=round((float(MatchedTracks)/float(TotalMCTracks))*100,2)
+    Precision=round((float(MatchedTracks)/float(TotalGluedTracks))*100,2)
     if (Recall+Precision)==0:
         F1_Score=0
     else:
@@ -117,14 +112,14 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     print(UF.TimeStamp(), bcolors.OKGREEN+'Evaluation has been finished'+bcolors.ENDC)
 
     print(bcolors.HEADER+"#########################################  Results  #########################################"+bcolors.ENDC)
-    print('Total 2-track combinations are expected according to Monte Carlo:',TotalMCVertices)
-    print('Total 2-track combinations were reconstructed by EDER-VIANN:',TotalRecVertices)
-    print('EDER-VIANN correct combinations were reconstructed:',MatchedVertices)
+    print('Total 2-segment combinations are expected according to Monte Carlo:',TotalMCTracks)
+    print('Total 2-segment combinations were linked by EDER-TSU:',TotalGluedTracks)
+    print('EDER-TSU correct combinations:',MatchedTracks)
     print('Therefore the recall of the current model is',bcolors.BOLD+str(Recall), '%'+bcolors.ENDC)
     print('And the precision of the current model is',bcolors.BOLD+str(Precision), '%'+bcolors.ENDC)
     print('The F1 score of the current model is',bcolors.BOLD+str(F1_Score), '%'+bcolors.ENDC)
 
-elif args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'FEDRA':
+if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'TRACKING':
     print(UF.TimeStamp(), 'Evaluating FEDRA tracking reconstruction performance')
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
 
