@@ -158,8 +158,8 @@ if Mode=='C':
 
        Records=len(base_data)
        print(UF.TimeStamp(),'Final reconstructed set contains', Records, '2-segment glued tracks',bcolors.ENDC)
-       output_file_eval_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_R5_CNN_Fit_Tracks.csv'
-       output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_R5_CNN_Fit_Tracks.pkl'
+       output_file_eval_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_E4_CNN_FIT_TRACK_SEGMENTS.csv'
+       output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_R5_CNN_Fit_Track_Segments.pkl'
        base_data=list(set(base_data))
        Records_After_Compression=len(base_data)
        if Records>0:
