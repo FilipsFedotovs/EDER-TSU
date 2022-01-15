@@ -175,7 +175,7 @@ if Mode=='C':
        eval_tracks.append(['Segment_1','Segment_2','Track_CNN_Fit'])
        print(UF.TimeStamp(), 'Saving the csv file... ')
        for sd in base_data:
-           eval_tracks.append([sd.TrackHeader[0],sd.TrackHeader[1],sd.Track_CNN_Fit])
+           eval_tracks.append([sd.SegmentHeader[0],sd.SegmentHeader[1],sd.Track_CNN_Fit])
        del base_data
        UF.LogOperations(output_file_eval_location,'StartLog', eval_tracks)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
