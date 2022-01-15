@@ -69,6 +69,8 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
     print(UF.TimeStamp(),'Analysing evaluation data... ',bcolors.ENDC)
     if os.path.isfile(input_eval_file_location)!=True:
                      print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",input_eval_file_location,'is missing, please restart the evaluation sequence scripts'+bcolors.ENDC)
+    print(pd.read_csv(input_eval_file_location,header=0,usecols=['Segment_1','Segment_2']))
+    exit()
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['Segment_1','Segment_2'])
     eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_1'])]
     eval_data.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
