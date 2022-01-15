@@ -40,7 +40,7 @@ MaxSLG=float(args.MaxSLG)
 MaxAngle=float(args.MaxAngle)
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
 input_track_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+Set+'_'+SubSet+'_'+fraction+'.csv'
-output_track_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R3_DecTracks_'+Set+'_'+SubSet+'_'+fraction+'.pkl'
+output_track_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R3_FilteredTracks_'+Set+'_'+SubSet+'_'+fraction+'.pkl'
 print(UF.TimeStamp(),'Loading the data')
 tracks=pd.read_csv(input_track_file_location)
 tracks_1=tracks.drop(['Segment_2'],axis=1)
