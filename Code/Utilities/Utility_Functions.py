@@ -113,7 +113,7 @@ class Track:
                           __MinZ=self.SegmentHits[t1][0][2]
                           __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
                           print(__OtherMinZ,__OtherMaxZ, __MinZ, __MaxZ)
-                          if ((__OtherMinZ>=__MinZ and __OtherMinZ<=__MaxZ) or (__OtherMaxZ>=__MinZ and __OtherMaxZ<=__MaxZ)):
+                          if ((__OtherMinZ>__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<__MaxZ)):
                               print('Trigger 1')
                               if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
                                   print('Development')
@@ -127,37 +127,29 @@ class Track:
                               else:
                                   print('Development 4')
                                   exit()
+                          else:
+                            self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
+                            if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
+                               self.SegmentHits.append(OtherTrack.SegmentHits[t2])
+                               self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
 
-              #                     self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
-              #     if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
-              #             self.SegmentHits.append(OtherTrack.SegmentHits[t2])
-              # for t2 in range(len(OtherTrack.SegmentHeader)):
-              #   if (t2 in overlap_matrix)==False:
-              #     self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
-              #     if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
-              #             self.SegmentHits.append(OtherTrack.SegmentHits[t2])
+                            if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
+                                 self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
+                            elif hasattr(self,'TR_CNN_Fit'):
+                                 self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+                            elif hasattr(OtherTrack,'TR_CNN_Fit'):
+                                 self.TR_CNN_Fit=[self.Track_CNN_Fit]
+                                 self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
+                            else:
+                                 self.TR_CNN_Fit=[]
+                                 self.TR_CNN_Fit.append(self.Track_CNN_Fit)
+                                 self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
 
-
-              if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                        self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-              elif hasattr(self,'TR_CNN_Fit'):
-                       self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-              elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                       self.TR_CNN_Fit=[self.Track_CNN_Fit]
-                       self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-              else:
-                      self.TR_CNN_Fit=[]
-                      self.TR_CNN_Fit.append(self.Track_CNN_Fit)
-                      self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-
-
-              self.VX_z=list(set(self.VX_z))
-              self.VX_x=list(set(self.VX_x))
-              self.VX_y=list(set(self.VX_y))
-              self.TR_CNN_Fit=list(set(self.TR_CNN_Fit))
-              self.Segmentation=len(self.SegmentHeader)
-              self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-              return True
+                                 self.TR_CNN_Fit=list(set(self.TR_CNN_Fit))
+                                 self.Segmentation=len(self.SegmentHeader)
+                                 self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
+                                 print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_Fit,self.Track_CNN_Fit,self.Segmentation)
+                                 return True
 
           else:
               return __overlap
