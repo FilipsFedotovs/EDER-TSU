@@ -91,6 +91,11 @@ class Track:
                       __overlap=True
                       break
           if __overlap:
+              print(self.SegmentHeader)
+              print(OtherTrack.SegmentHeader)
+              print(self.SegmentHits)
+              print(OtherTrack.SegmentHits)
+              exit()
               overlap_matrix=[]
               for t1 in range(len(self.SegmentHeader)):
                  for t2 in range(len(OtherTrack.SegmentHeader)):
@@ -102,74 +107,27 @@ class Track:
                   self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                   if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
                           self.SegmentHits.append(OtherTrack.SegmentHits[t2])
-              if hasattr(self,'MC_truth_label') and hasattr(OtherTrack,'MC_truth_label'):
-                         self.MC_truth_label=(self.MC_truth_label and OtherTrack.MC_truth_label)
-              if hasattr(self,'VX_CNN_Fit') and hasattr(OtherTrack,'VX_CNN_Fit'):
-                        self.VX_CNN_Fit+=OtherTrack.VX_CNN_Fit
-              elif hasattr(self,'VX_CNN_Fit'):
-                       self.VX_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-              elif hasattr(OtherTrack,'VX_CNN_Fit'):
-                       self.VX_CNN_Fit=[self.Track_CNN_Fit]
-                       self.VX_CNN_Fit+=OtherTrack.VX_CNN_Fit
+#              if hasattr(self,'MC_truth_label') and hasattr(OtherTrack,'MC_truth_label'):
+#                         self.MC_truth_label=(self.MC_truth_label and OtherTrack.MC_truth_label)
+              if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
+                        self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
+              elif hasattr(self,'TR_CNN_Fit'):
+                       self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+              elif hasattr(OtherTrack,'TR_CNN_Fit'):
+                       self.TR_CNN_Fit=[self.Track_CNN_Fit]
+                       self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
               else:
-                      self.VX_CNN_Fit=[]
-                      self.VX_CNN_Fit.append(self.Track_CNN_Fit)
-                      self.VX_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-              if hasattr(self,'VX_x') and hasattr(OtherTrack,'VX_x'):
-                      self.VX_x+=OtherTrack.VX_x
-              elif hasattr(self,'VX_x'):
-                       self.VX_x.append(OtherTrack.Vx)
-              elif hasattr(OtherTrack,'VX_x'):
-                       self.VX_x=[self.Vx]
-                       self.VX_x+=OtherTrack.VX_x
-              else:
-                      self.VX_x=[]
-                      self.VX_x.append(self.Vx)
-                      self.VX_x.append(OtherTrack.Vx)
-                          
-              if hasattr(self,'VX_y') and hasattr(OtherTrack,'VX_y'):
-                      self.VX_y+=OtherTrack.VX_y
-              elif hasattr(self,'VX_y'):
-                       self.VX_y.append(OtherTrack.Vy)
-              elif hasattr(OtherTrack,'VX_y'):
-                       self.VX_y=[self.Vy]
-                       self.VX_y+=OtherTrack.VX_y
-              else:
-                      self.VX_y=[]
-                      self.VX_y.append(self.Vy)
-                      self.VX_y.append(OtherTrack.Vy)
-                  
-              if hasattr(self,'VX_z') and hasattr(OtherTrack,'VX_z'):
-                      self.VX_z+=OtherTrack.VX_z
-              elif hasattr(self,'VX_z'):
-                       self.VX_z.append(OtherTrack.Vz)
-              elif hasattr(OtherTrack,'VX_z'):
-                       self.VX_z=[self.Vz]
-                       self.VX_z+=OtherTrack.VX_z
-              else:
-                      self.VX_z=[]
-                      self.VX_z.append(self.Vz)
-                      self.VX_z.append(OtherTrack.Vz)
+                      self.TR_CNN_Fit=[]
+                      self.TR_CNN_Fit.append(self.Track_CNN_Fit)
+                      self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+
+
               self.VX_z=list(set(self.VX_z))
               self.VX_x=list(set(self.VX_x))
               self.VX_y=list(set(self.VX_y))
-              self.VX_CNN_Fit=list(set(self.VX_CNN_Fit))
+              self.TR_CNN_Fit=list(set(self.TR_CNN_Fit))
               self.Segmentation=len(self.SegmentHeader)
-              self.Track_CNN_Fit=sum(self.VX_CNN_Fit)/len(self.VX_CNN_Fit)
-              self.Vx=sum(self.VX_x)/len(self.VX_x)
-              self.Vy=sum(self.VX_y)/len(self.VX_y)
-              self.Vz=sum(self.VX_z)/len(self.VX_z)
-              if hasattr(self,'angle'):
-                  delattr(self,'angle')
-              if hasattr(self,'DOCA'):
-                  delattr(self,'DOCA')
-              if hasattr(self,'V_Tr'):
-                  delattr(self,'V_Tr')
-              if hasattr(self,'Tr_Tr'):
-                  delattr(self,'Tr_Tr')
-
-
-
+              self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
               return True
 
           else:

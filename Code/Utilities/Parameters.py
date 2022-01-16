@@ -18,7 +18,7 @@ MaxSegmentsPerJob=20000 #This parameter imposes the limit on the number of the t
 MaxEvalSegmentsPerJob=20000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
 MaxTracksPerJob=40000
 MaxFitTracksPerJob=10000
-#MaxSeedsPerVxPool=20000
+MaxTracksPerTrPool=20000
 
 ######List of geometrical constain parameters
 MaxSLG=4000
