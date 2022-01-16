@@ -143,7 +143,6 @@ class Track:
                                  self.TR_CNN_Fit.append(self.Track_CNN_Fit)
                                  self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
 
-                                 self.TR_CNN_Fit=list(set(self.TR_CNN_Fit))
                                  self.Segmentation=len(self.SegmentHeader)
                                  self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
                                  print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_Fit,self.Track_CNN_Fit,self.Segmentation)
