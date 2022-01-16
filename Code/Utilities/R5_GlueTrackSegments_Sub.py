@@ -41,7 +41,7 @@ sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF #This is where we keep routine utility functions
 from Utility_Functions import Track
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
-print(UF.TimeStamp(), "Loading vertexed seeds from the file",bcolors.OKBLUE+input_file_location+bcolors.ENDC)
+print(UF.TimeStamp(), "Loading fit track seeds from the file",bcolors.OKBLUE+input_file_location+bcolors.ENDC)
 data_file=open(input_file_location,'rb')
 base_data=pickle.load(data_file)
 data_file.close()
@@ -51,8 +51,8 @@ print(UF.TimeStamp(), bcolors.OKGREEN+"Out of these only "+str(len(base_data))+"
 output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R5_R5_Temp_Glued_Tracks_'+str(Set)+'.pkl'
 print(UF.TimeStamp(), "Initiating the  track merging...")
 InitialDataLength=len(base_data)
-SeedCounter=0
-SeedCounterContinue=True
+TrackCounter=0
+TrackCounterContinue=True
 while TrackCounterContinue:
     if TrackCounter>=len(base_data):
        TrackCounterContinue=False
