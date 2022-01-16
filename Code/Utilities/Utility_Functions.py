@@ -126,7 +126,15 @@ class Track:
                                   exit()
                               else:
                                   print('Development 4')
-                                  exit()
+                                  if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
+                                      self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
+                                      self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
+                                      self.Track_CNN_Fit=OtherTrack.Track_CNN_Fit
+                                      print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
+                                      exit()
+                                      return True
+                                  else:
+                                      return True
                           else:
                             self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                             if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
