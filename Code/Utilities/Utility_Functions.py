@@ -113,15 +113,29 @@ class Track:
                           __MinZ=self.SegmentHits[t1][0][2]
                           __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
                           print(__OtherMinZ,__OtherMaxZ, __MinZ, __MaxZ)
-                          exit()
-                  self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
-                  if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
-                          self.SegmentHits.append(OtherTrack.SegmentHits[t2])
-              for t2 in range(len(OtherTrack.SegmentHeader)):
-                if (t2 in overlap_matrix)==False:
-                  self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
-                  if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
-                          self.SegmentHits.append(OtherTrack.SegmentHits[t2])
+                          if ((__OtherMinZ>=__MinZ and __OtherMinZ<=__MaxZ) or (__OtherMaxZ>=__MinZ and __OtherMaxZ<=__MaxZ)):
+                              print('Trigger 1')
+                              if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
+                                  print('Development')
+                                  exit()
+                              elif hasattr(self,'TR_CNN_Fit'):
+                                  print('Development 2')
+                                  exit()
+                              elif hasattr(OtherTrack,'TR_CNN_Fit'):
+                                  print('Development 3')
+                                  exit()
+                              else:
+                                  print('Development 4')
+                                  exit()
+
+              #                     self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
+              #     if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
+              #             self.SegmentHits.append(OtherTrack.SegmentHits[t2])
+              # for t2 in range(len(OtherTrack.SegmentHeader)):
+              #   if (t2 in overlap_matrix)==False:
+              #     self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
+              #     if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
+              #             self.SegmentHits.append(OtherTrack.SegmentHits[t2])
 
 
               if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
