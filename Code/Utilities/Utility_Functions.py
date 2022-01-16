@@ -104,7 +104,6 @@ class Track:
                        self_overlap_matrix.append(t1)
               print(overlap_matrix)
               print(self_overlap_matrix)
-              exit()
               for t2 in range(len(OtherTrack.SegmentHeader)):
                 if (t2 in overlap_matrix)==False:
                   for t1 in range(len(OtherTrack.SegmentHeader)):
@@ -114,7 +113,7 @@ class Track:
                           __MinZ=OtherTrack.SegmentHits[t1][0][2]
                           __MaxZ=OtherTrack.SegmentHits[t1][len(OtherTrack.SegmentHits[t2])-1][2]
                           print(__OtherMinZ,__OtherMaxZ, __MinZ, __MaxZ)
-
+                          exit()
                   self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                   if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
                           self.SegmentHits.append(OtherTrack.SegmentHits[t2])
