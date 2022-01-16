@@ -122,13 +122,13 @@ if Mode=='C':
        print(UF.TimeStamp(),'Collating the results...')
        for sj in range(0,int(SubSets)):
            output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E2_RawTracks_'+str(sj)+'.csv'
-           result=pd.read_csv(output_file_location,names = ['Track_1','Track_2'])
+           result=pd.read_csv(output_file_location,names = ['Segment_1','Segment_2'])
            Records=len(result.axes[0])
            print(UF.TimeStamp(),'Subset', str(sj), 'contains', Records, 'seeds',bcolors.ENDC)
            #Removing duplicates.
-           result["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(result['Track_1'], result['Track_2'])]
+           result["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(result['Segment_1'], result['Segment_2'])]
            result.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
-           result.drop(result.index[result['Track_1'] == result['Track_2']], inplace = True)
+           result.drop(result.index[result['Segment_1'] == result['Segment_2']], inplace = True)
            result.drop(["Track_ID"],axis=1,inplace=True)
            Records_After_Compression=len(result.axes[0])
            if Records>0:
