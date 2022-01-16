@@ -131,7 +131,6 @@ class Track:
                                       self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
                                       self.Track_CNN_Fit=OtherTrack.Track_CNN_Fit
                                       print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
-                                      exit()
                                       return True
                                   else:
                                       return True
