@@ -131,8 +131,6 @@ class Track:
                             self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                             if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
                                self.SegmentHits.append(OtherTrack.SegmentHits[t2])
-                               self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
-
                             if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
                                  self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
                             elif hasattr(self,'TR_CNN_Fit'):
