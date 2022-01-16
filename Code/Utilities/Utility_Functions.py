@@ -110,8 +110,8 @@ class Track:
                       if (t1 in self_overlap_matrix)==False:
                           __OtherMinZ=OtherTrack.SegmentHits[t2][0][2]
                           __OtherMaxZ=OtherTrack.SegmentHits[t2][len(OtherTrack.SegmentHits[t2])-1][2]
-                          __MinZ=OtherTrack.SegmentHits[t1][0][2]
-                          __MaxZ=OtherTrack.SegmentHits[t1][len(OtherTrack.SegmentHits[t2])-1][2]
+                          __MinZ=self.SegmentHits[t1][0][2]
+                          __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
                           print(__OtherMinZ,__OtherMaxZ, __MinZ, __MaxZ)
                           exit()
                   self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
