@@ -45,8 +45,8 @@ import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################
 # Preset framework parameters    #########################################
-MaxTracksPerJob = PM.MaxEvalTracksPerJob #These parameteres help to keep each HTCondor job size small enough to be executed ithout crash.
-MaxSeedsPerJob = PM.MaxSeedsPerJob
+MaxSegmentsPerJob = PM.MaxEvalSegmentsPerJob #These parameteres help to keep each HTCondor job size small enough to be executed ithout crash.
+MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -60,7 +60,7 @@ data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
 data.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 Records=len(data.axes[0])
-SubSets=np.ceil(Records/MaxTracksPerJob) #Splitting jobs into subsets
+SubSets=np.ceil(Records/MaxSegmentsPerJob) #Splitting jobs into subsets
 if Mode=='R':
    print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to create the seeds from the scratch'+bcolors.ENDC)
    print(UF.TimeStamp(),bcolors.WARNING+'This option will erase all the previous Seed Creation jobs/results'+bcolors.ENDC)
@@ -136,10 +136,10 @@ if Mode=='C':
            else:
               CompressionRatio=0
            print(UF.TimeStamp(),'Subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC) #Compression ratio = Deduplicated Set/Not deduplicated set
-           fractions=int(math.ceil(Records_After_Compression/MaxSeedsPerJob))
+           fractions=int(math.ceil(Records_After_Compression/MaxTracksPerJob))
            for f in range(0,fractions):
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+str(sj)+'_'+str(f)+'.csv'
-             result[(f*MaxSeedsPerJob):min(Records_After_Compression,((f+1)*MaxSeedsPerJob))].to_csv(new_output_file_location,index=False) #Splitting sets for the next script
+             result[(f*MaxTracksPerJob):min(Records_After_Compression,((f+1)*MaxTracksPerJob))].to_csv(new_output_file_location,index=False) #Splitting sets for the next script
 
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E2', ['E2_E2'], "SoftUsed == \"EDER-TSU-E2\"") #Cleaning up the EOS directory and HCondor logs

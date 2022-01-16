@@ -35,19 +35,11 @@ MaxAngle=1 #Seed Opening Angle (Magnitude) in radians
 ##Model parameters
 acceptance=0.5
 pre_vx_acceptance=0.662
-link_acceptance=1.2
 resolution=50
 MaxX=2000.0
 MaxY=500.0
 MaxZ=20000.0
 CNN_Model_Name='1T_50_SHIP_1a_model'
-
-
-def Seed_Bond_Fit_Acceptance(row):
-    if row['AntiLink_Strenth']>0:
-      return 1.16*(row['Link_Strength']+row['Seed_CNN_Fit'])/row['AntiLink_Strenth']
-    else:
-      return 100
 
 #Model Architecture v1
 ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
