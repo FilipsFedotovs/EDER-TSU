@@ -95,20 +95,21 @@ class Track:
               print(OtherTrack.SegmentHeader)
               print(self.SegmentHits)
               print(OtherTrack.SegmentHits)
-              exit()
+
               overlap_matrix=[]
               for t1 in range(len(self.SegmentHeader)):
                  for t2 in range(len(OtherTrack.SegmentHeader)):
                     if self.SegmentHeader[t1]==OtherTrack.SegmentHeader[t2]:
                        overlap_matrix.append(t2)
-
+              print(overlap_matrix)
+              exit()
               for t2 in range(len(OtherTrack.SegmentHeader)):
                 if (t2 in overlap_matrix)==False:
                   self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                   if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
                           self.SegmentHits.append(OtherTrack.SegmentHits[t2])
-#              if hasattr(self,'MC_truth_label') and hasattr(OtherTrack,'MC_truth_label'):
-#                         self.MC_truth_label=(self.MC_truth_label and OtherTrack.MC_truth_label)
+
+
               if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
                         self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
               elif hasattr(self,'TR_CNN_Fit'):
