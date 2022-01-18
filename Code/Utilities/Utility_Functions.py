@@ -120,19 +120,23 @@ class Track:
                                       self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
                                       self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
                                       if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                                        ReqPos=1-int(math.ceil(t2/2))
+                                        ReqPos=int(math.ceil(t2/2))-1
                                         print(t1,t2,ReqPos)
                                         print(self.TR_CNN_Fit,OtherTrack.TR_CNN_Fit)
                                         exit()
                                         #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
                                       elif hasattr(self,'TR_CNN_Fit'):
                                             #self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-                                        ReqPos=1-int(math.ceil(t2/2))
+                                        ReqPos=int(math.ceil(t2/2))-1
                                         print(t1,t2,ReqPos)
                                         print(self.TR_CNN_Fit,OtherTrack.Track_CNN_Fit)
+                                        self.TR_CNN_Fit.pop(ReqPos)
+                                        self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
+                                        self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
+                                        print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit)
                                         exit()
                                       elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                                          ReqPos=1-int(math.ceil(t2/2))
+                                          ReqPos=int(math.ceil(t2/2))-1
                                           print(t1,t2,ReqPos)
                                           print(OtherTrack.TR_CNN_Fit,self.Track_CNN_Fit)
                                           exit()
