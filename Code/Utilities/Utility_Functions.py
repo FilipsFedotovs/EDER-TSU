@@ -104,6 +104,7 @@ class Track:
                        self_overlap_matrix.append(t1)
               print(overlap_matrix)
               print(self_overlap_matrix)
+              InjectionTrigger=False
               for t2 in range(len(OtherTrack.SegmentHeader)):
                 EngageTrigger=False
                 if (t2 in overlap_matrix)==False:
@@ -120,13 +121,12 @@ class Track:
                                       self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
                                       self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
                                       if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                                        ReqPos=int(math.ceil(t2/2))-1
+                                        ReqPos=int(math.ceil((t2+1)/2))-1
                                         print(t1,t2,ReqPos)
                                         print(self.TR_CNN_Fit,OtherTrack.TR_CNN_Fit)
                                         exit()
                                         #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
                                       elif hasattr(self,'TR_CNN_Fit'):
-                                            #self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
                                         ReqPos=int(math.ceil((t2+1)/2))-1
                                         print(t1,t2,ReqPos)
                                         print(self.TR_CNN_Fit,OtherTrack.Track_CNN_Fit)
@@ -134,9 +134,9 @@ class Track:
                                         self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
                                         self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
                                         print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit)
-                                        exit()
+                                        InjectionTrigger=True
                                       elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                                          ReqPos=int(math.ceil(t2/2))-1
+                                          ReqPos=int(math.ceil((t2+1)/2))-1
                                           print(t1,t2,ReqPos)
                                           print(OtherTrack.TR_CNN_Fit,self.Track_CNN_Fit)
                                           exit()
@@ -167,11 +167,11 @@ class Track:
                                  self.Segmentation=len(self.SegmentHeader)
                                  self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
                                  print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_Fit,self.Track_CNN_Fit,self.Segmentation)
-                                 return True
+                                 InjectionTrigger=True
 
+              return InjectionTrigger
           else:
               return __overlap
-
 
       def MCtruthClassifyTrack(self,label):
           self.MC_truth_label=label
