@@ -127,7 +127,7 @@ class Track:
                                         #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
                                       elif hasattr(self,'TR_CNN_Fit'):
                                             #self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-                                        ReqPos=int(math.ceil(t2/2))-1
+                                        ReqPos=int(math.ceil((t2+1)/2))-1
                                         print(t1,t2,ReqPos)
                                         print(self.TR_CNN_Fit,OtherTrack.Track_CNN_Fit)
                                         self.TR_CNN_Fit.pop(ReqPos)
