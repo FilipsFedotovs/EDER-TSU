@@ -119,7 +119,7 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'CNN':
 if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'TRACKING':
     input_rec_file_location=args.rf
     input_eval_file_location=args.ef
-    print(UF.TimeStamp(), 'Evaluating FEDRA tracking reconstruction performance')
+    print(UF.TimeStamp(), 'Evaluating FEDRA track reconstruction performance')
     eval_data=pd.read_csv(input_eval_file_location,header=0,usecols=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
 
     #eval_data=eval_data.drop(eval_data.index[eval_data['MC_Mother_Track_ID'] != '113862-1260'])

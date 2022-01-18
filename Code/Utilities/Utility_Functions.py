@@ -105,6 +105,7 @@ class Track:
               print(overlap_matrix)
               print(self_overlap_matrix)
               for t2 in range(len(OtherTrack.SegmentHeader)):
+                EngageTrigger=False
                 if (t2 in overlap_matrix)==False:
                   for t1 in range(len(OtherTrack.SegmentHeader)):
                       if (t1 in self_overlap_matrix)==False:
@@ -114,26 +115,35 @@ class Track:
                           __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
                           print(__OtherMinZ,__OtherMaxZ, __MinZ, __MaxZ)
                           if ((__OtherMinZ>__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<__MaxZ)):
-                              print('Trigger 1')
-                              if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                                  print('Development')
-                                  exit()
-                              elif hasattr(self,'TR_CNN_Fit'):
-                                  print('Development 2')
-                                  exit()
-                              elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                                  print('Development 3')
-                                  exit()
-                              else:
-                                  print('Development 4')
-                                  if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
+                                  print('Trigger 1')
+                                  if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit and EngageTrigger==False:
                                       self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
                                       self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
-                                      self.Track_CNN_Fit=OtherTrack.Track_CNN_Fit
-                                      print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
-                                      return True
-                                  else:
-                                      return True
+                                      if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
+                                        ReqPos=1-int(math.ceil(t2/2))
+                                        print(t1,t2,ReqPos)
+                                        print(self.TR_CNN_Fit,OtherTrack.TR_CNN_Fit)
+                                        exit()
+                                        #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
+                                      elif hasattr(self,'TR_CNN_Fit'):
+                                            #self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+                                        ReqPos=1-int(math.ceil(t2/2))
+                                        print(t1,t2,ReqPos)
+                                        print(self.TR_CNN_Fit,OtherTrack.Track_CNN_Fit)
+                                        exit()
+                                      elif hasattr(OtherTrack,'TR_CNN_Fit'):
+                                          ReqPos=1-int(math.ceil(t2/2))
+                                          print(t1,t2,ReqPos)
+                                          print(OtherTrack.TR_CNN_Fit,self.Track_CNN_Fit)
+                                          exit()
+                                           # self.TR_CNN_Fit=[self.Track_CNN_Fit]
+                                          #  self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
+                                      else:
+                                            self.TR_CNN_Fit=[]
+                                            self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
+                                            self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
+                                            print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
+                                      EngageTrigger=True
                           else:
                             self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                             if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
