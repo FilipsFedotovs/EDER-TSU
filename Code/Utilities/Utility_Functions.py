@@ -115,7 +115,7 @@ class Track:
                                           self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
                                           self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
                                       else:
-                                          self.
+                                          exit()
                                       if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
                                         ReqPos=int(math.ceil((t2+1)/2))-1
                                         print(t1,t2,ReqPos)
