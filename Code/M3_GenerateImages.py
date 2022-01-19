@@ -31,11 +31,11 @@ parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default=
 parser.add_argument('--Samples',help="How many samples? Please enter the number or ALL if you want to use all data", default='ALL')
 parser.add_argument('--ValidationSize',help="What is the proportion of Validation Images?", default='0.1')
 parser.add_argument('--LabelMix',help="What is the desired proportion of genuine vertices in the training/validation sets", default='0.5')
-
+parser.add_argument('--PreFit',help="Would you like to prefit training track segment seeds by a light CNN model?", default='N')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
-
+PreFit=args.PreFit=='Y'
 
 
 
@@ -58,6 +58,13 @@ MaxSLG=PM.MaxSLG
 MaxSTG=PM.MaxSTG
 MinAngle=PM.MinAngle
 MaxAngle=PM.MaxAngle
+if PreFit:
+    resolution=PM.resolution
+    acceptance=PM.pre_acceptance
+    MaxX=PM.MaxX
+    MaxY=PM.MaxY
+    MaxZ=PM.MaxZ
+    ModelName=PM.Pre_CNN_Model_Name
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 MaxTracksPerJob = PM.MaxTracksPerJob
@@ -99,8 +106,12 @@ if Mode=='R':
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              if os.path.isfile(new_output_file_location):
                  f_count=f
-            OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
-            OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
+            if PreFit:
+                OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle ", ' --PreFit ',' --resolution ',' --acceptance ',' --MaxX ',' --MaxY ',' --MaxZ ',' --ModelName ']
+                OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
+            else:
+                OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
+                OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
             SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj)
@@ -120,8 +131,12 @@ if Mode=='C':
            for f in range(0,1000):
               new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-              OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
-              OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
+              if PreFit:
+                OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle ", ' --PreFit ',' --resolution ',' --acceptance ',' --MaxX ',' --MaxY ',' --MaxZ ',' --ModelName ']
+                OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
+              else:
+                  OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
+                  OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
               SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj) + '_' + str(f)

@@ -41,7 +41,7 @@ SubSet=args.SubSet
 fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
-PreFit=args.PreFit=='Y';
+PreFit=args.PreFit=='Y'
 if PreFit:
     resolution=float(args.resolution)
     acceptance=float(args.acceptance)
