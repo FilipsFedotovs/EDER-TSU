@@ -108,7 +108,7 @@ if Mode=='R':
                  f_count=f
             if PreFit:
                 OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle ", ' --PreFit ',' --resolution ',' --acceptance ',' --MaxX ',' --MaxY ',' --MaxZ ',' --ModelName ']
-                OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
+                OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,'Y',resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
             else:
                 OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
                 OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
@@ -133,7 +133,7 @@ if Mode=='C':
               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
               if PreFit:
                 OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle ", ' --PreFit ',' --resolution ',' --acceptance ',' --MaxX ',' --MaxY ',' --MaxZ ',' --ModelName ']
-                OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
+                OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,'Y',resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
               else:
                   OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
                   OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
