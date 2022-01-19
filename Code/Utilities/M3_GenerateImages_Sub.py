@@ -27,6 +27,13 @@ parser.add_argument('--MaxSTG',help="Maximum Segment Transverse gap per SLG", de
 parser.add_argument('--MaxSLG',help="Maximum Segment Longitudinal Gap", default='4000')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
+parser.add_argument('--PreFit',help="Would you like to prefit training track segment seeds by a light CNN model?", default='N')
+parser.add_argument('--resolution',help="Resolution in microns per pixel", default='50')
+parser.add_argument('--acceptance',help="CNN fit minimum acceptance", default='0.5')
+parser.add_argument('--MaxX',help="Image size in microns along the x-axis", default='2000.0')
+parser.add_argument('--MaxY',help="Image size in microns along the y-axis", default='500.0')
+parser.add_argument('--MaxZ',help="Image size in microns along the z-axis", default='20000.0')
+parser.add_argument('--ModelName',help="Name of the CNN model", default='1T_50_SHIP_PREFIT_1_model')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
@@ -34,6 +41,19 @@ SubSet=args.SubSet
 fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
+PreFit=args.PreFit=='Y';
+if PreFit:
+    resolution=float(args.resolution)
+    acceptance=float(args.acceptance)
+    MaxX=float(args.MaxX)
+    MaxY=float(args.MaxY)
+    MaxZ=float(args.MaxZ)
+    print(UF.TimeStamp(),'Loading the model...')
+    #Load the model
+    import tensorflow as tf
+    from tensorflow import keras
+    model_name=EOS_DIR+'/EDER-TSU/Models/'+args.ModelName
+    model=tf.keras.models.load_model(model_name)
 MaxDOCA=float(args.MaxDOCA)
 MaxSTG=float(args.MaxSTG)
 MaxSLG=float(args.MaxSLG)
@@ -83,7 +103,14 @@ for s in range(0,limit):
     except:
       continue
     track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
-    if track.GeoFit:
+    if track.GeoFit and PreFit:
+               track.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
+               TrackImage=UF.LoadRenderImages([track],1,1)[0]
+               track.UnloadTrackPrint()
+               track.CNNFitTrack(model.predict(TrackImage)[0][1])
+               if track.Track_CNN_Fit>=acceptance:
+                  GoodTracks.append(track)
+    elif track.GeoFit:
            GoodTracks.append(track)
     else:
         del track
