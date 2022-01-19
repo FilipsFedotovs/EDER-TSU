@@ -303,13 +303,13 @@ if Mode=='C':
              OldExtracted_file.close()
              print(UF.TimeStamp(), bcolors.OKGREEN+"Train Set", str(SC+1) ," has been saved at ",bcolors.OKBLUE+output_file_location+bcolors.ENDC,bcolors.OKGREEN+'file...'+bcolors.ENDC)
            UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3_SamplesCondensedImages','M3_M3_CondensedImages'], "SoftUsed == \"EDER-TSU-M3\"")
-           print(bcolors.BOLD+'Would you like to delete filtered seeds data?'+bcolors.ENDC)
+           print(bcolors.BOLD+'Would you like to delete track seeds data?'+bcolors.ENDC)
            UserAnswer=input(bcolors.BOLD+"Please, enter your option Y/N \n"+bcolors.ENDC)
            if UserAnswer=='Y':
                UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M2_M3','M3_M3'], "SoftUsed == \"EDER-TSU-M3\"")
            else:
             print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
-            print(UF.TimeStamp(), bcolors.OKGREEN+"Training and Validation data has been created: you can start working on the model..."+bcolors.ENDC)
+            print(UF.TimeStamp(), bcolors.OKGREEN+"Training and Validation data has been created: you can render them now..."+bcolors.ENDC)
             print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
             exit()
 #End of the script
