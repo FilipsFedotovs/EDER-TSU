@@ -127,6 +127,7 @@ class Track:
                                         self.TR_CNN_Fit.pop(ReqPos)
                                         self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
                                         self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
+                                        print('---------------------------------------------------------------')
                                         print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit)
                                         input("Press Enter to continue...")
                                       elif hasattr(OtherTrack,'TR_CNN_Fit'):
@@ -140,8 +141,9 @@ class Track:
                                             self.TR_CNN_Fit=[]
                                             self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
                                             self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
+                                            print('---------------------------------------------------------------')
                                             print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
-                                            input("Press Enter to continue...")
+                                            input("Normal scenario Press Enter to continue...")
                                       EngageTrigger=True
                                       InjectionTrigger=True
                           else:
