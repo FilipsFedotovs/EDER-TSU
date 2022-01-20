@@ -52,6 +52,7 @@ print(bcolors.HEADER+"#########################              Written by Filips F
 print(bcolors.HEADER+"#########################                 PhD Student at UCL                   #########################"+bcolors.ENDC)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
+MaxTracksPerTrPool=PM.MaxTracksPerTrPool
 if args.Mode=='R':
     UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R5', ['R5_R5'], "SoftUsed == \"EDER-TSU-R5\"")
     Acceptance=float(args.Acceptance)
@@ -73,7 +74,7 @@ if args.Mode=='R':
     no_iter=int(math.ceil(float(len(base_data)/float(MaxTracksPerTrPool))))
     print(UF.TimeStamp(), "Submitting jobs to HTCondor...")
     OptionHeader = [' --f ',' --Set ', ' --EOS ', " --AFS ", ' --MaxPoolTracks ']
-    OptionLine = [output_file_location,'$1', EOS_DIR, AFS_DIR, PM.MaxTracksPerTrPool]
+    OptionLine = [output_file_location,'$1', EOS_DIR, AFS_DIR, MaxTracksPerTrPool]
     SHName = AFS_DIR + '/HTCondor/SH/SH_R5.sh'
     SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R5.sub'
     MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R5'
@@ -96,14 +97,14 @@ if args.Mode=='C':
     data_file.close()
     original_data_seeds=len(base_data)
     del base_data
-    no_iter = int(math.ceil(float(original_data_seeds / float(PM.MaxSeedsPerVxPool))))
+    no_iter = int(math.ceil(float(original_data_seeds / float(MaxTracksPerTrPool))))
     print(UF.TimeStamp(), "Submitting jobs to HTCondor...")
     bad_pop=[]
     for i in range(no_iter):
         required_file_location = EOS_DIR + '/EDER-TSU/Data/REC_SET/R5_R5_Temp_Glued_Segments_' + str(i) + '.pkl'
         if os.path.isfile(required_file_location) == False:
             OptionHeader = [' --f ', ' --Set ', ' --EOS ', " --AFS ", ' --MaxPoolTracks ']
-            OptionLine = [input_file_location, i, EOS_DIR, AFS_DIR, PM.MaxSeedsPerVxPool]
+            OptionLine = [input_file_location, i, EOS_DIR, AFS_DIR, MaxTracksPerTrPool]
             SHName = AFS_DIR + '/HTCondor/SH/SH_R5_'+str(i)+'.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R5_'+str(i)+'.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R5_'+str(i)
@@ -153,10 +154,10 @@ if args.Mode=='C':
             open_file.close()
             print(UF.TimeStamp(), "Saving the temporarily file into", bcolors.OKBLUE + output_file_location + bcolors.ENDC)
             UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R5', ['R5_R5_Temp'], "SoftUsed == \"EDER-TSU-R5\"")
-            no_iter = int(math.ceil(float(len(VertexPool) / float(PM.MaxSeedsPerVxPool))))
+            no_iter = int(math.ceil(float(len(VertexPool) / float(MaxTracksPerTrPool))))
             print(UF.TimeStamp(), "Submitting jobs to HTCondor...")
             OptionHeader = [' --f ', ' --Set ', ' --EOS ', " --AFS ", ' --MaxPoolTracks ']
-            OptionLine = [output_file_location, '$1', EOS_DIR, AFS_DIR, PM.MaxSeedsPerVxPool]
+            OptionLine = [output_file_location, '$1', EOS_DIR, AFS_DIR, MaxTracksPerTrPool]
             SHName = AFS_DIR + '/HTCondor/SH/SH_R5.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R5.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R5'
