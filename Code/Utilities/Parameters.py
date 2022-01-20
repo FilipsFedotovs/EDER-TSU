@@ -42,9 +42,10 @@ MaxY=500.0
 MaxZ=20000.0
 Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
 CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
-#Model Architecture v1
-ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
-
+#Post Model Architecture v0
+#ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
+#Post Model Architecture v1
+ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 # ModelArchitecture=\
 #     [[4, 4, 1, 2, 2, 2, 2], #Layer 1
 #         [5, 4, 1, 1, 2, 2, 2], #Layer 2

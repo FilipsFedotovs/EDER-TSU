@@ -97,7 +97,7 @@ if Mode=='R':
 
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3','M3_VALIDATION','M3_TRAIN'], "SoftUsed == \"EDER-TSU-M3\"")
+      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3','M3_M4'], "SoftUsed == \"EDER-TSU-M3\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
