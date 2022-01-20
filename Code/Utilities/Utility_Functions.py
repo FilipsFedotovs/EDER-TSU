@@ -113,8 +113,12 @@ class Track:
                           print('---------------------------------------------------------------')
                           print('---------------------------------------------------------------')
                           print(self.SegmentHeader,self.Track_CNN_Fit,self.Segmentation)
+                          if hasattr(self,'TR_CNN_Fit'):
+                              print(self.TR_CNN_Fit)
                           print('------')
                           print(OtherTrack.SegmentHeader,OtherTrack.Track_CNN_Fit,OtherTrack.Segmentation)
+                          if hasattr(OtherTrack,'TR_CNN_Fit'):
+                              print(OtherTrack.TR_CNN_Fit)
                           if ((__OtherMinZ>__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<__MaxZ)):
                                   if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
                                     if EngageTrigger==False:
@@ -169,7 +173,6 @@ class Track:
 
                                  self.Segmentation=len(self.SegmentHeader)
                                  self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                                 print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_Fit,self.Track_CNN_Fit,self.Segmentation)
                             InjectionTrigger=True
 
               return InjectionTrigger
