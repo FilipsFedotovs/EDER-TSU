@@ -152,7 +152,6 @@ class Track:
                                            # self.TR_CNN_Fit=[self.Track_CNN_Fit]
                                           #  self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
                                       else:
-                                            print(t1,t2,ReqPos)
                                             print(self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
                                             self.TR_CNN_Fit=[]
                                             self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
