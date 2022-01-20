@@ -120,6 +120,7 @@ class Track:
                           if hasattr(OtherTrack,'TR_CNN_Fit'):
                                print(OtherTrack.TR_CNN_Fit)
                           if self.SegmentHeader[0]=='3-404622' or self.SegmentHeader[1]=='3-404622' or OtherTrack.SegmentHeader[0]=='3-404622' or OtherTrack.SegmentHeader[1]=='3-404622':
+                              print(__OtherMinZ,__OtherMaxZ,__MinZ,__MaxZ)
                               input("Press Enter to continue...")
                           if ((__OtherMinZ>__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<__MaxZ)):
                                   if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
