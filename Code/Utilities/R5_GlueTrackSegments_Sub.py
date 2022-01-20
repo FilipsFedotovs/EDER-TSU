@@ -48,7 +48,7 @@ data_file.close()
 print(UF.TimeStamp(), bcolors.OKGREEN+"Loading is successful, there are total of "+str(len(base_data))+" glued tracks..."+bcolors.ENDC)
 base_data=base_data[(Set*MaxPoolTracks):min(((Set+1)*MaxPoolTracks),len(base_data))]
 print(UF.TimeStamp(), bcolors.OKGREEN+"Out of these only "+str(len(base_data))+" fit seeds will be considered here..."+bcolors.ENDC)
-output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R5_R5_Temp_Glued_Tracks_'+str(Set)+'.pkl'
+output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R5_R5_Temp_Glued_Segments_'+str(Set)+'.pkl'
 print(UF.TimeStamp(), "Initiating the  track merging...")
 InitialDataLength=len(base_data)
 TrackCounter=0
