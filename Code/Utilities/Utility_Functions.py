@@ -122,7 +122,7 @@ class Track:
                           if self.SegmentHeader[0]=='4-201507' or self.SegmentHeader[1]=='4-201507' or OtherTrack.SegmentHeader[0]=='4-201507' or OtherTrack.SegmentHeader[1]=='4-201507':
                               print(__OtherMinZ,__OtherMaxZ,__MinZ,__MaxZ)
                               input("Press Enter to continue...")
-                          if ((__OtherMinZ>__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<=__MaxZ)):
+                          if ((__OtherMinZ>=__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<=__MaxZ)):
                                   if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
                                     if EngageTrigger==False:
                                       self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
