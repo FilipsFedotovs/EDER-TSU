@@ -108,14 +108,12 @@ class Track:
                           __OtherMaxZ=OtherTrack.SegmentHits[t2][len(OtherTrack.SegmentHits[t2])-1][2]
                           __MinZ=self.SegmentHits[t1][0][2]
                           __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
-                          print(__OtherMinZ,__OtherMaxZ, __MinZ, __MaxZ)
+                          print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
                           if ((__OtherMinZ>__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<__MaxZ)):
-                                  if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit and EngageTrigger==False:
+                                  if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
                                       if EngageTrigger==False:
                                           self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
                                           self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
-                                      else:
-                                          exit()
                                       if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
                                         ReqPos=int(math.ceil((t2+1)/2))-1
                                         print(t1,t2,ReqPos)
@@ -130,7 +128,7 @@ class Track:
                                         self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
                                         self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
                                         print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit)
-                                        InjectionTrigger=True
+                                        input("Press Enter to continue...")
                                       elif hasattr(OtherTrack,'TR_CNN_Fit'):
                                           ReqPos=int(math.ceil((t2+1)/2))-1
                                           print(t1,t2,ReqPos)
@@ -143,7 +141,9 @@ class Track:
                                             self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
                                             self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
                                             print(self.SegmentHeader,self.SegmentHits,self.Track_CNN_Fit,self.Segmentation)
+                                            input("Press Enter to continue...")
                                       EngageTrigger=True
+                                      InjectionTrigger=True
                           else:
                             self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
                             if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
