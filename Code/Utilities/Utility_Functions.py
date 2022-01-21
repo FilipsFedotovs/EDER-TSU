@@ -146,7 +146,7 @@ class Track:
                                         self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
                                         print('---------------------------------------------------------------')
                                         print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                        input("Press Enter to continue...")
+                                        input(" 1 Press Enter to continue...")
                                       elif hasattr(OtherTrack,'TR_CNN_Fit'):
                                           ReqPos=int(math.ceil((t2+1)/2))-1
                                           # print(t1,t2,ReqPos)
