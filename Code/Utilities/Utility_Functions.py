@@ -108,20 +108,20 @@ class Track:
                           __OtherMaxZ=OtherTrack.SegmentHits[t2][len(OtherTrack.SegmentHits[t2])-1][2]
                           __MinZ=self.SegmentHits[t1][0][2]
                           __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
-                          # print('---------------------------------------------------------------')
-                          # print('---------------------------------------------------------------')
-                          # print('---------------------------------------------------------------')
-                          # print('---------------------------------------------------------------')
-                          # print(self.SegmentHeader,self.Track_CNN_Fit,self.Segmentation, self.SegmentHits)
-                          # if hasattr(self,'TR_CNN_Fit'):
-                          #      print(self.TR_CNN_Fit)
-                          # print('------')
-                          # print(OtherTrack.SegmentHeader,OtherTrack.Track_CNN_Fit,OtherTrack.Segmentation, OtherTrack.SegmentHits)
-                          # if hasattr(OtherTrack,'TR_CNN_Fit'):
-                          #      print(OtherTrack.TR_CNN_Fit)
-                          # if self.SegmentHeader[0]=='4-290390' or self.SegmentHeader[1]=='4-290390' or OtherTrack.SegmentHeader[0]=='4-290390' or OtherTrack.SegmentHeader[1]=='4-290390':
-                          #     print(__OtherMinZ,__OtherMaxZ,__MinZ,__MaxZ)
-                          #     #input("Press Enter to continue...")
+                          print('---------------------------------------------------------------')
+                          print('---------------------------------------------------------------')
+                          print('---------------------------------------------------------------')
+                          print('---------------------------------------------------------------')
+                          print(self.SegmentHeader,self.Track_CNN_Fit,self.Segmentation, self.SegmentHits)
+                          if hasattr(self,'TR_CNN_Fit'):
+                                print(self.TR_CNN_Fit)
+                          print('------')
+                          print(OtherTrack.SegmentHeader,OtherTrack.Track_CNN_Fit,OtherTrack.Segmentation, OtherTrack.SegmentHits)
+                          if hasattr(OtherTrack,'TR_CNN_Fit'):
+                                print(OtherTrack.TR_CNN_Fit)
+                          if self.SegmentHeader[0]=='4-162584' or self.SegmentHeader[1]=='4-162584' or OtherTrack.SegmentHeader[0]=='4-162584' or OtherTrack.SegmentHeader[1]=='4-162584':
+                              print(__OtherMinZ,__OtherMaxZ,__MinZ,__MaxZ)
+                               #input("Press Enter to continue...")
                           if ((__OtherMinZ>=__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<=__MaxZ) or (__MinZ>=__OtherMinZ and __MinZ<__OtherMaxZ) or (__MaxZ>__OtherMinZ and __MaxZ<=__OtherMaxZ)):
                                   if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
                                     if EngageTrigger==False:
@@ -142,9 +142,9 @@ class Track:
                                         self.TR_CNN_Fit.pop(ReqPos)
                                         self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
                                         self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                                        # print('---------------------------------------------------------------')
-                                        # print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                        # input("Press Enter to continue...")
+                                        print('---------------------------------------------------------------')
+                                        print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
+                                        input("Press Enter to continue...")
                                       elif hasattr(OtherTrack,'TR_CNN_Fit'):
                                           ReqPos=int(math.ceil((t2+1)/2))-1
                                           # print(t1,t2,ReqPos)
@@ -159,9 +159,9 @@ class Track:
                                             self.TR_CNN_Fit=[]
                                             self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
                                             self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                                            # print('---------------------------------------------------------------')
-                                            # print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                          #  input("NC:Press Enter to continue...")
+                                            print('---------------------------------------------------------------')
+                                            print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
+                                            input("NC:Press Enter to continue...")
                                       EngageTrigger=True
                                       InjectionTrigger=True
                                     elif EngageTrigger:
