@@ -138,9 +138,9 @@ class Track:
                                         exit()
                                         #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
                                       elif hasattr(self,'TR_CNN_Fit'):
-                                        ReqPos=int(math.ceil((t2+1)/2))-1
-                                        # print(t1,t2,ReqPos)
-                                        # print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
+                                        ReqPos=int(math.ceil((t1+1)/2))-1
+                                        print(t1,t2,ReqPos)
+                                        print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
                                         self.TR_CNN_Fit.pop(ReqPos)
                                         self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
                                         self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
