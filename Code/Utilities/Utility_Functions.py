@@ -79,6 +79,7 @@ class Track:
 
       def CNNFitTrack(self,Prediction):
           self.Track_CNN_Fit=Prediction
+          self.TR_CNN_FIT=[Prediction]
 
       def AssignCNNVxId(self,ID):
           self.VX_CNN_ID=ID

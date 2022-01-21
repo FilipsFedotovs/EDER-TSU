@@ -51,7 +51,7 @@ acceptance=PM.acceptance
 MaxX=PM.MaxX
 MaxY=PM.MaxY
 MaxZ=PM.MaxZ
-ModelName=PM.CNN_Model_Name
+ModelName=PM.Pre_CNN_Model_Name
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 MaxTracksPerJob = PM.MaxTracksPerJob
