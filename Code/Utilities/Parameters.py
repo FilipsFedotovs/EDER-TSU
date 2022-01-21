@@ -42,12 +42,14 @@ MaxY=500.0
 MaxZ=20000.0
 Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
 CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
-#Post Model Architecture v0
+#Post Model Architecture 1e_1e
 #ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
-#Post Model Architecture v1
+#Post Model Architecture 1c_1e
 #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
-#Post Model Architecture v2
-ModelArchitecture=[[6, 4, 1, 1, 2, 2, 2], [5, 4, 2, 2, 2, 2, 2], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
+#Post Model Architecture 2c_1e
+#ModelArchitecture=[[6, 4, 1, 1, 2, 2, 2], [5, 4, 2, 2, 2, 2, 2], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
+#Post Model Architecture 3c_1e
+ModelArchitecture=[[6, 4, 1, 1, 2, 2, 2], [5, 4, 1, 1, 2, 2, 2], [4, 4, 2, 2, 2, 2, 2],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 # ModelArchitecture=\
 #     [[4, 4, 1, 2, 2, 2, 2], #Layer 1
 #         [5, 4, 1, 1, 2, 2, 2], #Layer 2
