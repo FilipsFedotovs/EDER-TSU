@@ -99,6 +99,8 @@ class Track:
                        overlap_matrix.append(t2)
                        self_overlap_matrix.append(t1)
               InjectionTrigger=False
+              print(overlap_matrix)
+              print(self_overlap_matrix)
               for t2 in range(len(OtherTrack.SegmentHeader)):
                 EngageTrigger=False
                 if (t2 in overlap_matrix)==False:
