@@ -129,6 +129,7 @@ if args.Mode=='C':
             exit()
     else:
         print(UF.TimeStamp(), bcolors.OKGREEN + 'All HTCondor Seed Creation jobs have finished' + bcolors.ENDC)
+        exit()
         print(UF.TimeStamp(), 'Collating the results...')
         VertexPool=[]
         for i in range(no_iter):
