@@ -182,7 +182,7 @@ if args.Mode=='C':
                      print(UF.TimeStamp(),'progress is ',progress,' %', end="\r", flush=True) #Progress display
                      SubjectSeed=VertexPool[SeedCounter]
                      for ObjectSeed in VertexPool[SeedCounter+1:]:
-                                 if SubjectSeed.InjectSeed(ObjectSeed):
+                                 if SubjectSeed.InjectTrack(ObjectSeed):
                                              VertexPool.pop(VertexPool.index(ObjectSeed))
                      SeedCounter+=1
                  print(str(InitialDataLength), "vertices from different files were merged into", str(len(VertexPool)), 'vertices with higher multiplicity...')
