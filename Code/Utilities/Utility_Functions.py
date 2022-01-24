@@ -85,7 +85,7 @@ class Track:
           self.VX_CNN_ID=ID
 
       def InjectTrack(self,OtherTrack):
-          self_matx=DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
+          self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
           print(self_matx[0][0],self_matx[0][1])
           print(self_matx[1][0],self_matx[1][1])
           if Overlap(self_matx)==False:
