@@ -106,7 +106,7 @@ class Track:
           self.SegmentHits=Track.ProjectVectorElements([remain_1_s],self.SegmentHits)
           OtherTrack.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_o],OtherTrack.TR_CNN_FIT)
           self.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_s],self.TR_CNN_FIT)
-          if (len(o_h))==0:
+          if (len(OtherTrack.SegmentHeader))==0:
               self.SegmentHeader+=new_seed_header
               self.SegmentHits+=new_self_hits
               self.TR_CNN_FIT+=new_self_fit
