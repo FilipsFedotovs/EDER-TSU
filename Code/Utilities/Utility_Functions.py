@@ -91,7 +91,7 @@ class Track:
           print(OtherTrack.SegmentHeader, self.SegmentHeader)
           print(self_matx[0][0],self_matx[0][1])
           print(self_matx[1][0],self_matx[1][1])
-          new_seed_header=Track.ProjectVectorElements(f_matx,f)
+          new_seed_header=Track.ProjectVectorElements(self_matx,f)
 
           print('New stage 1 seed header',new_seed_header)
           new_self_hits=Track.ProjectVectorElements(self_matx,self.SegmentHits)
