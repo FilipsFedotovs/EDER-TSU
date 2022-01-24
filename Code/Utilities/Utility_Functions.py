@@ -124,7 +124,7 @@ class Track:
 
           last_s_seed_header=Track.ProjectVectorElements(self_2_matx,self.SegmentHeader)
           last_o_seed_header=Track.ProjectVectorElements(other_2_matx,OtherTrack.SegmentHeader)
-          print(last_s_seed_header,last_0_seed_header)
+          print(last_s_seed_header,last_o_seed_header)
           remain_2_s = Track.GenerateInverseVector(self.SegmentHeader,last_s_seed_header)
           remain_2_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,last_o_seed_header)
           print(self.SegmentHeader,remain_2_s)
