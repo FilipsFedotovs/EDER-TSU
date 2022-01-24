@@ -88,9 +88,9 @@ class Track:
           self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
           print(self_matx[0][0],self_matx[0][1])
           print(self_matx[1][0],self_matx[1][1])
-          if Overlap(self_matx)==False:
-              print(Overlap(self_matx))
-              return Overlap(self_matx)
+          if Track.Overlap(self_matx)==False:
+              print(Track.Overlap(self_matx))
+              return Track.Overlap(self_matx)
           exit()
 
       def MCtruthClassifyTrack(self,label):
