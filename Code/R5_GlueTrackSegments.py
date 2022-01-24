@@ -187,9 +187,16 @@ if args.Mode=='C':
                      SeedCounter+=1
                  print(str(InitialDataLength), "vertices from different files were merged into", str(len(VertexPool)), 'vertices with higher multiplicity...')
                  for v in range(0,len(VertexPool)):
-                     VertexPool[v].AssignCNNVxId(v)
+                     VertexPool[v].AssignCNNTrId(v)
                  output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R5_GLUED_TRACKS.pkl'
+                 output_csv_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R5_GLUED_TRACKS.csv'
+                 csv_out=[['Old_Track_ID','New_Track_Quarter','New_Track_ID']]
+                 for Tr in VertexPool:
+                     for TH in Tr.SegmentHeader:
+                         csv_out.append([TH,'TSU',TR_CNN_ID])
                  print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
+                 print(UF.TimeStamp(), "Saving the results into the file",bcolors.OKBLUE+output_csv_location+bcolors.ENDC)
+                 UF.LogOperations(output_csv_location,'StartLog', csv_out)
                  print(UF.TimeStamp(), "Saving the results into the file",bcolors.OKBLUE+output_file_location+bcolors.ENDC)
                  open_file = open(output_file_location, "wb")
                  pickle.dump(VertexPool, open_file)
