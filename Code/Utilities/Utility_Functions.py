@@ -91,7 +91,13 @@ class Track:
           print(OtherTrack.SegmentHeader, self.SegmentHeader)
           print(self_matx[0][0],self_matx[0][1])
           print(self_matx[1][0],self_matx[1][1])
-          
+          new_seed_header=ProjectVectorElements(f_matx,f)
+
+          print('New stage 1 seed header',new_seed_header)
+          new_self_hits=ProjectVectorElements(self_matx,self.SegmentHits)
+          print('New stage 1 hits',new_self_hits)
+          new_self_fit=ProjectVectorElements(self_matx,self.TR_CNN_FIT)
+          print('New stage 1 fits',new_self_fit)
           exit()
 
       def MCtruthClassifyTrack(self,label):
@@ -565,7 +571,7 @@ class Track:
                  raise Exception("Number of elements in vectors don't match")
             element=0
             for i in range(len(a)):
-                element+=Product(a[i],b[i])
+                element+=Track.Product(a[i],b[i])
             return(element)
 
 
@@ -604,9 +610,9 @@ class Track:
                       res_vector=[]
                       for j in m:
                           for i in range(len(j)):
-                              if (Product(j[i],v[i]))==1:
+                              if (Track.Product(j[i],v[i]))==1:
                                   res_vector.append(v[i])
-                              elif (Product(j[i],v[i]))==v[i]:
+                              elif (Track.Product(j[i],v[i]))==v[i]:
                                   res_vector.append(v[i])
                       return(res_vector)
 
