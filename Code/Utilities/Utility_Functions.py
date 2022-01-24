@@ -610,6 +610,7 @@ class Track:
                       res_vector=[]
                       for j in m:
                           for i in range(len(j)):
+                              print(j[i],v[i],Track.Product(j[i],v[i]))
                               if (Track.Product(j[i],v[i]))==1:
                                   res_vector.append(v[i])
                               elif (Track.Product(j[i],v[i]))==v[i]:
