@@ -98,6 +98,24 @@ class Track:
           print('New stage 1 hits',new_self_hits)
           new_self_fit=Track.ProjectVectorElements(self_matx,self.TR_CNN_FIT)
           print('New stage 1 fits',new_self_fit)
+          remain_1_s = GenerateInverseVector(self.SegmentHeader,new_seed_header)
+          remain_1_o = GenerateInverseVector(OtherTrack.SegmentHeader,new_seed_header)
+          OtherTrack.SegmentHeader=ProjectVectorElements([remain_1_o],OtherTrack.SegmentHeader)
+          self.SegmentHeader=ProjectVectorElements([remain_1_s],self.SegmentHeader)
+          OtherTrack.SegmentHits=Track.ProjectVectorElements([remain_1_o],OtherTrack.SegmentHits)
+          self.SegmentHits=Track.ProjectVectorElements([remain_1_s],self.SegmentHits)
+          OtherTrack.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_o],OtherTrack.TR_CNN_FIT)
+          self.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_s],self.TR_CNN_FIT)
+          if (len(o_h))==0:
+              self.SegmentHeader+=new_seed_header
+              self.SegmentHits+=new_self_hits
+              self.TR_CNN_FIT+=new_self_fit
+              self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
+              self.Segmentation=len(self.SegmentHeader)
+              return True
+          print('Remaining stage 1 seed header',OtherTrack.SegmentHeader,self.SegmentHeader)
+          print('Remaining stage 1 hits',OtherTrack.SegmentHits,self.SegmentHits)
+          print('Remaining stage 1 fits',OtherTrack.TR_CNN_FIT,self.TR_CNN_FIT)
           exit()
 
       def MCtruthClassifyTrack(self,label):
@@ -479,8 +497,6 @@ class Track:
             return pA,pB,np.linalg.norm(pA-pB)
 
       def Product(a,b):
-         print(type(a) is np.float32)
-         print(type(b) is np.float32)
          if type(a) is str:
              if type(b) is str:
                  return(int(a==b))
