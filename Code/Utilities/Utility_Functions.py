@@ -110,7 +110,7 @@ class Track:
               self.SegmentHeader+=new_seed_header
               self.SegmentHits+=new_self_hits
               self.TR_CNN_FIT+=new_self_fit
-              self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
+              self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
               print('Exit 1')
               print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
@@ -155,7 +155,7 @@ class Track:
               self.SegmentHeader=new_seed_header
               self.SegmentHits=new_self_hits
               self.TR_CNN_FIT=new_self_fit
-              self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
+              self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
               print('Exit 2')
               print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
@@ -173,7 +173,7 @@ class Track:
           self.SegmentHeader=new_seed_header
           self.SegmentHits=new_self_hits
           self.TR_CNN_FIT=new_self_fit
-          self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
+          self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
           self.Segmentation=len(self.SegmentHeader)
           print('Exit 3')
           print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
