@@ -85,150 +85,19 @@ class Track:
           self.VX_CNN_ID=ID
 
       def InjectTrack(self,OtherTrack):
-          __overlap=False
-          for t1 in self.SegmentHeader:
-              for t2 in OtherTrack.SegmentHeader:
-                  if t1==t2:
-                      __overlap=True
-                      break
-          if __overlap:
-              overlap_matrix=[]
-              self_overlap_matrix=[]
-              for t1 in range(len(self.SegmentHeader)):
-                 for t2 in range(len(OtherTrack.SegmentHeader)):
-                    if self.SegmentHeader[t1]==OtherTrack.SegmentHeader[t2]:
-                       overlap_matrix.append(t2)
-                       self_overlap_matrix.append(t1)
-              InjectionTrigger=False
-              print(overlap_matrix)
-              print(self_overlap_matrix)
-              for t2 in range(len(OtherTrack.SegmentHeader)):
-                EngageTrigger=False
-                if (t2 in overlap_matrix)==False:
-                  for t1 in range(len(OtherTrack.SegmentHeader)):
-                      if (t1 in self_overlap_matrix)==False:
-                          __OtherMinZ=OtherTrack.SegmentHits[t2][0][2]
-                          __OtherMaxZ=OtherTrack.SegmentHits[t2][len(OtherTrack.SegmentHits[t2])-1][2]
-                          __MinZ=self.SegmentHits[t1][0][2]
-                          __MaxZ=self.SegmentHits[t1][len(self.SegmentHits[t1])-1][2]
-                          print('---------------------------------------------------------------')
-                          print('---------------------------------------------------------------')
-                          print('---------------------------------------------------------------')
-                          print('---------------------------------------------------------------')
-                          print(self.SegmentHeader,self.Track_CNN_Fit,self.Segmentation, self.SegmentHits)
-                          if hasattr(self,'TR_CNN_Fit'):
-                                print(self.TR_CNN_Fit)
-                          print('------')
-                          print(OtherTrack.SegmentHeader,OtherTrack.Track_CNN_Fit,OtherTrack.Segmentation, OtherTrack.SegmentHits)
-                          if hasattr(OtherTrack,'TR_CNN_Fit'):
-                                print(OtherTrack.TR_CNN_Fit)
-                          if self.SegmentHeader[0]=='4-162584' or self.SegmentHeader[1]=='4-162584' or OtherTrack.SegmentHeader[0]=='4-162584' or OtherTrack.SegmentHeader[1]=='4-162584':
-                              print(__OtherMinZ,__OtherMaxZ,__MinZ,__MaxZ)
-                               #input("Press Enter to continue...")
-                          if ((__OtherMinZ>=__MinZ and __OtherMinZ<__MaxZ) or (__OtherMaxZ>__MinZ and __OtherMaxZ<=__MaxZ) or (__MinZ>=__OtherMinZ and __MinZ<__OtherMaxZ) or (__MaxZ>__OtherMinZ and __MaxZ<=__OtherMaxZ)):
-                                  if self.Track_CNN_Fit<OtherTrack.Track_CNN_Fit:
-                                    if EngageTrigger==False:
-                                      self.SegmentHeader[t1]=OtherTrack.SegmentHeader[t2]
-                                      self.SegmentHits[t1]=OtherTrack.SegmentHits[t2]
-                                      if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                                        ReqPos=int(math.ceil((t2+1)/2))-1
-                                        print(t1,t2,ReqPos)
-                                        print(self.TR_CNN_Fit,OtherTrack.TR_CNN_Fit)
-
-                                        raise Exception('spam', 'eggs')
-                                        exit()
-                                        #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-                                      elif hasattr(self,'TR_CNN_Fit'):
-                                        ReqPos=int(math.ceil((t1+1)/2))-1
-                                        print(t1,t2,ReqPos)
-                                        print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                        self.TR_CNN_Fit.pop(ReqPos)
-                                        self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
-                                        self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                                        print('---------------------------------------------------------------')
-                                        print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                        input(" 1 Press Enter to continue...")
-                                      elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                                          ReqPos=int(math.ceil((t2+1)/2))-1
-                                          # print(t1,t2,ReqPos)
-                                          # print(OtherTrack.TR_CNN_Fit,self.Track_CNN_Fit)
-
-                                          raise Exception('spam', 'eggs')
-                                          exit()
-                                           # self.TR_CNN_Fit=[self.Track_CNN_Fit]
-                                          #  self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-                                      else:
-                                            # print(self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                            self.TR_CNN_Fit=[]
-                                            self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-                                            self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                                            print('---------------------------------------------------------------')
-                                            print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                            input("NC:Press Enter to continue...")
-                                      EngageTrigger=True
-                                      InjectionTrigger=True
-                                    elif EngageTrigger:
-                                        print('Engage Trigger situation')
-
-                                        raise Exception('spam', 'eggs')
-                                        exit()
-                                        # if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                                        #     ReqPos=int(math.ceil((t2+1)/2))-1
-                                        #     print(t1,t2,ReqPos)
-                                        #     print(self.TR_CNN_Fit,OtherTrack.TR_CNN_Fit)
-                                        #     exit()
-                                        # #self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-                                        # elif hasattr(self,'TR_CNN_Fit'):
-                                        #     ReqPos=int(math.ceil((t2+1)/2))-1
-                                        #     print(t1,t2,ReqPos)
-                                        #     print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                        #     self.TR_CNN_Fit.pop(ReqPos)
-                                        #     self.TR_CNN_Fit.insert(ReqPos,OtherTrack.Track_CNN_Fit)
-                                        #     self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                                        #     print('---------------------------------------------------------------')
-                                        #     print(self.TR_CNN_Fit,self.Track_CNN_Fit,OtherTrack.Track_CNN_Fit,self.SegmentHeader)
-                                        #     input("Press Enter to continue...")
-                                        # elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                                        #       ReqPos=int(math.ceil((t2+1)/2))-1
-                                        #       print(t1,t2,ReqPos)
-                                        #       print(OtherTrack.TR_CNN_Fit,self.Track_CNN_Fit)
-                                        #       exit()
-                                        #    # self.TR_CNN_Fit=[self.Track_CNN_Fit]
-                                        #   #  self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-                                        # else:
-                                        #     self.TR_CNN_Fit=[]
-                                        #     self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-                                        #     self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                          else:
-                            self.SegmentHeader.append(OtherTrack.SegmentHeader[t2])
-                            if hasattr(self,'SegmentHits') and hasattr(OtherTrack,'SegmentHits'):
-                               self.SegmentHits.append(OtherTrack.SegmentHits[t2])
-                            if hasattr(self,'TR_CNN_Fit') and hasattr(OtherTrack,'TR_CNN_Fit'):
-                                 self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-                            elif hasattr(self,'TR_CNN_Fit'):
-                                 self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-                            elif hasattr(OtherTrack,'TR_CNN_Fit'):
-                                 self.TR_CNN_Fit=[self.Track_CNN_Fit]
-                                 self.TR_CNN_Fit+=OtherTrack.TR_CNN_Fit
-                            else:
-                                 self.TR_CNN_Fit=[]
-                                 self.TR_CNN_Fit.append(self.Track_CNN_Fit)
-                                 self.TR_CNN_Fit.append(OtherTrack.Track_CNN_Fit)
-
-                                 self.Segmentation=len(self.SegmentHeader)
-                                 self.Track_CNN_Fit=sum(self.TR_CNN_Fit)/len(self.TR_CNN_Fit)
-                            InjectionTrigger=True
-
-              return InjectionTrigger
-          else:
-              return __overlap
+          self_matx=DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
+          print(self_matx[0][0],self_matx[0][1])
+          print(self_matx[1][0],self_matx[1][1])
+          if Overlap(self_matx)==False:
+              print(Overlap(self_matx))
+              return Overlap(self_matx)
+          exit()
 
       def MCtruthClassifyTrack(self,label):
           self.MC_truth_label=label
 
       def PrepareTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
           __TempTrack=copy.deepcopy(self.SegmentHits)
-
           self.Resolution=Res
           self.bX=int(round(MaxX/self.Resolution,0))
           self.bY=int(round(MaxY/self.Resolution,0))
@@ -601,6 +470,153 @@ class Track:
 
 
             return pA,pB,np.linalg.norm(pA-pB)
+
+      def Product(a,b):
+         if type(a) is str:
+             if type(b) is str:
+                 return(int(a==b))
+             if type(b) is int:
+                 return(b)
+         if type(b) is str:
+             if type(a) is str:
+                 return(int(a==b))
+             if type(a) is int:
+                 return(a)
+         if type(a) is list:
+             if type(b) is list:
+                 a_temp=[]
+                 b_temp=[]
+                 for el in a:
+                     a_temp.append(el[2])
+                 for el in b:
+                     b_temp.append(el[2])
+                 min_a=min(a_temp)
+                 min_b=min(b_temp)
+                 max_a=max(a_temp)
+                 max_b=max(b_temp)
+                 if (min_b>=min_a) and (max_b<=max_a):
+                     return(1)
+                 elif (min_a>=min_b) and (max_a<=max_b):
+                     return(1)
+                 elif (max_a>min_b) and (max_a<max_b):
+                     return(1)
+                 elif (max_b>min_a) and (max_b<max_a):
+                     return(1)
+                 return(0)
+             elif b==1:
+                 return(a)
+             elif b==0:
+                 return(b)
+             else:
+                 raise Exception('Value incompatibility error')
+         if type(b) is list:
+             if type(a) is list:
+                 a_temp=[]
+                 b_temp=[]
+                 for el in a:
+                     a_temp.append(el[2])
+                 for el in b:
+                     b_temp.append(el[2])
+                 min_a=min(a_temp)
+                 min_b=min(b_temp)
+                 max_a=max(a_temp)
+                 max_b=max(b_temp)
+                 if (min_b>=min_a) and (max_b<=max_a):
+                     return(1)
+                 elif (min_a>=min_b) and (max_a<=max_b):
+                     return(1)
+                 elif (max_a>min_b) and (max_a<max_b):
+                     return(1)
+                 elif (max_b>min_a) and (max_b<max_a):
+                     return(1)
+                 return(0)
+             elif a==1:
+                 return(b)
+             elif a==0:
+                 return(a)
+             else:
+                 raise Exception('Value incompatibility error')
+         if type(b) is int and type(a) is int:
+             return(a*b)
+         elif type(b) is int and type(a) is float:
+             return(a*b)
+         elif type(a) is int and type(b) is float:
+             return(a*b)
+
+      def DensityMatrix(m,f):
+            matrix=[]
+            for j in m:
+                row=[]
+                for i in f:
+                    row.append(Product(j,i))
+                matrix.append(row)
+            return matrix
+
+      def Overlap(a):
+            overlap=0
+            for j in a:
+                for i in j:
+                    overlap+=i
+            return(overlap>0)
+
+      def DotProduct(a,b):
+            if len(b)!=len(a):
+                 raise Exception("Number of elements in vectors don't match")
+            element=0
+            for i in range(len(a)):
+                element+=Product(a[i],b[i])
+            return(element)
+
+
+      def ReplaceWeakerTracks(matx,m,f,m_fit,f_fit):
+                      res_vector=[]
+                      delete_vec=[]
+                      for j in range(len(m)):
+                          accumulative_fit_f=0
+                          accumulative_fit_m=m_fit[j]
+                          del_temp_vec=[]
+                          counter=0
+                          for i in range(len(matx[j])):
+                                  if matx[j][i]==1:
+                                      accumulative_fit_f+=f_fit[i]
+                                      del_temp_vec.append(f[i])
+                                      counter+=1
+                          print(accumulative_fit_m,accumulative_fit_f/counter)
+                          if (accumulative_fit_m>accumulative_fit_f/counter):
+                              res_vector.append(m[j])
+                              delete_vec+=del_temp_vec
+                          else:
+                              res_vector+=del_temp_vec
+                      final_vector=[]
+                      for mel in m:
+                          if (mel in res_vector):
+                             final_vector.append(mel)
+                      for fel in f:
+                          if (fel in delete_vec)==False:
+                             final_vector.append(fel)
+                      return(final_vector)
+
+      def ProjectVectorElements(m,v):
+                  if (len(m[0])!=len(v)):
+                      raise Exception('Number of vector columns is not equal to number of acting matrix rows')
+                  else:
+                      res_vector=[]
+                      for j in m:
+                          for i in range(len(j)):
+                              if (Product(j[i],v[i]))==1:
+                                  res_vector.append(v[i])
+                              elif (Product(j[i],v[i]))==v[i]:
+                                  res_vector.append(v[i])
+                      return(res_vector)
+
+      def GenerateInverseVector(ov,v):
+            inv_vector=[]
+            for el in ov:
+               if (el in v) == False:
+                   inv_vector.append(1)
+               elif (el in v):
+                   inv_vector.append(0)
+            return(inv_vector)
 
 def CleanFolder(folder,key):
     if key=='':
