@@ -142,12 +142,14 @@ class Track:
           new_self_hits+=Track.ProjectVectorElements([remain_2_s],self.SegmentHits)
           new_self_hits+=Track.ProjectVectorElements([remain_2_o],OtherTrack.SegmentHits)
           print('New stage 2 z-hits',new_self_hits)
+
+          last_remain_headers_s = Track.GenerateInverseVector(self.SegmentHeader,new_seed_header)
+          last_remain_headers_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,new_seed_header)
+          last_self_headers=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHeader)
+          last_other_headers=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.SegmentHeader)
+          print(last_self_headers,last_other_headers)
           exit()
-          last_remain_headers_f = GenerateInverseVector(f,new_seed_header)
-          last_remain_headers_m = GenerateInverseVector(m,new_seed_header)
-          last_f_headers=ProjectVectorElements([last_remain_headers_f],f)
-          last_m_headers=ProjectVectorElements([last_remain_headers_m],m)
-          last_f_hits=ProjectVectorElements([last_remain_headers_f],f_hits)
+          last_self_hits=ProjectVectorElements([last_remain_headers_f],f_hits)
           last_m_hits=ProjectVectorElements([last_remain_headers_m],m_hits)
           last_f_fits=ProjectVectorElements([last_remain_headers_f],f_fit)
           last_m_fits=ProjectVectorElements([last_remain_headers_m],m_fit)
@@ -156,7 +158,7 @@ class Track:
           print(last_remain_matr,last_m_fits,last_f_fits)
 
           print(last_f_headers,last_m_headers,last_m_fits,last_f_fits)
-
+          exit()
           print('here',ReplaceWeakerTracks(last_remain_matr,last_m_hits,last_f_hits,last_m_fits,last_f_fits))
           new_f_fit+=ReplaceWeakerTracks(last_remain_matr,last_m_fits,last_f_fits,last_m_fits,last_f_fits)
           print(new_f_fit)
