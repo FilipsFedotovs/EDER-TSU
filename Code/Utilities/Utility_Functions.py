@@ -547,9 +547,9 @@ class Track:
                  raise Exception('Value incompatibility error')
          if type(b) is int and type(a) is int:
              return(a*b)
-         elif type(b) is int and type(a) is float:
+         elif type(b) is int and ((type(a) is float) or (type(a) is np.float32)):
              return(a*b)
-         elif type(a) is int and type(b) is float:
+         elif type(a) is int and ((type(b) is float) or (type(b) is np.float32)):
              return(a*b)
 
       def DensityMatrix(m,f):
