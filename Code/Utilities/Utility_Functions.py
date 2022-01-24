@@ -88,16 +88,9 @@ class Track:
           self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
           if Track.Overlap(self_matx)==False:
               return Track.Overlap(self_matx)
-          print(OtherTrack.SegmentHeader, self.SegmentHeader)
-          print(self_matx[0][0],self_matx[0][1])
-          print(self_matx[1][0],self_matx[1][1])
           new_seed_header=Track.ProjectVectorElements(self_matx,self.SegmentHeader)
-          print(self.TR_CNN_FIT)
-          print('New stage 1 seed header',new_seed_header)
           new_self_hits=Track.ProjectVectorElements(self_matx,self.SegmentHits)
-          print('New stage 1 hits',new_self_hits)
           new_self_fit=Track.ProjectVectorElements(self_matx,self.TR_CNN_FIT)
-          print('New stage 1 fits',new_self_fit)
           remain_1_s = Track.GenerateInverseVector(self.SegmentHeader,new_seed_header)
           remain_1_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,new_seed_header)
           OtherTrack.SegmentHeader=Track.ProjectVectorElements([remain_1_o],OtherTrack.SegmentHeader)
@@ -112,54 +105,34 @@ class Track:
               self.TR_CNN_FIT+=new_self_fit
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
-              print('Exit 1')
-              print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
-              input('Press to continue')
               return True
-          print('Remaining stage 1 seed header',OtherTrack.SegmentHeader,self.SegmentHeader)
-          print('Remaining stage 1 hits',OtherTrack.SegmentHits,self.SegmentHits)
-          print('Remaining stage 1 fits',OtherTrack.TR_CNN_FIT,self.TR_CNN_FIT)
 
           self_2_matx=Track.DensityMatrix(OtherTrack.SegmentHits,self.SegmentHits)
           other_2_matx=Track.DensityMatrix(self.SegmentHits,OtherTrack.SegmentHits)
-          print(self.SegmentHits,OtherTrack.SegmentHits)
-          print(other_2_matx)
 
           last_s_seed_header=Track.ProjectVectorElements(self_2_matx,self.SegmentHeader)
           last_o_seed_header=Track.ProjectVectorElements(other_2_matx,OtherTrack.SegmentHeader)
-          print(last_s_seed_header,last_o_seed_header)
           remain_2_s = Track.GenerateInverseVector(self.SegmentHeader,last_s_seed_header)
           remain_2_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,last_o_seed_header)
-          print(self.SegmentHeader,remain_2_s)
-          print(OtherTrack.SegmentHeader,remain_2_o)
-          print(Track.ProjectVectorElements([remain_2_s],self.SegmentHeader))
 
           new_seed_header+=Track.ProjectVectorElements([remain_2_s],self.SegmentHeader)
           new_seed_header+=Track.ProjectVectorElements([remain_2_o],OtherTrack.SegmentHeader)
-          print('New stage 2 seed header',new_seed_header)
-          print(self.TR_CNN_FIT,remain_2_s)
-          print(OtherTrack.TR_CNN_FIT,remain_2_o)
           new_self_fit+=Track.ProjectVectorElements([remain_2_s],self.TR_CNN_FIT)
           new_self_fit+=Track.ProjectVectorElements([remain_2_o],OtherTrack.TR_CNN_FIT)
-          print('New stage 2 seed fits',new_self_fit)
           new_self_hits+=Track.ProjectVectorElements([remain_2_s],self.SegmentHits)
           new_self_hits+=Track.ProjectVectorElements([remain_2_o],OtherTrack.SegmentHits)
-          print('New stage 2 z-hits',new_self_hits)
+
 
           last_remain_headers_s = Track.GenerateInverseVector(self.SegmentHeader,new_seed_header)
           last_remain_headers_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,new_seed_header)
           last_self_headers=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHeader)
           last_other_headers=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.SegmentHeader)
-          print(last_self_headers,last_other_headers)
           if (len(last_other_headers))==0:
               self.SegmentHeader=new_seed_header
               self.SegmentHits=new_self_hits
               self.TR_CNN_FIT=new_self_fit
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
-              print('Exit 2')
-              print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
-              input('Press to continue')
               return True
 
           last_self_hits=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHits)
@@ -167,7 +140,6 @@ class Track:
           last_self_fits=Track.ProjectVectorElements([last_remain_headers_s],self.TR_CNN_FIT)
           last_other_fits=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.TR_CNN_FIT)
           last_remain_matr=Track.DensityMatrix(last_other_hits,last_self_hits)
-          print(new_self_fit,Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits))
 
           new_seed_header+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits)
           new_self_fit+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits)[0:len(Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits))]
@@ -177,10 +149,6 @@ class Track:
           self.TR_CNN_FIT=new_self_fit
           self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
           self.Segmentation=len(self.SegmentHeader)
-
-          print('Exit 3')
-          print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
-          input('Press to continue')
           return True
 
       def MCtruthClassifyTrack(self,label):
