@@ -112,6 +112,9 @@ class Track:
               self.TR_CNN_FIT+=new_self_fit
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
               self.Segmentation=len(self.SegmentHeader)
+              print('Exit 1')
+              print(self.SegmentHeader,,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
+              input('Press to continue')
               return True
           print('Remaining stage 1 seed header',OtherTrack.SegmentHeader,self.SegmentHeader)
           print('Remaining stage 1 hits',OtherTrack.SegmentHits,self.SegmentHits)
@@ -148,20 +151,34 @@ class Track:
           last_self_headers=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHeader)
           last_other_headers=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.SegmentHeader)
           print(last_self_headers,last_other_headers)
-          exit()
-          last_self_hits=ProjectVectorElements([last_remain_headers_f],f_hits)
-          last_m_hits=ProjectVectorElements([last_remain_headers_m],m_hits)
-          last_f_fits=ProjectVectorElements([last_remain_headers_f],f_fit)
-          last_m_fits=ProjectVectorElements([last_remain_headers_m],m_fit)
-          print(last_remain_headers_m,last_m_fits,last_remain_headers_f,last_f_fits)
-          last_remain_matr=DensityMatrix(last_m_hits,last_f_hits)
-          print(last_remain_matr,last_m_fits,last_f_fits)
+          if (len(last_other_headers))==0:
+              self.SegmentHeader=new_seed_header
+              self.SegmentHits=new_self_hits
+              self.TR_CNN_FIT=new_self_fit
+              self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
+              self.Segmentation=len(self.SegmentHeader)
+              print('Exit 2')
+              print(self.SegmentHeader,,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
+              input('Press to continue')
+              return True
 
-          print(last_f_headers,last_m_headers,last_m_fits,last_f_fits)
-          exit()
-          print('here',ReplaceWeakerTracks(last_remain_matr,last_m_hits,last_f_hits,last_m_fits,last_f_fits))
-          new_f_fit+=ReplaceWeakerTracks(last_remain_matr,last_m_fits,last_f_fits,last_m_fits,last_f_fits)
-          print(new_f_fit)
+          last_self_hits=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHits)
+          last_other_hits=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.SegmentHits)
+          last_self_fits=Track.ProjectVectorElements([last_remain_headers_s],self.TR_CNN_FIT)
+          last_other_fits=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.TR_CNN_FIT)
+          last_remain_matr=Track.DensityMatrix(last_other_hits,last_self_hits)
+          new_self_fit+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits)
+          new_seed_header+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits)
+          new_self_hits+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_hits,last_self_hits,last_other_fits,last_self_fits)
+          self.SegmentHeader=new_seed_header
+          self.SegmentHits=new_self_hits
+          self.TR_CNN_FIT=new_self_fit
+          self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
+          self.Segmentation=len(self.SegmentHeader)
+          print('Exit 3')
+          print(self.SegmentHeader,,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
+          input('Press to continue')
+          return True
 
       def MCtruthClassifyTrack(self,label):
           self.MC_truth_label=label
