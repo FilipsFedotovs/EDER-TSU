@@ -121,20 +121,20 @@ class Track:
           other_2_matx=Track.DensityMatrix(self.SegmentHits,OtherTrack.SegmentHits)
           print(self.SegmentHits,OtherTrack.SegmentHits)
           print(other_2_matx)
-          exit()
-          last_f_seed_header=ProjectVectorElements(f_2_matx,f)
-          last_m_seed_header=ProjectVectorElements(m_2_matx,m)
-          print(last_f_seed_header,last_m_seed_header)
-          remain_2_f = GenerateInverseVector(f,last_f_seed_header)
-          remain_2_m = GenerateInverseVector(m,last_m_seed_header)
-          print(f,remain_2_f)
-          print(m,remain_2_m)
-          print(ProjectVectorElements([remain_2_f],f))
 
-          new_seed_header+=ProjectVectorElements([remain_2_f],f)
-          new_seed_header+=ProjectVectorElements([remain_2_m],m)
+          last_s_seed_header=Track.ProjectVectorElements(self_2_matx,self.SegmentHeader)
+          last_o_seed_header=Track.ProjectVectorElements(other_2_matx,OtherTrack.SegmentHeader)
+          print(last_s_seed_header,last_0_seed_header)
+          remain_2_s = Track.GenerateInverseVector(self.SegmentHeader,last_s_seed_header)
+          remain_2_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,last_o_seed_header)
+          print(self.SegmentHeader,remain_2_s)
+          print(OtherTrack.SegmentHeader,remain_2_o)
+          print(Track.ProjectVectorElements([remain_2_s],self.SegmentHeader))
+
+          new_seed_header+=Track.ProjectVectorElements([remain_2_s],self.SegmentHeader)
+          new_seed_header+=Track.ProjectVectorElements([remain_2_o],OtherTrack.SegmentHeader)
           print('New stage 2 seed header',new_seed_header)
-
+          exit()
           print(f_fit,remain_2_f)
           print(m_fit,remain_2_m)
           new_f_fit+=ProjectVectorElements([remain_2_f],f_fit)
@@ -672,7 +672,6 @@ class Track:
                       res_vector=[]
                       for j in m:
                           for i in range(len(j)):
-                              print(j[i],v[i],Track.Product(j[i],v[i]))
                               if (Track.Product(j[i],v[i]))==1:
                                   res_vector.append(v[i])
                               elif (Track.Product(j[i],v[i]))==v[i]:
