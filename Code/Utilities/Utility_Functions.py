@@ -81,8 +81,8 @@ class Track:
           self.Track_CNN_Fit=Prediction
           self.TR_CNN_FIT=[Prediction,Prediction]
 
-      def AssignCNNVxId(self,ID):
-          self.VX_CNN_ID=ID
+      def AssignCNNTrId(self,ID):
+          self.TR_CNN_ID=ID
 
       def InjectTrack(self,OtherTrack):
           self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
