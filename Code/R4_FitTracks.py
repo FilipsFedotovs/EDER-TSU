@@ -24,6 +24,7 @@ class bcolors:   #We use it for the interface
 #Setting the parser - this script is usually not run directly, but is used by a Master version Counterpart that passes the required arguments
 parser = argparse.ArgumentParser(description='This script takes refined 2-track seed candidates from previous step and perfromes a fit by using pre-trained CNN model.')
 parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default='C')
+parser.add_argument('--ReFit',help="Running Mode: Reset(R)/Continue(C)", default='N')
 
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
@@ -47,7 +48,10 @@ import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################     Preset framework parameters    #########################################
 resolution=PM.resolution
-acceptance=PM.acceptance
+pre_acceptance=PM.pre_acceptance
+if args.ReFit=='Y':
+   post_acceptance=PM.post_acceptance
+   PostModelName=PM.Post_CNN_Model_Name
 MaxX=PM.MaxX
 MaxY=PM.MaxY
 MaxZ=PM.MaxZ
@@ -92,8 +96,12 @@ if Mode=='R':
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
              if os.path.isfile(new_output_file_location):
               f_counter=f
-            OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --ModelName "]
-            OptionLine = [(j), '$1', EOS_DIR, AFS_DIR, resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
+            if args.ReFit=='N':
+                OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName ", " --PostModelName "," --post_acceptance "]
+                OptionLine = [(j), '$1', EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,'','']
+            else:
+                OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName "," --PostModelName "," --post_acceptance "]
+                OptionLine = [(j), '$1', EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,PostModelName,post_acceptance]
             SHName = AFS_DIR + '/HTCondor/SH/SH_R4_' + str(j) + '.sh'
             SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R4_' + str(j) + '.sub'
             MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R4_' + str(j)
