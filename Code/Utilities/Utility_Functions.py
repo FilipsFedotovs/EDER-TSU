@@ -86,11 +86,12 @@ class Track:
 
       def InjectTrack(self,OtherTrack):
           self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
+          if Track.Overlap(self_matx)==False:
+              return Track.Overlap(self_matx)
+          print(OtherTrack.SegmentHeader, self.SegmentHeader)
           print(self_matx[0][0],self_matx[0][1])
           print(self_matx[1][0],self_matx[1][1])
-          if Track.Overlap(self_matx)==False:
-              print(Track.Overlap(self_matx))
-              return Track.Overlap(self_matx)
+          
           exit()
 
       def MCtruthClassifyTrack(self,label):
