@@ -26,17 +26,19 @@ parser.add_argument('--Fraction',help="Fraction", default='1')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
 parser.add_argument('--resolution',help="Resolution in microns per pixel", default='100')
-parser.add_argument('--acceptance',help="CNN fit minimum acceptance", default='0.5')
+parser.add_argument('--pre_acceptance',help="CNN prefit fit minimum acceptance", default='0.5')
+parser.add_argument('--post_acceptance',help="CNN post fit minimum acceptance", default='0.5')
 parser.add_argument('--MaxX',help="Image size in microns along the x-axis", default='2000.0')
 parser.add_argument('--MaxY',help="Image size in microns along the y-axis", default='500.0')
 parser.add_argument('--MaxZ',help="Image size in microns along the z-axis", default='20000.0')
-parser.add_argument('--ModelName',help="Name of the CNN model", default='1T_50_SHIP_1a_model')
+parser.add_argument('--PreModelName',help="Name of the CNN model", default='1T_50_SHIP_PREFIT_1_model')
+parser.add_argument('--PostModelName',help="Name of the CNN model", default='1T_50_SHIP_POSTFIT_1_model')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
 fraction=str(int(args.Fraction))
 resolution=float(args.resolution)
-acceptance=float(args.acceptance)
+acceptance=float(args.pre_acceptance)
 #Maximum bounds on the image size in microns
 MaxX=float(args.MaxX)
 MaxY=float(args.MaxY)
@@ -55,8 +57,12 @@ track_counter=0
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
 print(UF.TimeStamp(),'Loading the model...')
 #Load the model
-model_name=EOS_DIR+'/EDER-TSU/Models/'+args.ModelName
+model_name=EOS_DIR+'/EDER-TSU/Models/'+args.PreModelName
 model=tf.keras.models.load_model(model_name)
+if args.PostModelName!='':
+    model_name_2=EOS_DIR+'/EDER-TSU/Models/'+args.PostModelName
+    model2=tf.keras.models.load_model(model_name_2)
+    post_acceptance=float(args.post_acceptance)
 #union tracks
 GoodTracks=[]
 print(UF.TimeStamp(),'Beginning the union part...')
@@ -66,7 +72,11 @@ for s in range(0,limit):
     TrackImage=UF.LoadRenderImages([track],1,1)[0]
     track.UnloadTrackPrint()
     track.CNNFitTrack(model.predict(TrackImage)[0][1])
-    if track.Track_CNN_Fit>=acceptance:
+    if (track.Track_CNN_Fit>=acceptance) and args.PostModelName=='':
+              GoodTracks.append(track)
+    elif (track.Track_CNN_Fit>=acceptance) and args.PostModelName!='':
+         track.CNNFitTrack(model2.predict(TrackImage)[0][1])
+         if track.Track_CNN_Fit>=post_acceptance:
               GoodTracks.append(track)
     else:
               continue

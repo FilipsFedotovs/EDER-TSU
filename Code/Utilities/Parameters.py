@@ -34,14 +34,14 @@ MaxAngle=1 #Seed Opening Angle (Magnitude) in radians
 
 ##Model parameters
 pre_acceptance=0.5
-acceptance=0.5
+post_acceptance=0.5
 #pre_vx_acceptance=0.662
 resolution=50
 MaxX=2000.0
 MaxY=500.0
 MaxZ=20000.0
 Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
-CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
+Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
 #Post Model Architecture 1e_1e
 #ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 #Post Model Architecture 1c_1e
