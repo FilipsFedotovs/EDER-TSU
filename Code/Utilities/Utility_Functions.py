@@ -113,7 +113,7 @@ class Track:
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
               self.Segmentation=len(self.SegmentHeader)
               print('Exit 1')
-              print(self.SegmentHeader,,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
+              print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
               input('Press to continue')
               return True
           print('Remaining stage 1 seed header',OtherTrack.SegmentHeader,self.SegmentHeader)
@@ -158,7 +158,7 @@ class Track:
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
               self.Segmentation=len(self.SegmentHeader)
               print('Exit 2')
-              print(self.SegmentHeader,,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
+              print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
               input('Press to continue')
               return True
 
@@ -176,7 +176,7 @@ class Track:
           self.Track_CNN_Fit=sum(self.TR_CNN_FIT/len(self.TR_CNN_FIT))
           self.Segmentation=len(self.SegmentHeader)
           print('Exit 3')
-          print(self.SegmentHeader,,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
+          print(self.SegmentHeader,self.SegmentHits,self.TR_CNN_FIT,self.Track_CNN_Fit,self.Segmentation)
           input('Press to continue')
           return True
 
