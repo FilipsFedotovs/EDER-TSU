@@ -115,9 +115,12 @@ if Mode=='C':
            for f in range(0,1000):
               new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_R4_CNN_Fit_Tracks_'+str(j)+'_'+str(f)+'.pkl'
-              OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --acceptance ",
-                              " --MaxX ", " --MaxY ", " --MaxZ ", " --ModelName "]
-              OptionLine = [(j), f, EOS_DIR, AFS_DIR, resolution, acceptance, MaxX, MaxY, MaxZ, ModelName]
+              if args.ReFit=='N':
+                OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName ", " --PostModelName "," --post_acceptance "]
+                OptionLine = [(j), f, EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,'','']
+              else:
+                OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName "," --PostModelName "," --post_acceptance "]
+                OptionLine = [(j), f, EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,PostModelName,post_acceptance]
               SHName = AFS_DIR + '/HTCondor/SH/SH_R4_' + str(j) + '_'+str(f)+'.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R4_' + str(j) +'_'+str(f)+'.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R4_' + str(j) +'_'+str(f)
