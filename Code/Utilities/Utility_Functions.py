@@ -479,7 +479,8 @@ class Track:
             return pA,pB,np.linalg.norm(pA-pB)
 
       def Product(a,b):
-         print(type(a),type(b))
+         print(type(a) is float32)
+         print(type(b) is float32)
          if type(a) is str:
              if type(b) is str:
                  return(int(a==b))
