@@ -86,8 +86,10 @@ class Track:
 
       def InjectTrack(self,OtherTrack):
           self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
-          self.TR_CNN_FIT.insert(0,self.TR_CNN_FIT[0])
-          OtherTrack.TR_CNN_FIT.insert(0,OtherTrack.TR_CNN_FIT[0])
+          SE=self.TR_CNN_FIT[0]
+          OE=OtherTrack.TR_CNN_FIT[0]
+          self.TR_CNN_FIT.insert(0,SE)
+          OtherTrack.TR_CNN_FIT.insert(0,OE)
           print(self.TR_CNN_FIT)
           print(OtherTrack.TR_CNN_FIT)
           if Track.Overlap(self_matx)==False:
