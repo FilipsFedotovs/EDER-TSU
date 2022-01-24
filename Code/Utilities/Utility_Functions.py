@@ -116,7 +116,51 @@ class Track:
           print('Remaining stage 1 seed header',OtherTrack.SegmentHeader,self.SegmentHeader)
           print('Remaining stage 1 hits',OtherTrack.SegmentHits,self.SegmentHits)
           print('Remaining stage 1 fits',OtherTrack.TR_CNN_FIT,self.TR_CNN_FIT)
+
+          self_2_matx=Track.DensityMatrix(OtherTrack.SegmentHits,self.SegmentHits)
+          other_2_matx=Track.DensityMatrix(self.SegmentHits,OtherTrack.SegmentHits)
+          print(self.SegmentHits,OtherTrack.SegmentHits)
+          print(other_2_matx)
           exit()
+          last_f_seed_header=ProjectVectorElements(f_2_matx,f)
+          last_m_seed_header=ProjectVectorElements(m_2_matx,m)
+          print(last_f_seed_header,last_m_seed_header)
+          remain_2_f = GenerateInverseVector(f,last_f_seed_header)
+          remain_2_m = GenerateInverseVector(m,last_m_seed_header)
+          print(f,remain_2_f)
+          print(m,remain_2_m)
+          print(ProjectVectorElements([remain_2_f],f))
+
+          new_seed_header+=ProjectVectorElements([remain_2_f],f)
+          new_seed_header+=ProjectVectorElements([remain_2_m],m)
+          print('New stage 2 seed header',new_seed_header)
+
+          print(f_fit,remain_2_f)
+          print(m_fit,remain_2_m)
+          new_f_fit+=ProjectVectorElements([remain_2_f],f_fit)
+          new_f_fit+=ProjectVectorElements([remain_2_m],m_fit)
+          print('New stage 2 seed fits',new_f_fit)
+          new_f_hits+=ProjectVectorElements([remain_2_f],f_hits)
+          new_f_hits+=ProjectVectorElements([remain_2_m],m_hits)
+          print('New stage 2 z-hits',new_f_hits)
+
+          last_remain_headers_f = GenerateInverseVector(f,new_seed_header)
+          last_remain_headers_m = GenerateInverseVector(m,new_seed_header)
+          last_f_headers=ProjectVectorElements([last_remain_headers_f],f)
+          last_m_headers=ProjectVectorElements([last_remain_headers_m],m)
+          last_f_hits=ProjectVectorElements([last_remain_headers_f],f_hits)
+          last_m_hits=ProjectVectorElements([last_remain_headers_m],m_hits)
+          last_f_fits=ProjectVectorElements([last_remain_headers_f],f_fit)
+          last_m_fits=ProjectVectorElements([last_remain_headers_m],m_fit)
+          print(last_remain_headers_m,last_m_fits,last_remain_headers_f,last_f_fits)
+          last_remain_matr=DensityMatrix(last_m_hits,last_f_hits)
+          print(last_remain_matr,last_m_fits,last_f_fits)
+
+          print(last_f_headers,last_m_headers,last_m_fits,last_f_fits)
+
+          print('here',ReplaceWeakerTracks(last_remain_matr,last_m_hits,last_f_hits,last_m_fits,last_f_fits))
+          new_f_fit+=ReplaceWeakerTracks(last_remain_matr,last_m_fits,last_f_fits,last_m_fits,last_f_fits)
+          print(new_f_fit)
 
       def MCtruthClassifyTrack(self,label):
           self.MC_truth_label=label
