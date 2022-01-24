@@ -170,7 +170,7 @@ if args.Mode=='C':
             exit()
         if UserAnswer == 'F':
                  print(UF.TimeStamp(), 'Ok starting the final merging of the remained vertices')
-                 exit()
+
                  InitialDataLength=len(VertexPool)
                  SeedCounter=0
                  SeedCounterContinue=True
