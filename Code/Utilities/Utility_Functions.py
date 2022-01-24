@@ -92,6 +92,7 @@ class Track:
           OtherTrack.TR_CNN_FIT.insert(0,OE)
           print(self.TR_CNN_FIT)
           print(OtherTrack.TR_CNN_FIT)
+          exit()
           if Track.Overlap(self_matx)==False:
               return Track.Overlap(self_matx)
           print(OtherTrack.SegmentHeader, self.SegmentHeader)
