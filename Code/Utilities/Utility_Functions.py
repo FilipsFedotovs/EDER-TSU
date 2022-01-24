@@ -167,6 +167,7 @@ class Track:
           last_self_fits=Track.ProjectVectorElements([last_remain_headers_s],self.TR_CNN_FIT)
           last_other_fits=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.TR_CNN_FIT)
           last_remain_matr=Track.DensityMatrix(last_other_hits,last_self_hits)
+          print(new_self_fit,Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits))
           new_self_fit+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits)
           new_seed_header+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits)
           new_self_hits+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_hits,last_self_hits,last_other_fits,last_self_fits)
