@@ -79,20 +79,13 @@ class Track:
 
       def CNNFitTrack(self,Prediction):
           self.Track_CNN_Fit=Prediction
-          self.TR_CNN_FIT=[Prediction]
+          self.TR_CNN_FIT=[Prediction,Prediction]
 
       def AssignCNNVxId(self,ID):
           self.VX_CNN_ID=ID
 
       def InjectTrack(self,OtherTrack):
           self_matx=Track.DensityMatrix(OtherTrack.SegmentHeader,self.SegmentHeader)
-          SE=self.TR_CNN_FIT[0]
-          OE=OtherTrack.TR_CNN_FIT[0]
-          self.TR_CNN_FIT.insert(0,SE)
-          OtherTrack.TR_CNN_FIT.insert(0,OE)
-          print(self.TR_CNN_FIT)
-          print(OtherTrack.TR_CNN_FIT)
-          exit()
           if Track.Overlap(self_matx)==False:
               return Track.Overlap(self_matx)
           print(OtherTrack.SegmentHeader, self.SegmentHeader)
