@@ -548,7 +548,7 @@ class Track:
             for j in m:
                 row=[]
                 for i in f:
-                    row.append(Product(j,i))
+                    row.append(Track.Product(j,i))
                 matrix.append(row)
             return matrix
 
