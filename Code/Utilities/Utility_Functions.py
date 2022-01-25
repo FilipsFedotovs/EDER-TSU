@@ -99,6 +99,11 @@ class Track:
           self.SegmentHits=Track.ProjectVectorElements([remain_1_s],self.SegmentHits)
           OtherTrack.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_o],OtherTrack.TR_CNN_FIT)
           self.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_s],self.TR_CNN_FIT)
+          print('1',self.SegmentHeader,OtherTrack.SegmentHeader)
+          print('1',self.SegmentHits,OtherTrack.SegmentHits)
+          print('1',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
+          print('1',new_seed_header,new_self_hits,new_self_fit)
+          print('1',self_matx)
           if (len(OtherTrack.SegmentHeader))==0:
               self.SegmentHeader+=new_seed_header
               self.SegmentHits+=new_self_hits
@@ -109,7 +114,7 @@ class Track:
 
           self_2_matx=Track.DensityMatrix(OtherTrack.SegmentHits,self.SegmentHits)
           other_2_matx=Track.DensityMatrix(self.SegmentHits,OtherTrack.SegmentHits)
-
+          print('Test',self_2_matx,self_2_matx)
           last_s_seed_header=Track.ProjectVectorElements(self_2_matx,self.SegmentHeader)
           last_o_seed_header=Track.ProjectVectorElements(other_2_matx,OtherTrack.SegmentHeader)
           remain_2_s = Track.GenerateInverseVector(self.SegmentHeader,last_s_seed_header)
@@ -127,6 +132,12 @@ class Track:
           last_remain_headers_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,new_seed_header)
           last_self_headers=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHeader)
           last_other_headers=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.SegmentHeader)
+          print('2',self.SegmentHeader,OtherTrack.SegmentHeader)
+          print('2',self.SegmentHits,OtherTrack.SegmentHits)
+          print('2',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
+          print('2',new_seed_header,new_self_hits,new_self_fit)
+          print('2',self_2_matx)
+          print('2',last_self_headers,last_other_headers)
           if (len(last_other_headers))==0:
               self.SegmentHeader=new_seed_header
               self.SegmentHits=new_self_hits
