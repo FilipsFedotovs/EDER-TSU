@@ -105,13 +105,13 @@ FolderCreate(EOSsubTestDIR)
 #########################################   Workout out training and validation files #################################
 print(bcolors.BOLD+'Copying the models...'+bcolors.ENDC)
 #Copying the pretrained models to the user directory
-# ModelOrigin='/eos/experiment/ship/data/EDER-TSU/Models/'
-# src_files = os.listdir(ModelOrigin)
-# for file_name in src_files:
-#     full_file_name = os.path.join(ModelOrigin, file_name)
-#     if os.path.isfile(full_file_name) and (('model' in full_file_name)==True):
-#         print('Copying file', full_file_name, 'from ',bcolors.OKBLUE+ModelOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubModelDIR+bcolors.ENDC)
-#         shutil.copy(full_file_name, EOSsubModelDIR)
+ModelOrigin='/eos/experiment/ship/data/EDER-TSU/Models/'
+src_files = os.listdir(ModelOrigin)
+for file_name in src_files:
+     full_file_name = os.path.join(ModelOrigin, file_name)
+     if os.path.isfile(full_file_name) and (('model' in full_file_name)==True):
+         print('Copying file', full_file_name, 'from ',bcolors.OKBLUE+ModelOrigin+bcolors.ENDC,'into', bcolors.OKBLUE+EOSsubModelDIR+bcolors.ENDC)
+         shutil.copy(full_file_name, EOSsubModelDIR)
 
 print(bcolors.OKGREEN+'EDER-TSU setup is successfully completed' +bcolors.ENDC)
 exit()
