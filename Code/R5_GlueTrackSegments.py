@@ -184,10 +184,11 @@ if args.Mode=='C':
                      print(SubjectSeed.SegmentHeader)
                      print(SubjectSeed.SegmentHits)
                      print(SubjectSeed.TR_CNN_FIT)
-                     print(ObjectSeed.SegmentHeader)
-                     print(ObjectSeed.SegmentHits)
-                     print(ObjectSeed.TR_CNN_FIT)
+
                      for ObjectSeed in VertexPool[SeedCounter+1:]:
+                                 print(ObjectSeed.SegmentHeader)
+                                 print(ObjectSeed.SegmentHits)
+                                 print(ObjectSeed.TR_CNN_FIT)
                                  if SubjectSeed.InjectTrack(ObjectSeed):
                                              VertexPool.pop(VertexPool.index(ObjectSeed))
                      SeedCounter+=1
