@@ -189,7 +189,7 @@ if args.Mode=='C':
                                  print(ObjectSeed.TR_CNN_FIT)
                                  print(SubjectSeed.SegmentHeader)
                                  print(SubjectSeed.SegmentHits)
-                     print(SubjectSeed.TR_CNN_FIT)
+                                 print(SubjectSeed.TR_CNN_FIT)
                                  if SubjectSeed.InjectTrack(ObjectSeed):
                                              VertexPool.pop(VertexPool.index(ObjectSeed))
                      SeedCounter+=1
