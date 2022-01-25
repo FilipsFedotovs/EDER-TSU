@@ -181,6 +181,12 @@ if args.Mode=='C':
                      progress=round((float(SeedCounter)/float(len(VertexPool)))*100,0)
                      print(UF.TimeStamp(),'progress is ',progress,' %', end="\r", flush=True) #Progress display
                      SubjectSeed=VertexPool[SeedCounter]
+                     print(SubjectSeed.SegmentHeader)
+                     print(SubjectSeed.SegmentHits)
+                     print(SubjectSeed.TR_CNN_FIT)
+                     print(ObjectSeed.SegmentHeader)
+                     print(ObjectSeed.SegmentHits)
+                     print(ObjectSeed.TR_CNN_FIT)
                      for ObjectSeed in VertexPool[SeedCounter+1:]:
                                  if SubjectSeed.InjectTrack(ObjectSeed):
                                              VertexPool.pop(VertexPool.index(ObjectSeed))
