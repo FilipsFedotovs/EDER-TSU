@@ -696,7 +696,7 @@ class Track:
       def ReplaceWeakerFits(matx,h,l_f,l_m,m_fit,f_fit):
                       new_h=l_f+l_m
                       new_fit=f_fit+m_fit
-                      res_fits
+                      res_fits=[]
                       for hd in range(len(new_h)):
                           if (new_h[hd] in h):
                               res_fits+=new_fit[hd]
