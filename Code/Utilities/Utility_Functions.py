@@ -130,7 +130,7 @@ class Track:
               return True
           self_2_matx=Track.DensityMatrix(OtherTrack.SegmentHits,self.SegmentHits)
           other_2_matx=Track.DensityMatrix(self.SegmentHits,OtherTrack.SegmentHits)
-          print('Test',self_2_matx,self_2_matx)
+          #print('Test',self_2_matx,self_2_matx)
           last_s_seed_header=Track.ProjectVectorElements(self_2_matx,self.SegmentHeader)
           last_o_seed_header=Track.ProjectVectorElements(other_2_matx,OtherTrack.SegmentHeader)
           remain_2_s = Track.GenerateInverseVector(self.SegmentHeader,last_s_seed_header)
