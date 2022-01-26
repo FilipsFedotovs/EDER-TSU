@@ -47,7 +47,7 @@ print(UF.TimeStamp(), bcolors.OKGREEN+"Modules have been imported successfully..
 print(UF.TimeStamp(),'Loading raw data from',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
 data=pd.read_csv(input_file_location,header=0)
 print(UF.TimeStamp(),'Loading mapped data from',bcolors.OKBLUE+input_map_file_location+bcolors.ENDC)
-map_data=pd.read_csv(input_map_file_locationn,header=0)
+map_data=pd.read_csv(input_map_file_location,header=0)
 total_rows=len(data.axes[0])
 print(UF.TimeStamp(),'The raw data has ',total_rows,' hits')
 print(UF.TimeStamp(),'Removing unreconstructed hits...')
