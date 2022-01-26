@@ -184,13 +184,13 @@ if args.Mode=='C':
 
 
                      for ObjectSeed in VertexPool[SeedCounter+1:]:
-                              if (('3-404564' in ObjectSeed.SegmentHeader) and ('3-440684' in ObjectSeed.SegmentHeader) and ('3-365276' in ObjectSeed.SegmentHeader) and ('3-415381' in SubjectSeed.SegmentHeader) and ('3-349540' in SubjectSeed.SegmentHeader) and ('3-440684' in SubjectSeed.SegmentHeader)):
-                                 print(ObjectSeed.SegmentHeader)
-                                 print(ObjectSeed.SegmentHits)
-                                 print(ObjectSeed.TR_CNN_FIT)
-                                 print(SubjectSeed.SegmentHeader)
-                                 print(SubjectSeed.SegmentHits)
-                                 print(SubjectSeed.TR_CNN_FIT)
+                              # if (('3-404564' in ObjectSeed.SegmentHeader) and ('3-440684' in ObjectSeed.SegmentHeader) and ('3-365276' in ObjectSeed.SegmentHeader) and ('3-415381' in SubjectSeed.SegmentHeader) and ('3-349540' in SubjectSeed.SegmentHeader) and ('3-440684' in SubjectSeed.SegmentHeader)):
+                              #    print(ObjectSeed.SegmentHeader)
+                              #    print(ObjectSeed.SegmentHits)
+                              #    print(ObjectSeed.TR_CNN_FIT)
+                              #    print(SubjectSeed.SegmentHeader)
+                              #    print(SubjectSeed.SegmentHits)
+                              #    print(SubjectSeed.TR_CNN_FIT)
                                  if SubjectSeed.InjectTrack(ObjectSeed):
                                              VertexPool.pop(VertexPool.index(ObjectSeed))
                      SeedCounter+=1
