@@ -79,77 +79,78 @@ Track Segment Gluing Process
 5) cd ..
 
 6) tmux 
+   
    please note the number of lxplus machine at which tmux session is logged in
 
-7) kinit your<username>@CERN.CH -l 24h00m
+8) kinit your<username>@CERN.CH -l 24h00m
 
-8) python3 R1_PrepareRecData.py --Xmin 50000 --Xmax 60000 --Ymin 50000 --Ymax 60000 --f (your file with reconstructed tracks) 
+9) python3 R1_PrepareRecData.py --Xmin 50000 --Xmax 60000 --Ymin 50000 --Ymax 60000 --f (your file with reconstructed tracks) 
    
    Purpose: This script prepares the reconstruction data for EDER-TSU gluing routines by using the custom file with track resonstruction data
    
    FYI: min and max value arguments can be changed or completely removed if all ECC data to be reconstructed. The script can take 1-5 minutes depending on the size of the input file. Once it finish it will give the message "The          track    data has been created successfully and written to ....' and exit.
 
-9) python3 R2_GenerateSeeds.py --Mode R
+10) python3 R2_GenerateTracks.py --Mode R
    
-   Purpose: This script selects and prepares 2-track seed candidates that could be used for vertexing. The seeds are subject to distance cuts
-   FYI: The script will send warning, type Y. The program will send HTCondor jobs and exit. The jobs take about an hour.
+    Purpose: This script selects and prepares 2-segments track seed candidates that could be used for gluing. The seeds are subject to distance cuts
+    FYI: The script will send warning, type Y. The program will send HTCondor jobs and exit. The jobs take about an hour.
 
-10) python3 R2_GenerateSeeds.py --Mode C
+11) python3 R2_GenerateTracks.py --Mode C
     
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning. If the jobs are completed it will remove duplicates from the seeds and generate the following message: "Seed generation is completed".
 
-11) python3 R3_FilterSeeds.py --Mode R
+12) python3 R3_FilterSeeds.py --Mode R
     
     Purpose: This script takes preselected 2-track seed candidates from previous step and refines them by applying additional cuts on the parameters such as DOCA, fiducial cute and distance to the possible vertex origin.
    FYI: The script will send warning, type Y. The program will send HTCondor jobs and exit. The jobs can take few hours.
 
-12) python3 python3 R3_FilterSeeds.py --Mode C 
+13) python3 python3 R3_FilterSeeds.py --Mode C 
     
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
 
-13) python3 R4_VertexSeeds.py --Mode R 
+14) python3 R4_VertexSeeds.py --Mode R 
     
     Purpose: This script takes refined 2-track seed candidates from previous step and perfromes a vertex fit by using pre-trained CNN model.
     FYI: The script will send warning, type Y. The program will send HTCondor jobs and exit. The jobs can take few hours.
 
-14) python3 R4_VertexSeeds.py --Mode C 
+15) python3 R4_VertexSeeds.py --Mode C 
    
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
     The output will produce a file R4_R5_CNN_Fit_Seeds.csv with a list of seeds with each one given a probability value and R4_R5_CNN_Fit_Seeds.pkl with Seed class instances. 
    
-15) python3 R5_AnalyseSeedLinks.py --Mode R
+16) python3 R5_AnalyseSeedLinks.py --Mode R
     
     Purpose: This script takes CNN Fit seed candidates from previous step and refines them by applying additional cuts on the parameters such Seed Link Strength.
    FYI: The script will send warning, type Y. The program will send HTCondor jobs and exit. The jobs can take few hours.
 
-16) python3 R5_AnalyseSeedLinks.py --Mode C 
+17) python3 R5_AnalyseSeedLinks.py --Mode C 
     
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
 
-17) python3 R6_MergeVertices.py 
+18) python3 R6_MergeVertices.py 
     
     Purpose: This script takes vertex-fitted 2-track seed candidates from previous step and merges them if seeds have a common track.
     FYI: The execution can take up to several hours if the data size is big. The program will produce the R6_REC_VERTICES.pkl. 
     In the file each line will contain a list of seed objects. 
    
    
-EDER-VIANN Vertex Reconstruction Evaluation
+EDER-TSU Track de-segmentation evaluation
 --
-Can only be used if there is a data available with MC vertex truth information.
+Can only be used if there is a data available with MC track truth information.
    
-1) python3 E1_PrepareEvalData.py --Xmin 50000 --Xmax 60000 --Ymin 50000 --Ymax 60000 --Track FEDRA --f (your file with reconstructed tracks)
+1) python3 E1_PrepareEvalData.py --Xmin 50000 --Xmax 60000 --Ymin 50000 --Ymax 60000  --f (your file with reconstructed tracks)
    
-   Purpose: This script prepares the MC tracking data for EDER-VIANN vertexing evaluation routines.
+   Purpose: This script prepares the MC tracking data for EDER-TSU de-segmentation evaluation routines.
    FYI: min and max value arguments have to match those that were used in for previous phase in Step 8.
    The script can take 1-5 minutes depending on the size of the input file.
-   Once it finish it will give the message "The track data has been created successfully and written to ....' and exit.
+   Once it finish it will give the message "The track segment data has been created successfully and written to ....' and exit.
 
-2) python3 E2_GenerateEvalSeeds.py --Mode R
+2) python3 E2_GenerateEvalTracks.py --Mode R
    
-   Purpose: This script selects and prepares 2-track seeds that have a common Mother particle.
+   Purpose: This script selects and prepares 2-segment track seeds that have a common MC track id.
    The script will send warning, type Y. The program will send HTCondor jobs and exit. The jobs take about an hour.
 
-3) python3 E2_GenerateEvalSeeds.py --Mode C 
+3) python3 E2_GenerateEvalTracks.py --Mode C
    
    FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
    If the jobs are completed it will remove duplicates from the seeds and generate the following message: "Seed generation is completed".
@@ -210,22 +211,21 @@ Can only be used if there is a data available with FEDRA vertex reconstruction i
    Purpose: This script compares the ouput of the previous step with the output of MC truth to calculate reconstruction perfromance.
    FYI: The script will return the perecision and the recall of the FEDRA reconstruction output.
    
-EDER-VIANN Model Training
+EDER-TSU Model Training (Do not use yet)
 --
 Can only be used if there is a data available with MC vertex truth information.
 
-1)  python3 M1_PrepareTrainData.py --Xmin 50000 --Xmax 120000 --Ymin -120000 --Ymax 50000 --Track FEDRA  --f (your file with reconstructed tracks)
+1)  python3 M1_PrepareTrainData.py --Xmin 50000 --Xmax 120000 --Ymin -120000 --Ymax 50000  --f (your file with reconstructed tracks)
    
-    Purpose: This script prepares the MC tracking data for EDER-VIANN training routines
+    Purpose: This script prepares the MC tracking data for EDER-TSU training routines
     FYI: min and max value arguments can be changed or completely removed if all ECC data to be used for training. 
-    The X and Y bounds are exclusive (they define the portion of the ECC data that is not used in training). 
-    Track type can be changed to MC if Monte-Carlo truth track reconstruction data is used. 
+    The X and Y bounds are exclusive (they define the portion of the ECC data that is not used in training).
     The script can take 1-5 minutes depending on the size of the input file. 
-    Once it finish it will give the message "The track data has been created successfully and written to ....' and exit.
+    Once it finish it will give the message "The track segment data has been created successfully and written to ....' and exit.
 
 2)  python3 M2_GenerateTrainSeeds.py --Mode R 
    
-    Purpose: This script selects and prepares 2-track seeds that have either a common Mother particle (True label) or do not have a common Mother particle (False label). 
+    Purpose: This script selects and prepares 2-segment track seeds that have either a common MC Track (True label) or do not have a common MC Track (False label). 
     FYI: The script will send warning, type Y. 
     The program will send HTCondor jobs and exit. 
     The jobs take about an hour.
