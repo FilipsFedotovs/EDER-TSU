@@ -4,6 +4,7 @@
 import csv
 import argparse
 import pandas as pd
+import numpy as np
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -44,9 +45,9 @@ print(bcolors.HEADER+"##########################################################
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules have been imported successfully..."+bcolors.ENDC)
 #fetching_test_data
 print(UF.TimeStamp(),'Loading raw data from',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
-print(UF.TimeStamp(),'Loading mapped data from',bcolors.OKBLUE+input_map_file_location+bcolors.ENDC)
 data=pd.read_csv(input_file_location,header=0)
-map_data=pd.read_csv(input_file_location,header=0)
+print(UF.TimeStamp(),'Loading mapped data from',bcolors.OKBLUE+input_map_file_location+bcolors.ENDC)
+map_data=pd.read_csv(input_map_file_locationn,header=0)
 total_rows=len(data.axes[0])
 print(UF.TimeStamp(),'The raw data has ',total_rows,' hits')
 print(UF.TimeStamp(),'Removing unreconstructed hits...')
@@ -60,6 +61,11 @@ data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
 data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
 print(data)
 print(map_data)
+new_combined_data=pd.merge(data, map_data, how="outer", left_on=["FEDRA_Seg_ID"], right_on=['Old_Track_ID'])
+print(new_combined_data)
+new_combined_data[PM.FEDRA_Track_QUADRANT] = np.where(new_combined_data['New_Track_Quarter'].isnull(), new_combined_data[PM.FEDRA_Track_QUADRANT], new_combined_data['New_Track_Quarter'])
+new_combined_data[PM.FEDRA_Track_ID] = np.where(new_combined_data['New_Track_ID'].isnull(), new_combined_data[PM.FEDRA_Track_ID], new_combined_data['New_Track_ID'])
+print(new_combined_data)
 exit()
 #data=data.drop([PM.FEDRA_Track_ID],axis=1)
 #data=data.drop([PM.FEDRA_Track_QUADRANT],axis=1)
