@@ -1,5 +1,5 @@
-# EDER-VIANN
-Emulsion Data Event Reconstruction - Vertex Identification by using Artificial Neural Networks.
+# EDER-TSU
+Emulsion Data Event Reconstruction - Track Segment Union.
 Release 1.
 
 This README just serves as a very short user guide, the documentation will be written much later.
@@ -32,13 +32,13 @@ Installation steps
 
 9) go to your home directory on AFS where you would like to install the package
 
-10) git clone https://github.com/FilipsFedotovs/EDER-VIANN/
-11) cd EDER-VIANN/
+10) git clone https://github.com/FilipsFedotovs/EDER-TSU/
+11) cd EDER-TSU/
 12) python3 setup.py
 13) The installation will require another directory, please enter the location on EOS where you would like to keep data and the models
    Has to provide up to 10-100 GB of storage depending on whether particular components of the framework is used. An example of the input is /eos/user/<username      first letter>/<user name> . In theory AFS work location also can be specified but it is not recommended.
 14) The installer will copy and analyse existing data and the pre-trained model, it might take 5-10 minutes.
-15) if the message 'EDER-VIANN setup is successfully completed' is displayed, it means that the package is ready for work
+15) if the message 'EDER-TSU setup is successfully completed' is displayed, it means that the package is ready for work
 
 Additional info
 --
@@ -47,7 +47,7 @@ Additional info
 3) In general the numbers in prefixes reflect the order at which scripts have to be executed e.g: R1, R2,R3...
 4) --help argument provides all the available run arguments of a script and its purpose.
 5) The output of each script has the same prefix as the script that generates it. If script generates a temporary output for another script it will have the double prefix e.g: R2_R3 etc.
-6) The files that are the final output have names with capital letters only such as: R5_REC_VERTICES
+6) The files that are the final output have names with capital letters only such as: R6_REC_AND_GLUED_TRACKS.csv
    Those files are not deleted after execution. If not all letters in the file are capitalised that means that the file is temporary and will be eventually deleted by the package once it is not needed anymore.
 7) The screen output of the scripts is colour coded: 
    - White for routine operations
@@ -59,20 +59,20 @@ Additional info
    "###### End of the program #####"
 
 
-Vertex Reconstruction
+Track Segment Gluing Process
 --
 1) Please make sure that you have a file with hits that there were reconstructed as Tracks.
    Following columns are required: 
-   - Track ID Quadrant or Event ID (if MC truth track reconstruction data is used)
-   - Track ID (FEDRA or MC depending which data is used)
+   - Track ID Quadrant
+   - FEDRA Track ID
    - x-coordinates of the track hits
    - y-coordinates of the track hits
    - z-coordinates of the track hits
 
-2) Please open $AFS/EDER_VIANN/Code/Utilities/Parameters.py and check that the lines between 6-13 
+2) Please open $AFS/EDER_TSU/Code/Utilities/Parameters.py and check that the lines between 6-13 
    Within the list of naming conventions correspond to headers in the file that you intend to use.
 
-3) Check the 'CNN_Model_Name' variable - it has the name of the Model that is used for reconstruction (included in the package). If you wish to use your own,        please place it in the $EOS/EDER_VIANN/Models and change the 'CNN_Model_Name' variable accordingly. You might need to change resolution and MaxX, MaxY, MaxZ      parameters if the model was trained with images that have had different size because the model might fail.
+3) Check the 'Pre_CNN_Model_Name' variable - it has the name of the Model that is used for reconstruction (included in the package). If you wish to use your own,        please place it in the $EOS/EDER_TSU/Models and change the 'Pre_CNN_Model_Name' variable accordingly. You might need to change resolution and MaxX, MaxY, MaxZ      parameters if the model was trained with images that have had different size because the model might fail.
 
 4) If happy, save and close the file.
 
@@ -83,11 +83,11 @@ Vertex Reconstruction
 
 7) kinit your<username>@CERN.CH -l 24h00m
 
-8) python3 R1_PrepareRecData.py --Xmin 50000 --Xmax 60000 --Ymin 50000 --Ymax 60000 --Track FEDRA --f (your file with reconstructed tracks) 
+8) python3 R1_PrepareRecData.py --Xmin 50000 --Xmax 60000 --Ymin 50000 --Ymax 60000 --f (your file with reconstructed tracks) 
    
-   Purpose: This script prepares the reconstruction data for EDER-VIANN vertexing routines by using the custom file with track resonstruction data
+   Purpose: This script prepares the reconstruction data for EDER-TSU gluing routines by using the custom file with track resonstruction data
    
-   FYI: min and max value arguments can be changed or completely removed if all ECC data to be reconstructed. Track type can be changed to MC if Monte-Carlo truth        track reconstruction data is used. The script can take 1-5 minutes depending on the size of the input file. Once it finish it will give the message "The          track    data has been created successfully and written to ....' and exit.
+   FYI: min and max value arguments can be changed or completely removed if all ECC data to be reconstructed. The script can take 1-5 minutes depending on the size of the input file. Once it finish it will give the message "The          track    data has been created successfully and written to ....' and exit.
 
 9) python3 R2_GenerateSeeds.py --Mode R
    

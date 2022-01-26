@@ -1,4 +1,4 @@
-#This simple script prepares the reconstruction data for vertexing procedure
+#This simple script prepares the reconstruction data for track segment gluing procedure
 
 ########################################    Import libraries    #############################################
 import csv
