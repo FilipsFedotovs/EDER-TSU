@@ -195,6 +195,7 @@ if args.Mode=='C':
                                  print(SubjectSeed.SegmentHeader)
                                  print(SubjectSeed.SegmentHits)
                                  print(SubjectSeed.TR_CNN_FIT)
+                                 exit()
                      SeedCounter+=1
                  print(str(InitialDataLength), "vertices from different files were merged into", str(len(VertexPool)), 'vertices with higher multiplicity...')
                  for v in range(0,len(VertexPool)):
