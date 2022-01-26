@@ -1,4 +1,4 @@
-#This simple script prepares the reconstruction data for vertexing procedure
+#This simple script maps the glued tracks to FEDRA reconstructed track segments
 
 ########################################    Import libraries    #############################################
 import csv
@@ -32,6 +32,7 @@ parser.add_argument('--f',help="Please enter the full path to the file with trac
 parser.add_argument('--o',help="Please enter the full path to the output file with track reconstruction and gluing", default=EOS_DIR+'/EDER-TSU/Data/REC_SET/R6_REC_AND_GLUED_TRACKS.csv')
 args = parser.parse_args()
 input_file_location=args.f
+output_file_location=args.o
 input_map_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R5_GLUED_TRACKS.csv'
 import sys
 sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
@@ -59,31 +60,14 @@ data[PM.FEDRA_Track_ID] = data[PM.FEDRA_Track_ID].astype(str)
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(int)
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
 data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
-print(data)
-print(map_data)
 new_combined_data=pd.merge(data, map_data, how="outer", left_on=["FEDRA_Seg_ID"], right_on=['Old_Track_ID'])
-print(new_combined_data)
 new_combined_data[PM.FEDRA_Track_QUADRANT] = np.where(new_combined_data['New_Track_Quarter'].isnull(), new_combined_data[PM.FEDRA_Track_QUADRANT], new_combined_data['New_Track_Quarter'])
 new_combined_data[PM.FEDRA_Track_ID] = np.where(new_combined_data['New_Track_ID'].isnull(), new_combined_data[PM.FEDRA_Track_ID], new_combined_data['New_Track_ID'])
-print(new_combined_data)
-exit()
-#data=data.drop([PM.FEDRA_Track_ID],axis=1)
-#data=data.drop([PM.FEDRA_Track_QUADRANT],axis=1)
-
-print(UF.TimeStamp(),'Removing tracks which have less than',PM.MinHitsTrack,'hits...')
-track_no_data=data.groupby(['FEDRA_Seg_ID'],as_index=False).count()
-track_no_data=track_no_data.drop([PM.y,PM.z],axis=1)
-track_no_data=track_no_data.rename(columns={PM.x: "Track_No"})
-new_combined_data=pd.merge(data, track_no_data, how="left", on=["FEDRA_Seg_ID"])
-new_combined_data = new_combined_data[new_combined_data.Track_No >= PM.MinHitsTrack]
-new_combined_data = new_combined_data.drop(['Track_No'],axis=1)
-new_combined_data=new_combined_data.sort_values(['FEDRA_Seg_ID',PM.x],ascending=[1,1])
-grand_final_rows=len(new_combined_data.axes[0])
-print(UF.TimeStamp(),'The cleaned data has ',grand_final_rows,' hits')
-new_combined_data=new_combined_data.rename(columns={PM.x: "x"})
-new_combined_data=new_combined_data.rename(columns={PM.y: "y"})
-new_combined_data=new_combined_data.rename(columns={PM.z: "z"})
+new_combined_data=new_combined_data.drop(['FEDRA_Seg_ID'],axis=1)
+new_combined_data=new_combined_data.drop(['Old_Track_ID'],axis=1)
+new_combined_data=new_combined_data.drop(['New_Track_Quarter'],axis=1)
+new_combined_data=new_combined_data.drop(['New_Track_ID'],axis=1)
 new_combined_data.to_csv(output_file_location,index=False)
-print(UF.TimeStamp(), bcolors.OKGREEN+"The segment data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
+print(UF.TimeStamp(), bcolors.OKGREEN+"The re-glued track data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
 print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
 exit()
