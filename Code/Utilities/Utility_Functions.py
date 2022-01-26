@@ -172,7 +172,7 @@ class Track:
           last_remain_matr=Track.DensityMatrix(last_other_hits,last_self_hits)
 
           new_seed_header+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits)
-          new_self_fit+=Track.ReplaceWeakerFits(last_remain_matr,new_seed_header,last_self_headers,last_other_headers,last_other_fits,last_self_fits)[0:len(Track.ReplaceWeakerFits(last_remain_matr,new_seed_header,last_self_headers,last_other_headers,last_other_fits,last_self_fits))]
+          new_self_fit+=Track.ReplaceWeakerFits(new_seed_header,last_self_headers,last_other_headers,last_other_fits,last_self_fits)[0:len(Track.ReplaceWeakerFits(new_seed_header,last_self_headers,last_other_headers,last_other_fits,last_self_fits))]
           new_self_hits+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_hits,last_self_hits,last_other_fits,last_self_fits)
           print('3',self.SegmentHeader,OtherTrack.SegmentHeader)
           print('3',self.SegmentHits,OtherTrack.SegmentHits)
@@ -693,13 +693,15 @@ class Track:
                           if (fel in delete_vec)==False:
                              final_vector.append(fel)
                       return(final_vector)
-      def ReplaceWeakerFits(matx,h,l_f,l_m,m_fit,f_fit):
+      def ReplaceWeakerFits(h,l_f,l_m,m_fit,f_fit):
                       new_h=l_f+l_m
+                      print('ff',new_h)
                       new_fit=f_fit+m_fit
+                      print('ff',new_fit)
                       res_fits=[]
                       for hd in range(len(new_h)):
                           if (new_h[hd] in h):
-                              res_fits+=new_fit[hd]
+                              res_fits.append(new_fit[hd])
                       return res_fits
 
 
