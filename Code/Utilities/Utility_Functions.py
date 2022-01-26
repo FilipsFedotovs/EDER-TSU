@@ -174,6 +174,12 @@ class Track:
           new_seed_header+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits)
           new_self_fit+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits)[0:len(Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits))]
           new_self_hits+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_hits,last_self_hits,last_other_fits,last_self_fits)
+          print('3',self.SegmentHeader,OtherTrack.SegmentHeader)
+          print('3',self.SegmentHits,OtherTrack.SegmentHits)
+          print('3',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
+          print('3',new_seed_header,new_self_hits,new_self_fit)
+          print('3',last_remain_matr)
+          print('3',last_self_headers,last_other_headers,last_self_fits,last_other_fits)
           self.SegmentHeader=new_seed_header
           self.SegmentHits=new_self_hits
           self.TR_CNN_FIT=new_self_fit
