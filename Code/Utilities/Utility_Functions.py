@@ -120,6 +120,8 @@ class Track:
               self.TR_CNN_FIT+=OtherTrack.TR_CNN_FIT
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
+              if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  exit()
               return True
           self_2_matx=Track.DensityMatrix(OtherTrack.SegmentHits,self.SegmentHits)
           other_2_matx=Track.DensityMatrix(self.SegmentHits,OtherTrack.SegmentHits)
@@ -153,6 +155,8 @@ class Track:
               self.TR_CNN_FIT=new_self_fit
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
+              if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  exit()
               return True
 
           last_self_hits=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHits)
@@ -169,6 +173,9 @@ class Track:
           self.TR_CNN_FIT=new_self_fit
           self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
           self.Segmentation=len(self.SegmentHeader)
+          if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  exit()
+
           return True
 
       def MCtruthClassifyTrack(self,label):
