@@ -99,11 +99,11 @@ class Track:
           self.SegmentHits=Track.ProjectVectorElements([remain_1_s],self.SegmentHits)
           OtherTrack.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_o],OtherTrack.TR_CNN_FIT)
           self.TR_CNN_FIT=Track.ProjectVectorElements([remain_1_s],self.TR_CNN_FIT)
-          print('1',self.SegmentHeader,OtherTrack.SegmentHeader)
-          print('1',self.SegmentHits,OtherTrack.SegmentHits)
-          print('1',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
-          print('1',new_seed_header,new_self_hits,new_self_fit)
-          print('1',self_matx)
+          # print('1',self.SegmentHeader,OtherTrack.SegmentHeader)
+          # print('1',self.SegmentHits,OtherTrack.SegmentHits)
+          # print('1',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
+          # print('1',new_seed_header,new_self_hits,new_self_fit)
+          # print('1',self_matx)
           if (len(OtherTrack.SegmentHeader))==0:
               self.SegmentHeader+=new_seed_header
               self.SegmentHits+=new_self_hits
@@ -148,12 +148,12 @@ class Track:
           last_remain_headers_o = Track.GenerateInverseVector(OtherTrack.SegmentHeader,new_seed_header)
           last_self_headers=Track.ProjectVectorElements([last_remain_headers_s],self.SegmentHeader)
           last_other_headers=Track.ProjectVectorElements([last_remain_headers_o],OtherTrack.SegmentHeader)
-          print('2',self.SegmentHeader,OtherTrack.SegmentHeader)
-          print('2',self.SegmentHits,OtherTrack.SegmentHits)
-          print('2',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
-          print('2',new_seed_header,new_self_hits,new_self_fit)
-          print('2',self_2_matx)
-          print('2',last_self_headers,last_other_headers)
+          # print('2',self.SegmentHeader,OtherTrack.SegmentHeader)
+          # print('2',self.SegmentHits,OtherTrack.SegmentHits)
+          # print('2',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
+          # print('2',new_seed_header,new_self_hits,new_self_fit)
+          # print('2',self_2_matx)
+          # print('2',last_self_headers,last_other_headers)
           if (len(last_other_headers))==0:
               self.SegmentHeader=new_seed_header
               self.SegmentHits=new_self_hits
@@ -174,13 +174,13 @@ class Track:
           new_seed_header+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_headers,last_self_headers,last_other_fits,last_self_fits)
           new_self_fit+=Track.ReplaceWeakerFits(new_seed_header,last_self_headers,last_other_headers,last_other_fits,last_self_fits)[0:len(Track.ReplaceWeakerFits(new_seed_header,last_self_headers,last_other_headers,last_other_fits,last_self_fits))]
           new_self_hits+=Track.ReplaceWeakerTracks(last_remain_matr,last_other_hits,last_self_hits,last_other_fits,last_self_fits)
-          print('3',self.SegmentHeader,OtherTrack.SegmentHeader)
-          print('3',self.SegmentHits,OtherTrack.SegmentHits)
-          print('3',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
-          print('3',new_seed_header,new_self_hits,new_self_fit)
-          print('3',last_remain_matr)
-          print('3',last_self_headers,last_other_headers,last_self_fits,last_other_fits)
-          print('check',Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits))
+          # print('3',self.SegmentHeader,OtherTrack.SegmentHeader)
+          # print('3',self.SegmentHits,OtherTrack.SegmentHits)
+          # print('3',self.TR_CNN_FIT,OtherTrack.TR_CNN_FIT)
+          # print('3',new_seed_header,new_self_hits,new_self_fit)
+          # print('3',last_remain_matr)
+          # print('3',last_self_headers,last_other_headers,last_self_fits,last_other_fits)
+          # print('check',Track.ReplaceWeakerTracks(last_remain_matr,last_other_fits,last_self_fits,last_other_fits,last_self_fits))
           self.SegmentHeader=new_seed_header
           self.SegmentHits=new_self_hits
           self.TR_CNN_FIT=new_self_fit
@@ -695,9 +695,9 @@ class Track:
                       return(final_vector)
       def ReplaceWeakerFits(h,l_f,l_m,m_fit,f_fit):
                       new_h=l_f+l_m
-                      print('ff',new_h)
+                      #print('ff',new_h)
                       new_fit=f_fit+m_fit
-                      print('ff',new_fit)
+                      #print('ff',new_fit)
                       res_fits=[]
                       for hd in range(len(new_h)):
                           if (new_h[hd] in h):

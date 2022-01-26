@@ -202,7 +202,7 @@ if args.Mode=='C':
                  csv_out=[['Old_Track_ID','New_Track_Quarter','New_Track_ID']]
                  for Tr in VertexPool:
                      for TH in Tr.SegmentHeader:
-                         csv_out.append([TH,'TSU',TR_CNN_ID])
+                         csv_out.append([TH,'TSU',Tr.TR_CNN_ID])
                  print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
                  print(UF.TimeStamp(), "Saving the results into the file",bcolors.OKBLUE+output_csv_location+bcolors.ENDC)
                  UF.LogOperations(output_csv_location,'StartLog', csv_out)
