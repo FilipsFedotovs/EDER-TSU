@@ -215,7 +215,7 @@ EDER-TSU Model Training (Do not use yet)
 --
 Can only be used if there is a data available with MC vertex truth information.
 
-1)  python3 M1_PrepareTrainData.py --Xmin 50000 --Xmax 120000 --Ymin -120000 --Ymax 50000  --f (your file with reconstructed tracks)
+1) python3 M1_PrepareTrainData.py --Xmin 50000 --Xmax 120000 --Ymin -120000 --Ymax 50000  --f (your file with reconstructed tracks)
    
     Purpose: This script prepares the MC tracking data for EDER-TSU training routines
     FYI: min and max value arguments can be changed or completely removed if all ECC data to be used for training. 
@@ -223,46 +223,48 @@ Can only be used if there is a data available with MC vertex truth information.
     The script can take 1-5 minutes depending on the size of the input file. 
     Once it finish it will give the message "The track segment data has been created successfully and written to ....' and exit.
 
-2)  python3 M2_GenerateTrainSeeds.py --Mode R 
+2) python3 M2_GenerateTrainSeeds.py --Mode R 
    
     Purpose: This script selects and prepares 2-segment track seeds that have either a common MC Track (True label) or do not have a common MC Track (False label). 
     FYI: The script will send warning, type Y. 
     The program will send HTCondor jobs and exit. 
     The jobs take about an hour.
 
-3)  M2_GenerateTrainSeeds.py --Mode C 
+3) M2_GenerateTrainSeeds.py --Mode C 
     
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
 
-4)  M3_GenerateImages.py --Mode R 
+4) M3_GenerateImages.py --Mode R 
     
     Purpose: This script takes the output from the previous step and decorates the track with its hit information that can be used to render the seed image. This script creates training and validation samples.
     FYI: The script will send warning, type Y. 
     The program will send HTCondor jobs and exit. 
     The jobs take about an hour.
 
-5)  M3_GenerateImages.py --Mode C 
+5) M3_GenerateImages.py --Mode C 
     
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
+    
+    Important! In the end the script will ask 'Would you like to delete track seeds data?'. Please type 'N'. We will need the filtered seeds again for later.
    
-6)  M4_RenderImages.py --Mode R 
+7) M4_RenderImages.py --Mode R 
     
     Purpose: This script takes the seed from the previous step and render their. This script modifies training and validation samples.
     FYI: The script will send warning, type Y. 
     The program will send HTCondor jobs and exit. 
     The jobs take about an hour.
 
-6)  M4_RenderImages.py --Mode C 
+8) M4_RenderImages.py --Mode C 
     
     FYI: It will check whether the HTCondor jobs have been completed, if not it will give a warning.
   
-7)  python3 M5_TrainModel.py --Mode R
+9) python3 M5_TrainModel.py --Mode R
     
     The program will send an HTCondor job and exit. 
     The job takes about 4-5 hours.
 
-8)  python3 M5_TrainModel.py --Mode C
+10) python3 M5_TrainModel.py --Mode C
     
-    FYI: It will check whether the HTCondor job has been completed, if not it will give a warning.
-    If the job has been completed the script will ask the user whether he wants to continue (N/Y).
-    The model training performance (loss and accuracy) will be saved in /EDER-VIANN/Models/M5_PERFORMANCE_ModelName.csv file
+     FYI: It will check whether the HTCondor job has been completed, if not it will give a warning.
+     If the job has been completed the script will ask the user whether he wants to continue (N/Y).
+     The model training performance (loss and accuracy) will be saved in /EDER-VIANN/Models/M5_PERFORMANCE_ModelName.csv file

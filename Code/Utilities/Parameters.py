@@ -45,7 +45,7 @@ Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
 #Post Model Architecture 1e_1e
 #ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 #Post Model Architecture 1c_1e
-#ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
+ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 #Post Model Architecture 2c_1e
 #ModelArchitecture=[[6, 4, 1, 1, 2, 2, 2], [5, 4, 2, 2, 2, 2, 2], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 #Post Model Architecture 3c_1e
@@ -55,29 +55,4 @@ Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
 #Post Model Architecture 1c_1c
 #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [2, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 #Post Model Architecture 2c_1c
-ModelArchitecture=[[6, 4, 1, 1, 2, 2, 2], [5, 4, 1, 2, 2, 2, 2], [4, 4, 2, 2, 2, 2, 2],[], [], [4, 4, 2], [], [], [], [], [7, 1, 1, 4]]
-# ModelArchitecture=\
-#     [[4, 4, 1, 2, 2, 2, 2], #Layer 1
-#         [5, 4, 1, 1, 2, 2, 2], #Layer 2
-#         [5, 4, 2, 2, 2, 2, 2], #Layer 3
-#         [], #Layer 4
-#         [], #Layer 5
-#         [6, 4, 2], #Dense Layer 1
-#         [5, 4, 2], #Dense Layer 2
-#         [4, 4, 2], #Dense Layer 3
-#         [], #Dense Layer 4
-#         [], #Dense Layer 5
-#         [7, 1, 1, 4]] #Output Layer
-
-# ModelArchitecture=\
-#     [[4, 4, 1, 2, 2, 2, 2], #Layer 1
-#         [], #Layer 2
-#         [], #Layer 3
-#         [], #Layer 4
-#         [], #Layer 5
-#         [6, 4, 2], #Dense Layer 1
-#         [], #Dense Layer 2
-#         [], #Dense Layer 3
-#         [], #Dense Layer 4
-#         [], #Dense Layer 5
-#         [7, 1, 1, 4]] #Output Layer
+#ModelArchitecture=[[6, 4, 1, 1, 2, 2, 2], [5, 4, 1, 2, 2, 2, 2], [4, 4, 2, 2, 2, 2, 2],[], [], [4, 4, 2], [], [], [], [], [7, 1, 1, 4]]
