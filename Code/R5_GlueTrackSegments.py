@@ -184,7 +184,7 @@ if args.Mode=='C':
 
 
                      for ObjectSeed in VertexPool[SeedCounter+1:]:
-                              if (('3-404564' in ObjectSeed.SegmentHeader) and ('3-440684' in ObjectSeed.SegmentHeader) and ('3-365276' in ObjectSeed.SegmentHeader)):
+                              if (('3-404564' in ObjectSeed.SegmentHeader) and ('3-440684' in ObjectSeed.SegmentHeader) and ('3-365276' in ObjectSeed.SegmentHeader) and ('3-415381' in SubjectSeed.SegmentHeader) and ('3-349540' in SubjectSeed.SegmentHeader) and ('3-440684' in SubjectSeed.SegmentHeader)):
                                  print(ObjectSeed.SegmentHeader)
                                  print(ObjectSeed.SegmentHits)
                                  print(ObjectSeed.TR_CNN_FIT)
