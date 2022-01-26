@@ -184,14 +184,17 @@ if args.Mode=='C':
 
 
                      for ObjectSeed in VertexPool[SeedCounter+1:]:
+
+                              try:
+                                 if SubjectSeed.InjectTrack(ObjectSeed):
+                                             VertexPool.pop(VertexPool.index(ObjectSeed))
+                              except:
                                  print(ObjectSeed.SegmentHeader)
                                  print(ObjectSeed.SegmentHits)
                                  print(ObjectSeed.TR_CNN_FIT)
                                  print(SubjectSeed.SegmentHeader)
                                  print(SubjectSeed.SegmentHits)
                                  print(SubjectSeed.TR_CNN_FIT)
-                                 if SubjectSeed.InjectTrack(ObjectSeed):
-                                             VertexPool.pop(VertexPool.index(ObjectSeed))
                      SeedCounter+=1
                  print(str(InitialDataLength), "vertices from different files were merged into", str(len(VertexPool)), 'vertices with higher multiplicity...')
                  for v in range(0,len(VertexPool)):
