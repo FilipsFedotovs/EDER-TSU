@@ -110,6 +110,10 @@ class Track:
               self.TR_CNN_FIT+=new_self_fit
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
+              if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  raise Exception('Fit error')
+                  exit()
+
               return True
           if (len(self.SegmentHeader))==0:
               self.SegmentHeader+=new_seed_header
@@ -121,6 +125,7 @@ class Track:
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
               if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  raise Exception('Fit error')
                   exit()
               return True
           self_2_matx=Track.DensityMatrix(OtherTrack.SegmentHits,self.SegmentHits)
@@ -156,6 +161,7 @@ class Track:
               self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
               self.Segmentation=len(self.SegmentHeader)
               if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  raise Exception('Fit error')
                   exit()
               return True
 
@@ -174,6 +180,7 @@ class Track:
           self.Track_CNN_Fit=sum(self.TR_CNN_FIT)/len(self.TR_CNN_FIT)
           self.Segmentation=len(self.SegmentHeader)
           if len(self.TR_CNN_FIT)!=len(self.SegmentHeader):
+                  raise Exception('Fit error')
                   exit()
 
           return True
