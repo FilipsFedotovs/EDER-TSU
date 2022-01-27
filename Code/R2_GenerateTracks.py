@@ -94,7 +94,7 @@ if Mode=='C':
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
    for j in range(0,len(data)):
        for sj in range(0,int(data[j][2])):
-           OptionHeader = [' --Set ', ' --Subset ', ' --EOS ', " --AFS ", " --PlateZ ", " --MaxTracks "," --MaxSLG ", " --MaxSTG "]
+           OptionHeader = [' --Set ', ' --Subset ', ' --EOS ', " --AFS ", " --PlateZ ", " --MaxSegments "," --MaxSLG ", " --MaxSTG "]
            OptionLine = [j, sj, EOS_DIR, AFS_DIR, int(data[j][0]), MaxSegmentsPerJob,MaxSLG, MaxSTG]
            SHName = AFS_DIR + '/HTCondor/SH/SH_R2_' + str(j) + '_' + str(sj) + '.sh'
            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R2_' + str(j) + '_' + str(sj) + '.sub'
