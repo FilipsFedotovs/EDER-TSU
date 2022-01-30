@@ -54,7 +54,6 @@ data=pd.read_csv(input_file_location)
 print(UF.TimeStamp(),'Creating segment combinations... ')
 data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 data_header=data_header.reset_index()
-
 data_end_header = data.groupby('FEDRA_Seg_ID')['z'].max()  #Keeping only ending hits for the each track record (we do not require the full information about track in this script)
 data_end_header=data_end_header.reset_index()
 data_end_header=data_end_header.rename(columns={"z": "e_z"})
