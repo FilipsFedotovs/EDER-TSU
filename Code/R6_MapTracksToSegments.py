@@ -52,7 +52,7 @@ map_data=pd.read_csv(input_map_file_location,header=0)
 total_rows=len(data.axes[0])
 print(UF.TimeStamp(),'The raw data has ',total_rows,' hits')
 print(UF.TimeStamp(),'Removing unreconstructed hits...')
-data = data[data[PM.FEDRA_Track_ID].notna()]
+data.dropna(subset=[PM.FEDRA_Track_ID],inplace=True)
 final_rows=len(data.axes[0])
 print(UF.TimeStamp(),'The cleaned data has ',final_rows,' hits')
 data[PM.FEDRA_Track_ID] = data[PM.FEDRA_Track_ID].astype(int)
