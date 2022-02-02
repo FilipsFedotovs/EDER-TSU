@@ -67,7 +67,7 @@ if mode=='R' and args.ModelName=='N':
  job.append(PM.ModelArchitecture)
  job.append(args.LR)
  job.append(ModelName)
- DNA='"'+str(PM.ModelArchitecture)+'"'
+ DNA=PM.ModelArchitecture
  if args.ModelNewName=='Default':
      job.append(ModelName)
      OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, ModelName]
@@ -101,8 +101,8 @@ if mode=='R' and args.ModelName=='N':
          print(OutputDNA)
          model = Sequential()
          if args.LR=='Default':
-          LR=10**(-int(OutputDNA[10][3]))
-          opt = adam(learning_rate=10**(-int(OutputDNA[10][3])))
+          LR=10**(-int(OutputDNA[0][3]))
+          opt = adam(learning_rate=10**(-int(OutputDNA[0][3])))
          else:
           LR=float(args.LR)
           opt = adam(learning_rate=float(args.LR))
