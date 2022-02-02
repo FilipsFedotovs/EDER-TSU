@@ -72,8 +72,66 @@ if mode=='R' and args.ModelName=='N':
      job.append(ModelName)
      OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, ModelName]
  else:
-     job.append(args.ModelNewName)
-     OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, args.ModelNewName]
+     #try:
+
+         import logging
+         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # FATAL
+         logging.getLogger('tensorflow').setLevel(logging.FATAL)
+         import warnings
+         warnings.simplefilter(action='ignore', category=FutureWarning)
+         import tensorflow as tf
+         from tensorflow import keras
+         from keras.models import Sequential
+         from keras.layers import Dense, Flatten, Conv3D, MaxPooling3D, Dropout, BatchNormalization
+         from keras.optimizers import adam
+         from keras import callbacks
+         from keras import backend as K
+
+         HiddenLayerDNA=[]
+         FullyConnectedDNA=[]
+         OutputDNA=[]
+         act_fun_list=['N/A','linear','exponential','elu','relu', 'selu','sigmoid','softmax','softplus','softsign','tanh']
+         for gene in DNA:
+                if DNA.index(gene)<=4 and len(gene)>0:
+                    HiddenLayerDNA.append(gene)
+                elif DNA.index(gene)<=9 and len(gene)>0:
+                    FullyConnectedDNA.append(gene)
+                elif DNA.index(gene)>9 and len(gene)>0:
+                    OutputDNA.append(gene)
+         model = Sequential()
+         if args.LR=='Default':
+          LR=10**(-int(OutputDNA[0][3]))
+          opt = adam(learning_rate=10**(-int(OutputDNA[0][3])))
+         else:
+          LR=float(args.LR)
+          opt = adam(learning_rate=float(args.LR))
+         for HL in HiddenLayerDNA:
+                 Nodes=HL[0]*16
+                 KS=(HL[2]*2)+1
+                 PS=HL[3]
+                 DR=float(HL[6]-1)/10.0
+                 if HiddenLayerDNA.index(HL)==0:
+                    model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS,KS,KS),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
+                 else:
+                    model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS,KS,KS),kernel_initializer='he_uniform'))
+                 if PS>1:
+                    model.add(MaxPooling3D(pool_size=(PS, PS, PS)))
+                 model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
+                 model.add(Dropout(DR))
+         model.add(Flatten())
+         for FC in FullyConnectedDNA:
+                     Nodes=4**FC[0]
+                     DR=float(FC[2]-1)/10.0
+                     model.add(Dense(Nodes, activation=act_fun_list[FC[1]], kernel_initializer='he_uniform'))
+                     model.add(Dropout(DR))
+         model.add(Dense(2, activation=act_fun_list[OutputDNA[0][0]]))
+ # Compile the model
+         model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
+         model.summary()
+         print(model.optimizer.get_config())
+         exit()
+         job.append(args.ModelNewName)
+         OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, args.ModelNewName]
  print(UF.TimeStamp(),bcolors.OKGREEN+'Job description has been created'+bcolors.ENDC)
  PerformanceHeader=[['Epochs','Set','Training Samples','Train Loss','Train Accuracy','Validation Loss','Validation Accuracy']]
  UF.LogOperations(EOSsubModelDIR+'/M5_PERFORMANCE_'+job[5]+'.csv','StartLog',PerformanceHeader)
