@@ -133,6 +133,7 @@ if mode=='R' and args.ModelName=='N':
          print(model.optimizer.get_config())
          print(UF.TimeStamp(),bcolors.OKGREEN+'Model configuration is valid...'+bcolors.ENDC)
          job.append(args.ModelNewName)
+         DNA = '"' + str(PM.ModelArchitecture) + '"'
          OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, args.ModelNewName]
      except:
         print(UF.TimeStamp(),bcolors.FAIL+'Model configuration is invalid, exiting now...'+bcolors.ENDC)
