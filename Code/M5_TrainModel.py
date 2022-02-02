@@ -101,8 +101,8 @@ if mode=='R' and args.ModelName=='N':
          print(DNA)
          model = Sequential()
          if args.LR=='Default':
-          LR=10**(-int(OutputDNA[0][3]))
-          opt = adam(learning_rate=10**(-int(OutputDNA[0][3])))
+          LR=10**(-int(OutputDNA[10][3]))
+          opt = adam(learning_rate=10**(-int(OutputDNA[10][3])))
          else:
           LR=float(args.LR)
           opt = adam(learning_rate=float(args.LR))
