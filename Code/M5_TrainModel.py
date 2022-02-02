@@ -47,7 +47,7 @@ sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF
 import Parameters as PM
 if args.ModelName=='Default':
-    ModelName=PM.CNN_Model_Name
+    ModelName=PM.Pre_CNN_Model_Name
 else:
     ModelName=args.ModelName
 
@@ -72,7 +72,7 @@ if mode=='R' and args.ModelName=='N':
      job.append(ModelName)
      OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, ModelName]
  else:
-     #try:
+     try:
          import pickle
          train_file=open(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl','rb')
          TrainImages=pickle.load(train_file)
@@ -100,7 +100,6 @@ if mode=='R' and args.ModelName=='N':
                     FullyConnectedDNA.append(gene)
                 elif DNA.index(gene)>9 and len(gene)>0:
                     OutputDNA.append(gene)
-         print(OutputDNA)
          model = Sequential()
          if args.LR=='Default':
           LR=10**(-int(OutputDNA[0][3]))
@@ -132,9 +131,12 @@ if mode=='R' and args.ModelName=='N':
          model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
          model.summary()
          print(model.optimizer.get_config())
-         exit()
+         print(UF.TimeStamp(),bcolors.OKGREEN+'Model configuration is valid...'+bcolors.ENDC)
          job.append(args.ModelNewName)
          OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, args.ModelNewName]
+     except:
+        print(UF.TimeStamp(),bcolors.FAIL+'Model configuration is invalid, exiting now...'+bcolors.ENDC)
+        exit()
  print(UF.TimeStamp(),bcolors.OKGREEN+'Job description has been created'+bcolors.ENDC)
  PerformanceHeader=[['Epochs','Set','Training Samples','Train Loss','Train Accuracy','Validation Loss','Validation Accuracy']]
  UF.LogOperations(EOSsubModelDIR+'/M5_PERFORMANCE_'+job[5]+'.csv','StartLog',PerformanceHeader)
