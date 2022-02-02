@@ -73,7 +73,9 @@ if mode=='R' and args.ModelName=='N':
      OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, DNA, args.LR, 1, ModelName, ModelName]
  else:
      #try:
-
+         import pickle
+         train_file=open(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl','rb')
+         TrainImages=pickle.load(train_file)
          import logging
          os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # FATAL
          logging.getLogger('tensorflow').setLevel(logging.FATAL)
