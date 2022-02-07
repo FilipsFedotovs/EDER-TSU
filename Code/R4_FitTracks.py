@@ -98,7 +98,7 @@ if Mode=='R':
               f_counter=f
             if args.ReFit=='N':
                 OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName ", " --PostModelName "," --post_acceptance "]
-                OptionLine = [(j), '$1', EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,'','']
+                OptionLine = [(j), '$1', EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,'""','""']
             else:
                 OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName "," --PostModelName "," --post_acceptance "]
                 OptionLine = [(j), '$1', EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,PostModelName,post_acceptance]
@@ -117,7 +117,7 @@ if Mode=='C':
               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_R4_CNN_Fit_Tracks_'+str(j)+'_'+str(f)+'.pkl'
               if args.ReFit=='N':
                 OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName ", " --PostModelName "," --post_acceptance "]
-                OptionLine = [(j), f, EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,'','']
+                OptionLine = [(j), f, EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,'""','""']
               else:
                 OptionHeader = [' --Set ', ' --Fraction ', ' --EOS ', " --AFS ", " --resolution ", " --pre_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --PreModelName "," --PostModelName "," --post_acceptance "]
                 OptionLine = [(j), f, EOS_DIR, AFS_DIR, resolution,pre_acceptance,MaxX,MaxY,MaxZ,ModelName,PostModelName,post_acceptance]
