@@ -165,7 +165,6 @@ if Mode=='C':
                     new_data_file=open(required_output_file_location,'rb')
                     new_data=pickle.load(new_data_file)
                     new_data_file.close()
-                    base_data+=new_data
 
        Records=len(base_data)
        print(UF.TimeStamp(),'Final reconstructed set contains', Records, '2-segment glued tracks',bcolors.ENDC)
