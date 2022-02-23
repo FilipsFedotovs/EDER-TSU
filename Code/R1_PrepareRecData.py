@@ -97,6 +97,7 @@ if args.Log=='Y':
       eval_data=pd.read_csv(eval_data_file,header=0)
       eval_rec=len(eval_data)
       rec_rec=new_combined_data['FEDRA_Seg_ID']
+      print(rec_rec)
       rec_rec.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)
       rec_no=len(rec_rec.axes[0])
       rec_no=(rec_no**2)-rec_no-eval_rec
