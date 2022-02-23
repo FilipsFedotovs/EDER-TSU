@@ -96,9 +96,11 @@ if args.Log=='Y':
       eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
       eval_data=pd.read_csv(eval_data_file,header=0)
       eval_rec=len(eval_data)
-      rec_rec=new_combined_data['FEDRA_Seg_ID'].value_counts()
-      rec_rec=(rec_rec**2)-rec_rec-eval_rec
-      UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'StartLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[1,'Initial Sampling',rec_rec,eval_rec,eval_rec/(rec_rec+eval_rec),1.0]])
+      rec_rec=new_combined_data['FEDRA_Seg_ID']
+      rec_rec.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)
+      rec_no=len(rec_rec.axes[0])
+      rec_no=(rec_no**2)-rec_no-eval_rec
+      UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'StartLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[1,'Initial Sampling',rec_no,eval_rec,eval_rec/(rec_rec+eval_rec),1.0]])
 print(UF.TimeStamp(), bcolors.OKGREEN+"The segment data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
 print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
 exit()
