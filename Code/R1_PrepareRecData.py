@@ -98,7 +98,7 @@ if args.Log=='Y':
       eval_rec=len(eval_data)
       rec_rec=new_combined_data['FEDRA_Seg_ID']
       print(rec_rec)
-      rec_rec.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)
+      rec_rec.drop_duplicates(keep='first',inplace=True)
       rec_no=len(rec_rec.axes[0])
       rec_no=(rec_no**2)-rec_no-eval_rec
       UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'StartLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[1,'Initial Sampling',rec_no,eval_rec,eval_rec/(rec_rec+eval_rec),1.0]])
