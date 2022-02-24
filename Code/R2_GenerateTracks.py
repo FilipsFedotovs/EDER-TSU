@@ -162,6 +162,7 @@ if Mode=='C':
           except:
              exit()
              print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC) 
+       exit()
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R2', ['R2_R2'], "SoftUsed == \"EDER-TSU-R2\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
