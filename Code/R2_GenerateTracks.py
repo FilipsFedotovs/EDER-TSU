@@ -144,6 +144,23 @@ if Mode=='C':
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
              result[(f*MaxTracksPerJob):min(Records_After_Compression,((f+1)*MaxTracksPerJob))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
+       if args.Log=='Y':
+          try:
+             eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
+             eval_data=pd.read_csv(eval_data_file,header=0)
+             print(eval_data)
+             exit()
+             eval_rec=len(eval_data)
+             rec_rec=new_combined_data['FEDRA_Seg_ID']
+             rec_rec.drop_duplicates(keep='first',inplace=True)
+             rec_no=len(rec_rec.axes[0])
+             rec_no=(rec_no**2)-rec_no-eval_rec
+            
+             UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[1,'Initial Sampling',rec_no,eval_rec,eval_rec/(rec_no+eval_rec),1.0]])
+             print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
+          except:
+             exit()
+             print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC) 
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R2', ['R2_R2'], "SoftUsed == \"EDER-TSU-R2\"")
        print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
