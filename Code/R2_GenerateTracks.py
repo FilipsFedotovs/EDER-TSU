@@ -149,7 +149,7 @@ if Mode=='C':
          # try:
              print(UF.TimeStamp(),'Initiating the logging...')
              eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
-             eval_data=pd.read_csv(eval_data_file,header=0,names = ['Segment_1','Segment_2'])
+             eval_data=pd.read_csv(eval_data_file,header=0,usecols=['Segment_1','Segment_2'])
              print(eval_data)
              exit()
              eval_rec=len(eval_data)
