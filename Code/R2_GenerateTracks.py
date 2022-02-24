@@ -155,14 +155,28 @@ if Mode=='C':
              eval_data.drop(['Segment_1'],axis=1,inplace=True)
              eval_data.drop(['Segment_2'],axis=1,inplace=True)
              print(eval_data)
+             rec_no=0
+             for j in range(0,len(data)):
+                for sj in range(0,int(data[j][2])):
+                    for f in range(0,fractions):
+                         progress=round((float(j)/float(len(data)))*100,0)
+                         print(UF.TimeStamp(),'progress is ',progress,' %', end="\r", flush=True) #Progress display
+                         new_input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+                         rec=pd.read_csv(new_input_file_location,usecols = ['Segment_1','Segment_2'])
+                         rec["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(rec['Segment_1'], rec['Segment_2'])]
+                         rec.drop(['Segment_1'],axis=1,inplace=True)
+                         rec.drop(['Segment_2'],axis=1,inplace=True)
+                         if f==0:
+                            rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
+                            rec_no+=(len(rec)-len(rec_eval))
+                         else:
+                            new_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
+                            rec_no+=(len(rec)-len(new_eval))
+                            rec_eval = pd.concat([rec_eval, new_eval], axis=1)
+             eval_no=len(rec_eval)
+             print([2,'SLG and STG cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),1.0])
              exit()
-             eval_rec=len(eval_data)
-             rec_rec=new_combined_data['FEDRA_Seg_ID']
-             rec_rec.drop_duplicates(keep='first',inplace=True)
-             rec_no=len(rec_rec.axes[0])
-             rec_no=(rec_no**2)-rec_no-eval_rec
-            
-             UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[1,'Initial Sampling',rec_no,eval_rec,eval_rec/(rec_no+eval_rec),1.0]])
+             #UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[2,'SLG and STG cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),1.0]])
              print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
         #  except:
          #    exit()
