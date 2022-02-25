@@ -208,7 +208,6 @@ if Mode=='C':
              print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
          except:
              print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
-       exit()
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R3', ['R2_R3','R3_R3'], "SoftUsed == \"EDER-TSU-R3\"")
        print(UF.TimeStamp(), bcolors.OKGREEN+"Track filtering is completed, you can perform CNN fit on them now..."+bcolors.ENDC)
