@@ -154,7 +154,6 @@ if Mode=='C':
              eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_2'])]
              eval_data.drop(['Segment_1'],axis=1,inplace=True)
              eval_data.drop(['Segment_2'],axis=1,inplace=True)
-             print(eval_data)
              rec_no=0
              eval_no=0
              for j in range(0,len(data)):
@@ -176,7 +175,7 @@ if Mode=='C':
                          rec_no+=(len(rec)-len(rec_eval))
                          print('1',eval_no)
              
-             print([2,'SLG and STG cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),1.0])
+             print([2,'SLG and STG cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)])
              exit()
              #UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [['Step_No','Step_Desc','Fake_Seeds','Truth_Seeds','Precision','Recall'],[2,'SLG and STG cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),1.0]])
              print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
