@@ -173,7 +173,7 @@ if Mode=='C':
         else:
               CompressionRatio=0
         print(UF.TimeStamp(),'Set',str(j+1),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
-        if args.Log=='Y':
+       if args.Log=='Y':
          #try:
              print(UF.TimeStamp(),'Initiating the logging...')
              eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
