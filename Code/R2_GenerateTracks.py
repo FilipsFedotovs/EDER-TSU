@@ -160,7 +160,9 @@ if Mode=='C':
                 for sj in range(0,int(data[j][2])):
                     for f in range(0,1000):
                       new_input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-                      if os.path.isfile(new_input_file_location):
+                      if os.path.isfile(new_input_file_location)==False:
+                            break
+                      else:
                          progress=round((float(j)/float(len(data)))*100,0)
                          print(UF.TimeStamp(),'progress is ',progress,' %', end="\r", flush=True) #Progress display
                          
@@ -168,7 +170,7 @@ if Mode=='C':
                          rec["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(rec['Segment_1'], rec['Segment_2'])]
                          rec.drop(['Segment_1'],axis=1,inplace=True)
                          rec.drop(['Segment_2'],axis=1,inplace=True)
-                         if f==0:
+                         if f==0 and j==0 and sj==0:
                             rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
                             rec_no+=(len(rec)-len(rec_eval))
                          else:
