@@ -183,7 +183,7 @@ if Mode=='C':
        base_data_file.close()
        eval_tracks=[]
        for sd in base_data:
-           eval_tracks.append([sd.SegmentHeader[0],sd.SegmentHeader[1])
+           eval_tracks.append([sd.SegmentHeader[0],sd.SegmentHeader[1]])
        del base_data
        if args.Log=='Y':
          #try:
