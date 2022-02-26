@@ -180,11 +180,7 @@ if Mode=='C':
        print(UF.TimeStamp(), 'Saving the object file... ')
        base_data_file=open(output_file_location,'wb')
        pickle.dump(base_data,base_data_file)
-       base_data_file.close()
-       eval_tracks=[]
-       for sd in base_data:
-           eval_tracks.append([sd.SegmentHeader[0],sd.SegmentHeader[1]])
-       del base_data
+       base_data_file.close()     
        if args.Log=='Y':
          #try:
              print(UF.TimeStamp(),'Initiating the logging...')
@@ -195,14 +191,11 @@ if Mode=='C':
              eval_data.drop(['Segment_2'],axis=1,inplace=True)
              rec_no=0
              eval_no=0
-             rec=pd.read_csv(output_file_eval_location,usecols = ['Segment_1','Segment_2'])
-             rec_data_file=open(new_input_file_location,'rb')
-             rec_data=pickle.load(rec_data_file)
-             rec_data_file.close()
-             rec_list=[]
-             for rd in rec_data:
+             rec_list=[]           
+             for rd in base_data:
                  rec_list.append([rd.SegmentHeader[0],rd.SegmentHeader[1]])
-             rec = pd.DataFrame(rec_list, columns = ['Segment_1','Segment_2','Track_CNN_Fit'])
+             del base_data
+             rec = pd.DataFrame(rec_list, columns = ['Segment_1','Segment_2'])
              rec["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(rec['Segment_1'], rec['Segment_2'])]
              rec.drop(['Segment_1'],axis=1,inplace=True)
              rec.drop(['Segment_2'],axis=1,inplace=True)
