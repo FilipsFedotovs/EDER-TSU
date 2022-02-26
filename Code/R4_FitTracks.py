@@ -169,7 +169,6 @@ if Mode=='C':
 
        Records=len(base_data)
        print(UF.TimeStamp(),'Final reconstructed set contains', Records, '2-segment glued tracks',bcolors.ENDC)
-       output_file_eval_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_E4_CNN_FIT_TRACK_SEGMENTS.csv'
        output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R4_R5_CNN_Fit_Track_Segments.pkl'
        base_data=list(set(base_data))
        Records_After_Compression=len(base_data)
@@ -183,14 +182,11 @@ if Mode=='C':
        pickle.dump(base_data,base_data_file)
        base_data_file.close()
        eval_tracks=[]
-       eval_tracks.append(['Segment_1','Segment_2','Track_CNN_Fit'])
-       print(UF.TimeStamp(), 'Saving the csv file... ')
        for sd in base_data:
-           eval_tracks.append([sd.SegmentHeader[0],sd.SegmentHeader[1],sd.Track_CNN_Fit])
+           eval_tracks.append([sd.SegmentHeader[0],sd.SegmentHeader[1])
        del base_data
-       UF.LogOperations(output_file_eval_location,'StartLog', eval_tracks)
        if args.Log=='Y':
-         try:
+         #try:
              print(UF.TimeStamp(),'Initiating the logging...')
              eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
              eval_data=pd.read_csv(eval_data_file,header=0,usecols=['Segment_1','Segment_2'])
@@ -206,18 +202,22 @@ if Mode=='C':
              rec_list=[]
              for rd in rec_data:
                  rec_list.append([rd.SegmentHeader[0],rd.SegmentHeader[1]])
-             rec = pd.DataFrame(rec_list, columns = ['Segment_1','Segment_2'])
+             rec = pd.DataFrame(rec_list, columns = ['Segment_1','Segment_2','Track_CNN_Fit'])
              rec["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(rec['Segment_1'], rec['Segment_2'])]
-                         rec.drop(['Segment_1'],axis=1,inplace=True)
-                         rec.drop(['Segment_2'],axis=1,inplace=True)
-                         rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
-                         eval_no+=len(rec_eval)
-                         rec_no+=(len(rec)-len(rec_eval))           
-             UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[3,'DOCA and angle cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])
+             rec.drop(['Segment_1'],axis=1,inplace=True)
+             rec.drop(['Segment_2'],axis=1,inplace=True)
+             rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
+             eval_no=len(rec_eval)
+             rec_no=(len(rec)-len(rec_eval))
+             if args.ReFit=='N':
+                 UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[4,'CNN Prefit',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])
+             else:
+                 UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[5,'CNN Postfit',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])              
              print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
-         except:
-             print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
+         #except:
+          #   print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
+       exit()
        UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R4', ['R4_R4'], "SoftUsed == \"EDER-TSU-R4\"")
        print(bcolors.BOLD+'Would you like to delete filtered track seed data?'+bcolors.ENDC)
        UserAnswer=input(bcolors.BOLD+"Please, enter your option Y/N \n"+bcolors.ENDC)
