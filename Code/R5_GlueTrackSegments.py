@@ -232,7 +232,9 @@ if args.Mode=='C':
                     rec["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(rec['Segment_1'], rec['Segment_2'])]
                     rec.drop(['Segment_1'],axis=1,inplace=True)
                     rec.drop(['Segment_2'],axis=1,inplace=True)
+                    rec.drop_duplicates(subset=['Track_ID'], keep='first', inplace=True)
                     rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
+                    
                     eval_no=len(rec_eval)
                     rec_no=(len(rec)-len(rec_eval))
                     UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[5,'Track merging',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])
