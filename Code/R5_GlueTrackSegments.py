@@ -212,7 +212,7 @@ if args.Mode=='C':
                  pickle.dump(VertexPool, open_file)
                  open_file.close()
                  if args.Log=='Y':
-                  #try:
+                  try:
                     print(UF.TimeStamp(),'Initiating the logging...')
                     eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
                     eval_data=pd.read_csv(eval_data_file,header=0,usecols=['Segment_1','Segment_2'])
@@ -234,15 +234,13 @@ if args.Mode=='C':
                     rec.drop(['Segment_2'],axis=1,inplace=True)
                     rec.drop_duplicates(subset=['Track_ID'], keep='first', inplace=True)
                     rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
-                    
                     eval_no=len(rec_eval)
                     rec_no=(len(rec)-len(rec_eval))
-                    UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[5,'Track merging',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])
-                          
+                    UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[6,'Track merging',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])                   
                     print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
-                  #except:
-                    #print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
-                 #UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R5', ['R5_R5'], "SoftUsed == \"EDER-TSU-R5\"")
+                  except:
+                    print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
+                 UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R5', ['R5_R5'], "SoftUsed == \"EDER-TSU-R5\"")
                  print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
                  print(UF.TimeStamp(),bcolors.OKGREEN+'The vertex merging has been completed..'+bcolors.ENDC)
                  print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
