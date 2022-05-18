@@ -79,7 +79,7 @@ if Mode=='R':
 
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'R2', ['R2_R2','R2_R3'], "SoftUsed == \"EDER-TSU-R2\"")
+      UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R2', ['R2_R2','R2_R3'], "SoftUsed == \"EDER-TSU-R2\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       for j in range(0,len(data)):
           OptionHeader = [' --Set ', ' --Subset ', ' --EOS ', " --AFS ", " --PlateZ ", " --MaxSegments ", " --MaxSLG ", " --MaxSTG "]
