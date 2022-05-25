@@ -61,9 +61,11 @@ data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(int)
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
 data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
 print(UF.TimeStamp(),'Mapping data...')
-new_combined_data=pd.merge(data, map_data, how="outer", left_on=["FEDRA_Seg_ID"], right_on=['Old_Track_ID'])
-new_combined_data[PM.FEDRA_Track_QUADRANT] = np.where(new_combined_data['New_Track_Quarter'].isnull(), new_combined_data[PM.FEDRA_Track_QUADRANT], new_combined_data['New_Track_Quarter'])
-new_combined_data[PM.FEDRA_Track_ID] = np.where(new_combined_data['New_Track_ID'].isnull(), new_combined_data[PM.FEDRA_Track_ID], new_combined_data['New_Track_ID'])
+new_combined_data=pd.merge(data, map_data, how="left", left_on=["FEDRA_Seg_ID"], right_on=['Old_Track_ID'])
+new_combined_data['New_Track_Quarter'] = new_combined_data['New_Track_Quarter'].fillna(new_combined_data[PM.FEDRA_Track_QUADRANT])
+new_combined_data['New_Track_ID'] = new_combined_data['New_Track_ID'].fillna(new_combined_data[PM.FEDRA_Track_ID])
+new_combined_data[PM.FEDRA_Track_QUADRANT]=new_combined_data['New_Track_Quarter']
+new_combined_data[PM.FEDRA_Track_ID]=new_combined_data['New_Track_ID']
 print(UF.TimeStamp(),'Mapping data...')
 new_combined_data=new_combined_data.drop(['FEDRA_Seg_ID'],axis=1)
 new_combined_data=new_combined_data.drop(['Old_Track_ID'],axis=1)

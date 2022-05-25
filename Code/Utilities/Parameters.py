@@ -7,15 +7,15 @@
 x='x' #Column name x-coordinate of the track hit
 y='y' #Column name for y-coordinate of the track hit
 z='z' #Column name for z-coordinate of the track hit
-FEDRA_Track_ID='FEDRATrackID' #Column nameActual track id for FEDRA (or other reconstruction software)
-FEDRA_Track_QUADRANT='quarter' #Quarter of the ECC where the track is reconstructed If not present in the data please put the Track ID (the same as above)
-MC_Track_ID='MCTrack'  #Column name for Track ID for MC Truth reconstruction data
-MC_Event_ID='MCEvent' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
-
+FEDRA_Track_ID='FEDRA Track ID' #Column nameActual track id for FEDRA (or other reconstruction software)
+FEDRA_Track_QUADRANT='Quadrant' #Quarter of the ECC where the track is reconstructed If not present in the data please put the Track ID (the same as above)
+MC_Track_ID='MC Track'  #Column name for Track ID for MC Truth reconstruction data
+MC_Event_ID='MC Event' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
+MC_Mother_PDG='Mother PDG'
 
 ########List of the package run parameters
-MaxSegmentsPerJob=20000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
-MaxEvalSegmentsPerJob=20000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
+MaxSegmentsPerJob=15000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
+MaxEvalSegmentsPerJob=15000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
 MaxTracksPerJob=40000
 MaxFitTracksPerJob=10000
 MaxTracksPerTrPool=20000
