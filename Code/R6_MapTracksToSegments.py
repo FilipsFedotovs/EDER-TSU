@@ -61,7 +61,7 @@ data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(int)
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
 data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
 print(UF.TimeStamp(),'Mapping data...')
-new_combined_data=pd.merge(data, map_data, how="outer", left_on=["FEDRA_Seg_ID"], right_on=['Old_Track_ID'])
+new_combined_data=pd.merge(data, map_data, how="inner", left_on=["FEDRA_Seg_ID"], right_on=['Old_Track_ID'])
 # need to modify later
 print(new_combined_data)
 exit()
