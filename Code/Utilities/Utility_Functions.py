@@ -28,9 +28,7 @@ class Track:
           self.SegmentHits=[]
           for s in range(len(self.SegmentHeader)):
               self.SegmentHits.append([])
-              print(self.SegmentHeader[s])
               for t in RawHits:
-                   print(t)
                    if self.SegmentHeader[s]==t[3]:
                       self.SegmentHits[s].append(t[:3])
           for Hit in range(0, len(self.SegmentHits)):
@@ -39,11 +37,8 @@ class Track:
       def DecorateTrackGeoInfo(self):
           if hasattr(self,'SegmentHits'):
              if self.Segmentation==2:
-                print(self.SegmentHits[0])
-                print(self.SegmentHits[1])
                 __XZ1=Track.GetEquationOfTrack(self.SegmentHits[0])[0]
                 __XZ2=Track.GetEquationOfTrack(self.SegmentHits[1])[0]
-
                 __YZ1=Track.GetEquationOfTrack(self.SegmentHits[0])[1]
                 __YZ2=Track.GetEquationOfTrack(self.SegmentHits[1])[1]
                 __X1S=Track.GetEquationOfTrack(self.SegmentHits[0])[3]
