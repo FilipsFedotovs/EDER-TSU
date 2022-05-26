@@ -28,7 +28,9 @@ class Track:
           self.SegmentHits=[]
           for s in range(len(self.SegmentHeader)):
               self.SegmentHits.append([])
+              print(self.SegmentHeader[s])
               for t in RawHits:
+
                    if self.SegmentHeader[s]==t[3]:
                       self.SegmentHits[s].append(t[:3])
           for Hit in range(0, len(self.SegmentHits)):
