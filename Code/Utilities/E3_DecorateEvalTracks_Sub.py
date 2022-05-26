@@ -45,6 +45,8 @@ segments["x"] = pd.to_numeric(segments["x"],downcast='float')
 segments["y"] = pd.to_numeric(segments["y"],downcast='float')
 segments["z"] = pd.to_numeric(segments["z"],downcast='float')
 segments = segments.values.tolist() #Convirting the result to List data type
+print(segments)
+exit()
 tracks = tracks.values.tolist() #Convirting the result to List data type
 del tracks_1
 del tracks_2
