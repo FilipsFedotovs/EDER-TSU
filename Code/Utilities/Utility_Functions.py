@@ -37,8 +37,11 @@ class Track:
       def DecorateTrackGeoInfo(self):
           if hasattr(self,'SegmentHits'):
              if self.Segmentation==2:
+                print(self.SegmentHits[0])
+                print(self.SegmentHits[1])
                 __XZ1=Track.GetEquationOfTrack(self.SegmentHits[0])[0]
                 __XZ2=Track.GetEquationOfTrack(self.SegmentHits[1])[0]
+
                 __YZ1=Track.GetEquationOfTrack(self.SegmentHits[0])[1]
                 __YZ2=Track.GetEquationOfTrack(self.SegmentHits[1])[1]
                 __X1S=Track.GetEquationOfTrack(self.SegmentHits[0])[3]
