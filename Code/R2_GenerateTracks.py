@@ -138,7 +138,7 @@ if Mode=='C':
             if Records>0:
               Compression_Ratio=int((Records_After_Compression/Records)*100)
             else:
-              CompressionRatio=0
+              Compression_Ratio=0
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
             fractions=int(math.ceil(Records_After_Compression/MaxTracksPerJob))
             for f in range(0,fractions):
