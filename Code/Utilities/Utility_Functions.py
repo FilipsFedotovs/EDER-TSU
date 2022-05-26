@@ -30,7 +30,7 @@ class Track:
               self.SegmentHits.append([])
               print(self.SegmentHeader[s])
               for t in RawHits:
-
+                   print(t)
                    if self.SegmentHeader[s]==t[3]:
                       self.SegmentHits[s].append(t[:3])
           for Hit in range(0, len(self.SegmentHits)):
