@@ -44,6 +44,9 @@ segments=pd.merge(segments, track_list, how="inner", on=["FEDRA_Seg_ID"]) #Shrin
 segments["x"] = pd.to_numeric(segments["x"],downcast='float')
 segments["y"] = pd.to_numeric(segments["y"],downcast='float')
 segments["z"] = pd.to_numeric(segments["z"],downcast='float')
+print(segments)
+exit()
+segments=segments[['x','y','z']]
 segments = segments.values.tolist() #Convirting the result to List data type
 print(segments)
 exit()
