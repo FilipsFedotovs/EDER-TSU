@@ -31,7 +31,7 @@ input_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+Sub
 output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_E3_DecoratedTracks_'+SubSet+'_'+fraction+'.csv'
 print(UF.TimeStamp(),'Loading the data')
 tracks=pd.read_csv(input_track_file_location)
-tracks_1=tracks.drop(['Segment_1'],axis=1)
+tracks_1=tracks.drop(['Segment_2'],axis=1)
 tracks_1=tracks_1.rename(columns={"Segment_1": "FEDRA_Seg_ID"})
 tracks_2=tracks.drop(['Segment_1'],axis=1)
 tracks_2=tracks_2.rename(columns={"Segment_2": "FEDRA_Seg_ID"})
@@ -46,8 +46,6 @@ segments["y"] = pd.to_numeric(segments["y"],downcast='float')
 segments["z"] = pd.to_numeric(segments["z"],downcast='float')
 segments=segments[['x','y','z','FEDRA_Seg_ID']]
 segments = segments.values.tolist() #Convirting the result to List data type
-print(segments)
-exit()
 tracks = tracks.values.tolist() #Convirting the result to List data type
 del tracks_1
 del tracks_2
