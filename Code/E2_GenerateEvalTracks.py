@@ -74,7 +74,7 @@ if Mode=='R':
       UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E2', ['E2_E2','E2_E3'], "SoftUsed == \"EDER-TSU-E2\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       # Prepare HTCondor job submission parameters
-      OptionHeader = [' --SubSet ', ' --EOS ', " --AFS ", " --MaxTracks "]
+      OptionHeader = [' --SubSet ', ' --EOS ', " --AFS ", " --MaxSegments "]
       OptionLine = ['$1', EOS_DIR, AFS_DIR, MaxSegmentsPerJob]
       SHName = AFS_DIR + '/HTCondor/SH/SH_E2.sh'
       SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E2.sub'
@@ -90,7 +90,7 @@ if Mode=='C':
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
    for sj in range(0,int(SubSets)):
            #Prepare HTCondor job submission parameters
-           OptionHeader = [' --SubSet ', ' --EOS ', " --AFS ", " --MaxTracks "]
+           OptionHeader = [' --SubSet ', ' --EOS ', " --AFS ", " --MaxSegments "]
            OptionLine = [sj, EOS_DIR, AFS_DIR, MaxSegmentsPerJob]
            SHName = AFS_DIR + '/HTCondor/SH/SH_E2_'+str(sj)+'.sh'
            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E2_'+str(sj)+'.sub'
