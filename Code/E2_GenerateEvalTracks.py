@@ -45,7 +45,7 @@ import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################
 # Preset framework parameters    #########################################
-MaxSegmentsPerJob = PM.MaxEvalSegmentsPerJob #These parameteres help to keep each HTCondor job size small enough to be executed ithout crash.
+MaxSegmentsPerJob = PM.MaxEvalSegmentsPerJob #These parameteres help to keep each HTCondor job size small enough to be executed without crash.
 MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
