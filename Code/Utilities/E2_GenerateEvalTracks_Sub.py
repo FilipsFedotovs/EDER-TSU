@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--SubSet',help="Subset number", default='1')
 parser.add_argument('--EOS',help="EOS directory location", default='.')
 parser.add_argument('--AFS',help="AFS directory location", default='.')
-parser.add_argument('--MaxTracks',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
+parser.add_argument('--MaxSegments',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
 
 
 ######################################## Set variables  #############################################################
@@ -26,7 +26,7 @@ Subset=int(args.SubSet)  #The subset helps to determine what portion of the trac
 
 ########################################     Preset framework parameters    #########################################
 MaxRecords=10000000 #A set parameter that helps to manage memory load of this script (Please do not exceed 10000000)
-MaxTracks=int(args.MaxTracks)
+MaxSegments=int(args.MaxSegments)
 
 #Loading Directory locations
 EOS_DIR=args.EOS
@@ -50,11 +50,11 @@ data_header=data_header.reset_index()
 Records=len(data_header.axes[0])
 print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
 Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
-Steps=math.ceil(MaxTracks/Cut)  #Calculating number of cuts
+Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
 data=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
 #What section of data will we cut?
-StartDataCut=Subset*MaxTracks
-EndDataCut=(Subset+1)*MaxTracks
+StartDataCut=Subset*MaxSegments
+EndDataCut=(Subset+1)*MaxSegments
 
 #Specifying the right join
 r_data=data.rename(columns={"x": "r_x"})

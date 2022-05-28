@@ -45,8 +45,7 @@ import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
 ########################################
 # Preset framework parameters    #########################################
-MaxSegmentsPerJob = PM.MaxEvalSegmentsPerJob #These parameteres help to keep each HTCondor job size small enough to be executed without crash.
-MaxTracksPerJob = PM.MaxTracksPerJob
+MaxSegmentsPerJob = PM.MaxSegmentsPerJob #These parameteres help to keep each HTCondor job size small enough to be executed without crash.
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -76,7 +75,7 @@ if Mode=='R':
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       # Prepare HTCondor job submission parameters
       OptionHeader = [' --SubSet ', ' --EOS ', " --AFS ", " --MaxTracks "]
-      OptionLine = ['$1', EOS_DIR, AFS_DIR, MaxTracksPerJob]
+      OptionLine = ['$1', EOS_DIR, AFS_DIR, MaxSegmentsPerJob]
       SHName = AFS_DIR + '/HTCondor/SH/SH_E2.sh'
       SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E2.sub'
       MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E2'
@@ -92,7 +91,7 @@ if Mode=='C':
    for sj in range(0,int(SubSets)):
            #Prepare HTCondor job submission parameters
            OptionHeader = [' --SubSet ', ' --EOS ', " --AFS ", " --MaxTracks "]
-           OptionLine = [sj, EOS_DIR, AFS_DIR, MaxTracksPerJob]
+           OptionLine = [sj, EOS_DIR, AFS_DIR, MaxSegmentsPerJob]
            SHName = AFS_DIR + '/HTCondor/SH/SH_E2_'+str(sj)+'.sh'
            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E2_'+str(sj)+'.sub'
            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E2_'+str(sj)
@@ -136,10 +135,10 @@ if Mode=='C':
            else:
               CompressionRatio=0
            print(UF.TimeStamp(),'Subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC) #Compression ratio = Deduplicated Set/Not deduplicated set
-           fractions=int(math.ceil(Records_After_Compression/MaxTracksPerJob))
+           fractions=int(math.ceil(Records_After_Compression/MaxSegmentsPerJob))
            for f in range(0,fractions):
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E2_E3_RawTracks_'+str(sj)+'_'+str(f)+'.csv'
-             result[(f*MaxTracksPerJob):min(Records_After_Compression,((f+1)*MaxTracksPerJob))].to_csv(new_output_file_location,index=False) #Splitting sets for the next script
+             result[(f*MaxSegmentsPerJob):min(Records_After_Compression,((f+1)*MaxSegmentsPerJob))].to_csv(new_output_file_location,index=False) #Splitting sets for the next script
 
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E2', ['E2_E2'], "SoftUsed == \"EDER-TSU-E2\"") #Cleaning up the EOS directory and HCondor logs
