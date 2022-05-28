@@ -45,8 +45,7 @@ import sys
 sys.path.insert(1, AFS_DIR+'/Code/Utilities/')
 import Utility_Functions as UF #This is where we keep routine utility functions
 import Parameters as PM #This is where we keep framework global parameters
-MaxEvalSegmentsPerJob = PM.MaxEvalSegmentsPerJob
-MaxTracksPerJob = PM.MaxTracksPerJob
+MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -61,7 +60,7 @@ data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
 data.drop_duplicates(subset="FEDRA_Seg_ID",keep='first',inplace=True)  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 Records=len(data.axes[0])
-SubSets=math.ceil(Records/MaxEvalSegmentsPerJob)
+SubSets=math.ceil(Records/MaxSegmentsPerJob)
 if Mode=='R':
    print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to create the seeds from the scratch'+bcolors.ENDC)
    print(UF.TimeStamp(),bcolors.WARNING+'This option will erase all the previous Seed Creation jobs/results'+bcolors.ENDC)

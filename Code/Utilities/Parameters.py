@@ -44,7 +44,6 @@ if Config=='SND':
 else:
     ########List of the package run parameters
     MaxSegmentsPerJob=15000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
-    MaxTracksPerJob=10000
     MaxFitTracksPerJob=10000
     MaxTracksPerTrPool=20000
 
