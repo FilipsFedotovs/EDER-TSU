@@ -139,6 +139,7 @@ if Mode=='C':
    else:
        print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor track Creation jobs have finished'+bcolors.ENDC)
        print(UF.TimeStamp(),'Collating the results...')
+       trigger=False
        for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
            for f in range(0,1000):
@@ -147,10 +148,12 @@ if Mode=='C':
               if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
                  print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
               elif os.path.isfile(required_output_file_location):
-                 if sj==f==0:
+                 if trigger==False:
                     base_data_file=open(required_output_file_location,'rb')
                     base_data=pickle.load(base_data_file)
                     base_data_file.close()
+                    trigger=True
+                    continue
                  else:
                     new_data_file=open(required_output_file_location,'rb')
                     new_data=pickle.load(new_data_file)
