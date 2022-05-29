@@ -57,7 +57,6 @@ MinAngle=PM.MinAngle
 MaxAngle=PM.MaxAngle
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 MaxSegmentsPerJob = PM.MaxSegmentsPerJob
-MaxTracksPerJob = PM.MaxTracksPerJob
 MaxFitTracksPerJob=PM.MaxFitTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
