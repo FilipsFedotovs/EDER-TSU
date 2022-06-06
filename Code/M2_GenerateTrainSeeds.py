@@ -52,7 +52,6 @@ import Parameters as PM #This is where we keep framework global parameters
 MaxSLG=PM.MaxSLG
 MaxSTG=PM.MaxSTG#The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 MaxSegments = PM.MaxSegmentsPerJob
-MaxTracks = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -152,10 +151,10 @@ if Mode=='C':
             else:
               Compression_Ratio=0
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
-            fractions=int(math.ceil(Records_After_Compression/MaxTracks))
+            fractions=int(math.ceil(Records_After_Compression/MaxSegments))
             for f in range(0,fractions):
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-             result[(f*MaxTracks):min(Records_After_Compression,((f+1)*MaxTracks))].to_csv(new_output_file_location,index=False)
+             result[(f*MaxSegments):min(Records_After_Compression,((f+1)*MaxSegments))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M2', ['M2_M2'], "SoftUsed == \"EDER-TSU-M2\"")

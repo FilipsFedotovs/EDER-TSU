@@ -10,10 +10,10 @@ z='z' #Column name for z-coordinate of the track hit
 FEDRA_Track_ID='FEDRA Track ID' #Column nameActual track id for FEDRA (or other reconstruction software)
 FEDRA_Track_QUADRANT='Quadrant' #Quarter of the ECC where the track is reconstructed If not present in the data please put the Track ID (the same as above)
 MC_Track_ID='MC Track'  #Column name for Track ID for MC Truth reconstruction data
-MC_Event_ID='MC Event' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
+MC_Event_ID='MC Event Key' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
 MC_Mother_PDG='Mother PDG'
 
-Config='SHIP'
+Config='SND'
 if Config=='SND':
     ########List of the package run parameters
     MaxSegmentsPerJob=10000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
@@ -21,8 +21,8 @@ if Config=='SND':
     MaxTracksPerTrPool=20000
 
     ######List of geometrical constain parameters
-    MaxSLG=4000
-    MaxSTG=50#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
+    MaxSLG=7000
+    MaxSTG=160#This parameter restricts the maximum length of of the longitudinal and transverse distance between track segments.
     MinHitsTrack=2
     MaxTrainSampleSize=50000
     MaxValSampleSize=100000

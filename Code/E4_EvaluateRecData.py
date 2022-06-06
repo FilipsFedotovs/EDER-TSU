@@ -55,7 +55,7 @@ args = parser.parse_args()
 acceptance=float(args.Acceptance)
 ########################################     Preset framework parameters    #########################################
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
-MaxTracksPerJob = PM.MaxTracksPerJob
+
 #Specifying the full path to input/output files
 
 

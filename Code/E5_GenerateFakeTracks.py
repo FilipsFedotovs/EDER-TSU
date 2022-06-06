@@ -49,7 +49,6 @@ import Parameters as PM #This is where we keep framework global parameters
 MaxSLG=float(args.MaxSLG)
 MaxSTG=float(args.MaxSTG) #These parameters restricts the maximum length of of the longitudinal and transverse distance between track segments.
 MaxSegmentsPerJob = PM.MaxSegmentsPerJob
-MaxTracksPerJob = PM.MaxTracksPerJob
 #Specifying the full path to input/output files
 input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
@@ -84,7 +83,7 @@ if Mode=='R':
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       for j in range(0,len(data)):
           OptionHeader = [' --Set ', ' --Subset ', ' --EOS ', " --AFS ", " --PlateZ ", " --MaxSegments ", " --MaxSLG ", " --MaxSTG "]
-          OptionLine = [j, '$1', EOS_DIR, AFS_DIR, int(data[j][0]), MaxTracksPerJob, MaxSLG, MaxSTG]
+          OptionLine = [j, '$1', EOS_DIR, AFS_DIR, int(data[j][0]), MaxSegmentsPerJob, MaxSLG, MaxSTG]
           SHName = AFS_DIR + '/HTCondor/SH/SH_E5_' + str(j) + '.sh'
           SUBName = AFS_DIR + '/HTCondor/SUB/SUB_E5_' + str(j) + '.sub'
           MSGName = AFS_DIR + '/HTCondor/MSG/MSG_E5_' + str(j)
@@ -153,10 +152,10 @@ if Mode=='C':
             else:
               CompressionRatio=0
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
-            fractions=int(math.ceil(Records_After_Compression/MaxTracksPerJob))
+            fractions=int(math.ceil(Records_After_Compression/MaxSegmentsPerJob))
             for f in range(0,fractions):
              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E5_E6_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-             result[(f*MaxTracksPerJob):min(Records_After_Compression,((f+1)*MaxTracksPerJob))].to_csv(new_output_file_location,index=False)
+             result[(f*MaxSegmentsPerJob):min(Records_After_Compression,((f+1)*MaxSegmentsPerJob))].to_csv(new_output_file_location,index=False)
             os.unlink(output_file_location)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.EvalCleanUp(AFS_DIR, EOS_DIR, 'E5', ['E5_E5'], "SoftUsed == \"EDER-TSU-E5\"")
