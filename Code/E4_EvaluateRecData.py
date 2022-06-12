@@ -138,7 +138,16 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'TRACKING':
     TotalFullFEDRATracks=seg_data_segm_kpi['FEDRA_Seg_ID'].sum()
     Segmentation=seg_data_segm_kpi['FEDRA_Seg_ID'].mean()
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_MC_TRACK_SEGMENTATION_STATS.csv'
+
     seg_data_segm_kpi.to_csv(output_file_location,index=False)
+    print(seg_data_segm_kpi)
+    exit()
+    output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_MC_TRACK_SEGMENTATION_STATS.csv'
+    seg_data_segm_kpi.to_csv(output_file_location,index=False)
+    
+
+
+
     print(UF.TimeStamp(), bcolors.OKGREEN+"Stats have on MC Track segmentation has been written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
     mc_min = rec_data.groupby('MC_Mother_Track_ID')['z'].min()
     mc_min=mc_min.reset_index()
