@@ -140,11 +140,12 @@ if args.TypeOfAnalysis == 'ALL' or args.TypeOfAnalysis == 'TRACKING':
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_MC_TRACK_SEGMENTATION_STATS.csv'
 
     seg_data_segm_kpi.to_csv(output_file_location,index=False)
+    seg_data_segm_kpi=seg_data_segm_kpi.groupby(by=['FEDRA_Seg_ID'])['MC_Mother_Track_ID'].count().reset_index()
     print(seg_data_segm_kpi)
     exit()
     output_file_location = EOS_DIR + '/EDER-TSU/Data/TEST_SET/E4_MC_TRACK_SEGMENTATION_STATS.csv'
     seg_data_segm_kpi.to_csv(output_file_location,index=False)
-    
+
 
 
 
