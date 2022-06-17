@@ -184,11 +184,14 @@ if Mode=='Test':
            exit()
 records=[]
 print(UF.TimeStamp(),'Starting the training process... ')
+log=[]
 for ib in range(0,NTrainBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
     BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed)
     model.train_on_batch(BatchImages[0],BatchImages[1])
+    t=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=True)
+    log.append([t[0],t[1]])
     progress=int(round((float(ib)/float(NTrainBatches))*100,0))
     print("Training in progress ",progress,' %', end="\r", flush=True)
 print(UF.TimeStamp(),'Finished with the training... ')
@@ -214,4 +217,5 @@ if ValidModel:
     model.save(model_name)
     records.append([int(args.Epoch),ImageSet,len(TrainImages),train_loss,train_acc,val_loss,val_acc])
     UF.LogOperations(EOSsubModelDIR+'/'+'M5_M5_model_train_log_'+ImageSet+'.csv','StartLog', records)
+    UF.LogOperations(EOSsubModelDIR+'/'+'Live_log.csv','StartLog', log)
 
