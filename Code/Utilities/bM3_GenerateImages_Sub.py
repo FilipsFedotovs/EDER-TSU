@@ -52,6 +52,7 @@ segments["z"] = pd.to_numeric(segments["z"],downcast='float')
 tracks = segments.drop(columns=["x","y","z"])
 tracks = tracks.drop_duplicates()
 segments = segments.values.tolist() #Convirting the result to List data type
+tracks = tracks.values.tolist() #Convirting the result to List data type
 
 gc.collect()
 
