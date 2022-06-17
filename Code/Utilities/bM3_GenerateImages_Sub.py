@@ -65,11 +65,11 @@ limit = len(tracks)
 
 for s in range(0,limit):
     track=tracks.pop(0)
-    print("\n\n\n")
+
+    label=track[1]
+    track=Track(track[:1])
     print(track)
     exit()
-    label=track[2]
-    track=Track(track[:2])
     if label:
         num_label = 1
     else:
