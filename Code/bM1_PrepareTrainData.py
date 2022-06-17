@@ -93,8 +93,6 @@ compress_data.drop_duplicates(subset='FEDRA_Seg_ID',keep='first',inplace=True)
 data=data.drop(['MC_Mother_Track_ID','MC_Mother_PDG'],axis=1)
 compress_data=compress_data.drop(['MC_Mother_Track_No'],axis=1)
 data=pd.merge(data, compress_data, how="left", on=['FEDRA_Seg_ID'])
-print(data)
-exit()
 if SliceData:
      print(UF.TimeStamp(),'Slicing the data...')
      ValidEvents=data.drop(data.index[(data[PM.x] > Xmax) | (data[PM.x] < Xmin) | (data[PM.y] > Ymax) | (data[PM.y] < Ymin)])
