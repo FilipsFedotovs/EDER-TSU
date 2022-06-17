@@ -88,8 +88,6 @@ compress_data=compress_data.groupby(by=['FEDRA_Seg_ID','MC_Mother_Track_ID','MC_
 compress_data=compress_data.sort_values(['FEDRA_Seg_ID','MC_Mother_Track_No'],ascending=[1,0])
 # the majority of hits in FEDRA_Seg are from MC_Track 
 compress_data.drop_duplicates(subset='FEDRA_Seg_ID',keep='first',inplace=True)
-print(compress_data)
-exit()
 # compress_data gives the FEDRA_SEG - MC_TRACK correspondance
 # each FEDRA_SEG has only one MC_TRACK_ID now
 data=data.drop(['MC_Mother_Track_ID','MC_Mother_PDG'],axis=1)
