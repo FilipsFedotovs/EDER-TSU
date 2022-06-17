@@ -217,5 +217,5 @@ if ValidModel:
     model.save(model_name)
     records.append([int(args.Epoch),ImageSet,len(TrainImages),train_loss,train_acc,val_loss,val_acc])
     UF.LogOperations(EOSsubModelDIR+'/'+'M5_M5_model_train_log_'+ImageSet+'.csv','StartLog', records)
-    UF.LogOperations(EOSsubModelDIR+'/'+'Live_log.csv','StartLog', log)
+    UF.LogOperations(EOSsubModelDIR+'/'+'M5_M5_model_live_train_log_'+ImageSet+'.csv','StartLog', records)
 
