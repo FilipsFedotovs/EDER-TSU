@@ -96,8 +96,8 @@ exit()
     #elif track.GeoFit:
     #       GoodTracks.append(track)
     #else:
-    del track
-    continue
+   # del track
+   # continue
 print(UF.TimeStamp(),bcolors.OKGREEN+'The raw image generation has been completed..'+bcolors.ENDC)
 del tracks
 del segments
