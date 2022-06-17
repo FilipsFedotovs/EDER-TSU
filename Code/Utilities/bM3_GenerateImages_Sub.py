@@ -29,6 +29,7 @@ parser.add_argument('--MaxX',help="Image size in microns along the x-axis", defa
 parser.add_argument('--MaxY',help="Image size in microns along the y-axis", default='500.0')
 parser.add_argument('--MaxZ',help="Image size in microns along the z-axis", default='20000.0')
 parser.add_argument('--ModelName',help="Name of the CNN model", default='1T_50_SHIP_PREFIT_1_model')
+parser.add_argument('--MotherPDGList', help="List of target Mother PDGs" type=list, default=[16])
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
@@ -36,6 +37,7 @@ SubSet=args.SubSet
 fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
+MotherPDGList = args.MotherPDGList
 
 
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM1_TRACK_SEGMENTS.csv'
@@ -66,33 +68,34 @@ limit = len(tracks)
 for s in range(0,limit):
     track=tracks.pop(0)
 
-    label=track[1]
-    track=Track(track[:1])
-    print(track.SegmentHeader)
-    exit()
+    label=(track[1] in MotherPDGList)
+    track=Track(track[0])
     if label:
         num_label = 1
     else:
         num_label = 0
     track.MCtruthClassifyTrack(num_label)
-    track.DecorateSegments(segments)
-    try:
-      track.DecorateTrackGeoInfo()
-    except:
-      continue
-    track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
-    if track.GeoFit and PreFit:
-               track.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
-               TrackImage=UF.LoadRenderImages([track],1,1)[0]
-               track.UnloadTrackPrint()
-               track.CNNFitTrack(model.predict(TrackImage)[0][1])
-               if track.Track_CNN_Fit>=acceptance:
-                  GoodTracks.append(track)
-    elif track.GeoFit:
-           GoodTracks.append(track)
-    else:
-        del track
-        continue
+    GoodTracks.append(track)
+print(GoodTracks)
+exit()
+    #track.DecorateSegments(segments) 
+    #try:
+    #  track.DecorateTrackGeoInfo()
+    #except:
+    #  continue
+    #track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
+    #if track.GeoFit and PreFit:
+    #           track.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
+    #           TrackImage=UF.LoadRenderImages([track],1,1)[0]
+    #           track.UnloadTrackPrint()
+    #           track.CNNFitTrack(model.predict(TrackImage)[0][1])
+    #           if track.Track_CNN_Fit>=acceptance:
+    #              GoodTracks.append(track)
+    #elif track.GeoFit:
+    #       GoodTracks.append(track)
+    #else:
+    del track
+    continue
 print(UF.TimeStamp(),bcolors.OKGREEN+'The raw image generation has been completed..'+bcolors.ENDC)
 del tracks
 del segments
