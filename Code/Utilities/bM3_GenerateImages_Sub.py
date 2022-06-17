@@ -49,10 +49,10 @@ print(UF.TimeStamp(),'Analysing the data')
 segments["x"] = pd.to_numeric(segments["x"],downcast='float')
 segments["y"] = pd.to_numeric(segments["y"],downcast='float')
 segments["z"] = pd.to_numeric(segments["z"],downcast='float')
-
-segments = segments.values.tolist() #Convirting the result to List data type
 tracks = segments.drop(columns=["x","y","z"])
 tracks = tracks.drop_duplicates()
+segments = segments.values.tolist() #Convirting the result to List data type
+
 gc.collect()
 print(tracks)
 exit()
