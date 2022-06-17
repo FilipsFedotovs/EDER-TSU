@@ -66,6 +66,7 @@ limit = tracks.len()
 
 for s in range(0,limit):
     track=tracks.pop(0)
+    print("\n\n\n")
     print(track)
     exit()
     label=track[2]
