@@ -29,7 +29,7 @@ parser.add_argument('--MaxX',help="Image size in microns along the x-axis", defa
 parser.add_argument('--MaxY',help="Image size in microns along the y-axis", default='500.0')
 parser.add_argument('--MaxZ',help="Image size in microns along the z-axis", default='20000.0')
 parser.add_argument('--ModelName',help="Name of the CNN model", default='1T_50_SHIP_PREFIT_1_model')
-parser.add_argument('--MotherPDGList', help="List of target Mother PDGs" type=list, default=[16])
+parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', type=int, default=16)
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
@@ -38,6 +38,8 @@ fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 MotherPDGList = args.MotherPDGList
+print(MotherPDGList)
+exit()
 
 
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM1_TRACK_SEGMENTS.csv'
