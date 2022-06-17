@@ -49,11 +49,13 @@ print(UF.TimeStamp(),'Analysing the data')
 segments["x"] = pd.to_numeric(segments["x"],downcast='float')
 segments["y"] = pd.to_numeric(segments["y"],downcast='float')
 segments["z"] = pd.to_numeric(segments["z"],downcast='float')
-print(segments)
-exit()
-segments = segments.values.tolist() #Convirting the result to List data type
 
+segments = segments.values.tolist() #Convirting the result to List data type
+tracks = segments.drop(columns=["x","y","z"])
+tracks = tracks.drop_duplicates()
 gc.collect()
+print(tracks)
+exit()
 track_counter=0
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
 #create seeds
