@@ -62,8 +62,12 @@ print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prep
 #create seeds
 GoodTracks=[]
 print(UF.TimeStamp(),'Beginning the image generation part...')
+limit = tracks.len()
+
 for s in range(0,limit):
     track=tracks.pop(0)
+    print(track)
+    exit()
     label=track[2]
     track=Track(track[:2])
     if label:
