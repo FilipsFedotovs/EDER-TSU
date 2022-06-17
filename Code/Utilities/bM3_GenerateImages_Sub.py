@@ -68,7 +68,7 @@ for s in range(0,limit):
 
     label=track[1]
     track=Track(track[:1])
-    print(track)
+    print(track.SegmentHeader)
     exit()
     if label:
         num_label = 1
