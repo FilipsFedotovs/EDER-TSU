@@ -38,8 +38,7 @@ fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 MotherPDGList = args.MotherPDGList
-print(MotherPDGList)
-exit()
+
 
 
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM1_TRACK_SEGMENTS.csv'
