@@ -74,21 +74,25 @@ except:
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
 data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
 data['MC_Mother_Track_ID'] = data[PM.MC_Event_ID] + '-' + data[PM.MC_Track_ID]
+data['MC_Mother_PDG'] =data[PM.MC_Mother_PDG]
 # drop useless columns 
 data=data.drop(columns=[PM.FEDRA_Track_ID, 
                 PM.FEDRA_Track_QUADRANT,
                 PM.MC_Event_ID,
-                PM.MC_Track_ID])
-
+                PM.MC_Track_ID,
+                PM.MC_Mother_PDG
+                ])
+print(data)
+exit()
 compress_data=data.drop([PM.x,PM.y,PM.z],axis=1)
 compress_data['MC_Mother_Track_No']= compress_data['MC_Mother_Track_ID']
-compress_data=compress_data.groupby(by=['FEDRA_Seg_ID','MC_Mother_Track_ID'])['MC_Mother_Track_No'].count().reset_index()
+compress_data=compress_data.groupby(by=['FEDRA_Seg_ID','MC_Mother_Track_ID','MC_Mother_PDG'])['MC_Mother_Track_No'].count().reset_index()
 compress_data=compress_data.sort_values(['FEDRA_Seg_ID','MC_Mother_Track_No'],ascending=[1,0])
 # the majority of hits in FEDRA_Seg are from MC_Track 
 compress_data.drop_duplicates(subset='FEDRA_Seg_ID',keep='first',inplace=True)
 # compress_data gives the FEDRA_SEG - MC_TRACK correspondance
 # each FEDRA_SEG has only one MC_TRACK_ID now
-data=data.drop(['MC_Mother_Track_ID'],axis=1)
+data=data.drop(['MC_Mother_Track_ID','MC_Mother_PDG'],axis=1)
 compress_data=compress_data.drop(['MC_Mother_Track_No'],axis=1)
 data=pd.merge(data, compress_data, how="left", on=['FEDRA_Seg_ID'])
 print(data)
