@@ -88,9 +88,11 @@ compress_data=compress_data.sort_values(['FEDRA_Seg_ID','MC_Mother_Track_No'],as
 compress_data.drop_duplicates(subset='FEDRA_Seg_ID',keep='first',inplace=True)
 # compress_data gives the FEDRA_SEG - MC_TRACK correspondance
 # each FEDRA_SEG has only one MC_TRACK_ID now
-data=data.drop(['MC_Mother_Track_ID',PM.MC_Mother_PDG],axis=1)
+data=data.drop(['MC_Mother_Track_ID'],axis=1)
 compress_data=compress_data.drop(['MC_Mother_Track_No'],axis=1)
 data=pd.merge(data, compress_data, how="left", on=['FEDRA_Seg_ID'])
+print(data)
+exit()
 if SliceData:
      print(UF.TimeStamp(),'Slicing the data...')
      ValidEvents=data.drop(data.index[(data[PM.x] > Xmax) | (data[PM.x] < Xmin) | (data[PM.y] > Ymax) | (data[PM.y] < Ymin)])
