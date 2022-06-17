@@ -55,6 +55,7 @@ segments = segments.values.tolist() #Convirting the result to List data type
 
 gc.collect()
 print(tracks)
+print(segments)
 exit()
 track_counter=0
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
