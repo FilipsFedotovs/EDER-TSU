@@ -103,11 +103,11 @@ if SliceData:
      print(UF.TimeStamp(),'The sliced data has ',final_rows,' hits')
 output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM1_TRACK_SEGMENTS.csv'
 print(UF.TimeStamp(),'Removing tracks which have less than',PM.MinHitsTrack,'hits...')
-track_no_data=data.groupby(['MC_Mother_Track_ID','FEDRA_Seg_ID'],as_index=False).count()
+track_no_data=data.groupby(['MC_Mother_Track_ID','FEDRA_Seg_ID','MC_Mother_PDG'],as_index=False).count()
 track_no_data=track_no_data.drop([PM.y,PM.z],axis=1)
 # how many FEDRA_Seg does each MC_Track have 
 track_no_data=track_no_data.rename(columns={PM.x: "FEDRA_Seg_No"})
-new_combined_data=pd.merge(data, track_no_data, how="left", on=['FEDRA_Seg_ID','MC_Mother_Track_ID'])
+new_combined_data=pd.merge(data, track_no_data, how="left", on=['FEDRA_Seg_ID','MC_Mother_Track_ID','MC_Mother_PDG'])
 new_combined_data = new_combined_data[new_combined_data.FEDRA_Seg_No >= PM.MinHitsTrack]
 new_combined_data = new_combined_data.drop(["FEDRA_Seg_No"],axis=1)
 # drop MC_Track_ID at last
