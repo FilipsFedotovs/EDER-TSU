@@ -39,6 +39,8 @@ MotherPDGList = args.MotherPDGList
 if type(MotherPDGList)== int :
     MotherPDGList = [MotherPDGList]
 MotherPDGList = str(MotherPDGList)[1:len(MotherPDGList)-1]
+print(MotherPDGList)
+exit()
 
 
 
