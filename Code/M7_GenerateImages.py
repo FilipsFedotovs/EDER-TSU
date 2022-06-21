@@ -34,7 +34,7 @@ parser.add_argument('--LabelMix',help="What is the desired proportion of genuine
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
-PreFit=args.PreFit=='Y'
+
 
 
 
