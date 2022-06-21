@@ -90,8 +90,8 @@ if Mode=='R':
         print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
         UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M7', ['M7_M7','M7_M8'], "SoftUsed == \"EDER-TSU-M7\"")
          print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
-        OptionHeader = [' --Set ', ' --EOS ', " --AFS ", " --MotherPDGList"]
-        OptionLine = ['$1', EOS_DIR, AFS_DIR, MotherPDGList]
+        OptionHeader = [' --Set ', ' --EOS ', " --AFS ", " --MotherPDGList ", " --MaxSegmentsPerJob "]
+        OptionLine = ['$1', EOS_DIR, AFS_DIR, MotherPDGList, MaxSegmentsPerJob]
         SHName = AFS_DIR + '/HTCondor/SH/SH_M7.sh'
         SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M7.sub'
         MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M7' 
@@ -101,6 +101,7 @@ if Mode=='R':
                 False])
         print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
+    exit()
     ProcessStatus=1
     bad_pop=[]
     for j in range()
