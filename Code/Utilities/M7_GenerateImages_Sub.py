@@ -19,8 +19,6 @@ class bcolors:
     UNDERLINE = '\033[4m'
 parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--Set',help="Set Number", default='1')
-parser.add_argument('--SubSet',help="SubSet Number", default='1')
-parser.add_argument('--Fraction',help="Fraction", default='1')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
 parser.add_argument('--resolution',help="Resolution in microns per pixel", default='50')
@@ -33,8 +31,6 @@ parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', typ
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
-SubSet=args.SubSet
-fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 MotherPDGList = args.MotherPDGList
@@ -44,8 +40,8 @@ if type(MotherPDGList)== int :
 
 
 
-input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM1_TRACK_SEGMENTS.csv'
-output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM3_M3_RawImages_'+Set+'_'+SubSet+'_'+fraction+'.pkl'
+input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M6_TRACK_SEGMENTS.csv'
+output_track_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_RawImages_'+Set+'.pkl'
 print(UF.TimeStamp(),'Loading the data')
 
 
@@ -88,9 +84,6 @@ for s in range(0,limit):
     del track
     continue
 
-print(len(GoodTracks))
-print(GoodTracks[0].SegmentHits)
-exit()
 print(UF.TimeStamp(),bcolors.OKGREEN+'The raw image generation has been completed..'+bcolors.ENDC)
 del tracks
 del segments

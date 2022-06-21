@@ -101,7 +101,7 @@ if SliceData:
      data=pd.merge(data, ValidEvents, how="inner", on=['FEDRA_Seg_ID'])
      final_rows=len(data.axes[0])
      print(UF.TimeStamp(),'The sliced data has ',final_rows,' hits')
-output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/bM1_TRACK_SEGMENTS.csv'
+output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M6_TRACK_SEGMENTS.csv'
 print(UF.TimeStamp(),'Removing tracks which have less than',PM.MinHitsTrack,'hits...')
 track_no_data=data.groupby(['MC_Mother_Track_ID','FEDRA_Seg_ID','MC_Mother_PDG'],as_index=False).count()
 track_no_data=track_no_data.drop([PM.y,PM.z],axis=1)
