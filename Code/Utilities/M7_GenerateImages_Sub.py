@@ -54,6 +54,7 @@ segments = segments.values.tolist() #Convirting the result to List data type
 tracks = tracks.values.tolist() #Convirting the result to List data type
 
 tracks = tracks[Set*MaxSegmentsPerJob : min((Set+1)*MaxSegmentsPerJob, len(tracks))]
+print(tracks)
 gc.collect()
 
 track_counter=0
