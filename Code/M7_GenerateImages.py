@@ -31,9 +31,14 @@ parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default=
 parser.add_argument('--Samples',help="How many samples? Please enter the number or ALL if you want to use all data", default='ALL')
 parser.add_argument('--ValidationSize',help="What is the proportion of Validation Images?", default='0.1')
 parser.add_argument('--LabelMix',help="What is the desired proportion of genuine vertices in the training/validation sets", default='0.5')
+parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', type=int, default='22')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
+MotherPDGList = args.MotherPDGList
+if type(MotherPDGList)== int :
+    MotherPDGList = [MotherPDGList]
+MotherPDGList = str(MotherPDGList)
 
 
 
@@ -71,69 +76,48 @@ data = data.drop_duplicates()
 print(data)
 exit()
 
-data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxSegmentsPerJob)
-data['Sub_Sets'] = data['Sub_Sets'].astype(int)
-data = data.values.tolist() #Convirting the result to List data type
-if Mode=='R':
-   print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to create the seeds from the scratch'+bcolors.ENDC)
-   print(UF.TimeStamp(),bcolors.WARNING+'This option will erase all the previous Seed Creation jobs/results'+bcolors.ENDC)
-   UserAnswer=input(bcolors.BOLD+"Would you like to continue (Y/N)? \n"+bcolors.ENDC)
-   if UserAnswer=='N':
-         Mode='C'
-         print(UF.TimeStamp(),'OK, continuing then...')
+trackCnt = np.ceil(len(data)/MaxSegmentsPerJob)
 
-   if UserAnswer=='Y':
-      print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M3', ['M3_M3','M3_M4'], "SoftUsed == \"EDER-TSU-M3\"")
-      print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
-      for j in range(0,len(data)):
-        for sj in range(0,int(data[j][2])):
-            f_count=0
-            for f in range(0,1000):
-             new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-             if os.path.isfile(new_output_file_location):
-                 f_count=f
-            if PreFit:
-                OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle ", ' --PreFit ',' --resolution ',' --acceptance ',' --MaxX ',' --MaxY ',' --MaxZ ',' --ModelName ']
-                OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,'Y',resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
-            else:
-                OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
-                OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
-            SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '.sh'
-            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '.sub'
-            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj)
-            ScriptName = AFS_DIR + '/Code/Utilities/M3_GenerateImages_Sub.py '
-            UF.SubmitJobs2Condor(
-                [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_count + 1, 'EDER-TSU-M3', False,
-                 False])
-      print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
+if Mode=='R':
+    print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to create the seeds from the scratch'+bcolors.ENDC)
+    print(UF.TimeStamp(),bcolors.WARNING+'This option will erase all the previous Seed Creation jobs/results'+bcolors.ENDC)
+    UserAnswer=input(bcolors.BOLD+"Would you like to continue (Y/N)? \n"+bcolors.ENDC)
+    if UserAnswer=='N':
+        Mode='C'
+        print(UF.TimeStamp(),'OK, continuing then...')
+
+    if UserAnswer=='Y':
+        print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
+        UF.TrainCleanUp(AFS_DIR, EOS_DIR, 'M7', ['M7_M7','M7_M8'], "SoftUsed == \"EDER-TSU-M7\"")
+         print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
+        OptionHeader = [' --Set ', ' --EOS ', " --AFS ", " --MotherPDGList"]
+        OptionLine = ['$1', EOS_DIR, AFS_DIR, MotherPDGList]
+        SHName = AFS_DIR + '/HTCondor/SH/SH_M7.sh'
+        SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M7.sub'
+        MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M7' 
+        ScriptName = AFS_DIR + '/Code/Utilities/M7_GenerateImages_Sub.py '
+        UF.SubmitJobs2Condor(
+        [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, trackCnt, 'EDER-TSU-M7', False,
+                False])
+        print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
-   ProcessStatus=1
-   bad_pop=[]
-   MaxJ=0
-   for j in range(0,len(data)):
-       progress=int( round( (float(j)/float(len(data))*100),0)  )
-       print(UF.TimeStamp(),"Checking jobs, progress is ",progress,' %',end="\r", flush=True)
-       for sj in range(0,int(data[j][2])):
-           for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M2_M3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_RawImages_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-              if PreFit:
-                OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle ", ' --PreFit ',' --resolution ',' --acceptance ',' --MaxX ',' --MaxY ',' --MaxZ ',' --ModelName ']
-                OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle,'Y',resolution,acceptance,MaxX,MaxY,MaxZ,ModelName]
-              else:
-                  OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
-                  OptionLine = [j, sj, f, EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
-              SHName = AFS_DIR + '/HTCondor/SH/SH_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sh'
-              SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M3_' + str(j) + '_' + str(sj) + '_' + str(f) + '.sub'
-              MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M3_' + str(j) + '_' + str(sj) + '_' + str(f)
-              ScriptName = AFS_DIR + '/Code/Utilities/M3_GenerateImages_Sub.py '
-              job_details = [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M3', False,
-                             False]
-              if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
-                 bad_pop.append(job_details)
-              if os.path.isfile(required_output_file_location):
-                  MaxJ=j
+    ProcessStatus=1
+    bad_pop=[]
+    for j in range()
+    new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M6_M7_RawTracks.csv'
+    required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_RawImages.pkl'
+        
+    OptionHeader = [' --Set ', ' --EOS ', " --AFS "," --MotherPDGList"]
+    OptionLine = ['$1', EOS_DIR, AFS_DIR, MotherPDGList]
+    SHName = AFS_DIR + '/HTCondor/SH/SH_M7.sh'
+    SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M7.sub'
+    MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M7' 
+    ScriptName = AFS_DIR + '/Code/Utilities/M7_GenerateImages_Sub.py '
+    job_details = [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, trackCnt, 'EDER-TSU-M7', False,
+                    False]
+    if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
+        bad_pop.append(job_details)
+    if os.path.isfile(required_output_file_location):
    if len(bad_pop)>0:
      print(UF.TimeStamp(),bcolors.WARNING+'Warning, there are still', len(bad_pop), 'HTCondor jobs remaining'+bcolors.ENDC)
      print(bcolors.BOLD+'If you would like to wait and try again later please enter W'+bcolors.ENDC)
@@ -149,7 +133,7 @@ if Mode=='C':
         print(bcolors.BOLD+"Please check them in few hours"+bcolors.ENDC)
         exit()
    else:
-       test_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M3_CondensedImages_'+str(MaxJ)+'.pkl'
+       test_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_CondensedImages_'+str(MaxJ)+'.pkl'
        if os.path.isfile(test_file):
            print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
            print(UF.TimeStamp(), bcolors.OKGREEN+"The process has been ran before, continuing the image generation"+bcolors.ENDC)

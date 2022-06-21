@@ -21,18 +21,15 @@ parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--Set',help="Set Number", default='1')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
-parser.add_argument('--resolution',help="Resolution in microns per pixel", default='50')
-parser.add_argument('--acceptance',help="CNN fit minimum acceptance", default='0.5')
-parser.add_argument('--MaxX',help="Image size in microns along the x-axis", default='2000.0')
-parser.add_argument('--MaxY',help="Image size in microns along the y-axis", default='500.0')
-parser.add_argument('--MaxZ',help="Image size in microns along the z-axis", default='20000.0')
-parser.add_argument('--ModelName',help="Name of the CNN model", default='1T_50_SHIP_PREFIT_1_model')
 parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', type=int, default='22')
+parser.add_argument('--MaxSegmentsPerJob',help="MaxSegmentsPerJob", default='2')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
+
+MaxSegmentsPerJob = int(args.MaxSegmentsPerJob)
 MotherPDGList = args.MotherPDGList
 # in case there is only one  Mother PDG needed
 if type(MotherPDGList)== int :
@@ -56,6 +53,7 @@ tracks = tracks.drop_duplicates()
 segments = segments.values.tolist() #Convirting the result to List data type
 tracks = tracks.values.tolist() #Convirting the result to List data type
 
+tracks = tracks[Set*MaxSegmentsPerJob : min((Set+1)*MaxSegmentsPerJob, len(tracks))]
 gc.collect()
 
 track_counter=0
