@@ -85,26 +85,11 @@ for s in range(0,limit):
 
     track.DecorateSegments(segments) 
     GoodTracks.append(track)
-    print(track.SegmentHits)
-    exit()
+    del track
+    continue
 
-    #try:
-    #  track.DecorateTrackGeoInfo()
-    #except:
-    #  continue
-    #track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
-    #if track.GeoFit and PreFit:
-    #           track.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
-    #           TrackImage=UF.LoadRenderImages([track],1,1)[0]
-    #           track.UnloadTrackPrint()
-    #           track.CNNFitTrack(model.predict(TrackImage)[0][1])
-    #           if track.Track_CNN_Fit>=acceptance:
-    #              GoodTracks.append(track)
-    #elif track.GeoFit:
-    #       GoodTracks.append(track)
-    #else:
-   # del track
-   # continue
+print(GoodTracks)
+exit()
 print(UF.TimeStamp(),bcolors.OKGREEN+'The raw image generation has been completed..'+bcolors.ENDC)
 del tracks
 del segments
