@@ -38,7 +38,7 @@ Mode=args.Mode
 MotherPDGList = args.MotherPDGList
 if type(MotherPDGList)== int :
     MotherPDGList = [MotherPDGList]
-MotherPDGList = str(MotherPDGList).strip(['[',']']).replace(',','')
+MotherPDGList = str(MotherPDGList).strip('[').strip(']').replace(',','')
 print(MotherPDGList)
 exit()
 
