@@ -38,6 +38,9 @@ fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 MotherPDGList = args.MotherPDGList
+# in case there is only one  Mother PDG needed
+if type(MotherPDGList)== int :
+    MotherPDGList = [MotherPDGList]
 
 
 
