@@ -104,7 +104,7 @@ if Mode=='C':
     exit()
     ProcessStatus=1
     bad_pop=[]
-    for j in range()
+    #for j in range():
     new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M6_M7_RawTracks.csv'
     required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_RawImages.pkl'
         
