@@ -85,7 +85,7 @@ for s in range(0,limit):
 
     track.DecorateSegments(segments) 
     GoodTracks.append(track)
-    print(track.SegmentHeader)
+    print(track.SegmentHits)
     exit()
 
     #try:
