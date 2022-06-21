@@ -38,8 +38,8 @@ Mode=args.Mode
 MotherPDGList = args.MotherPDGList
 if type(MotherPDGList)== int :
     MotherPDGList = [MotherPDGList]
-print(str(MotherPDGList))
-MotherPDGList = str(MotherPDGList)[1:len(MotherPDGList)-1]
+MotherPDGList = str(MotherPDGList)
+MotherPDGList = MotherPDGList[1:len(MotherPDGList)]
 print(MotherPDGList)
 exit()
 
