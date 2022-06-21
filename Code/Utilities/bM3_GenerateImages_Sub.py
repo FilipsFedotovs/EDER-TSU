@@ -75,7 +75,7 @@ for s in range(0,limit):
     label=(track[1] in MotherPDGList)
     # for test
     #print(track[0], track[1], label)
-    track=Track(track[0])
+    track=Track([track[0]])
     if label:
         num_label = 1
     else:
