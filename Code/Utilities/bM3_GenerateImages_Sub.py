@@ -29,7 +29,7 @@ parser.add_argument('--MaxX',help="Image size in microns along the x-axis", defa
 parser.add_argument('--MaxY',help="Image size in microns along the y-axis", default='500.0')
 parser.add_argument('--MaxZ',help="Image size in microns along the z-axis", default='20000.0')
 parser.add_argument('--ModelName',help="Name of the CNN model", default='1T_50_SHIP_PREFIT_1_model')
-parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', type=int, default=16)
+parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', type=int, default='22')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
@@ -70,7 +70,7 @@ for s in range(0,limit):
     track=tracks.pop(0)
 
     label=(track[1] in MotherPDGList)
-    #print(track[0], track[1], label)
+    print(track[0], track[1], label)
     track=Track(track[0])
     if label:
         num_label = 1
