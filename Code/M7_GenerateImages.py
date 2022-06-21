@@ -73,8 +73,6 @@ print(UF.TimeStamp(),'Loading preselected data from ',bcolors.OKBLUE+input_file_
 data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
 data = data.drop_duplicates()
-print(data)
-exit()
 
 trackCnt = np.ceil(len(data)/MaxSegmentsPerJob)
 
