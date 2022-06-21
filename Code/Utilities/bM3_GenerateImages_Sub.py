@@ -82,6 +82,8 @@ for s in range(0,limit):
         num_label = 0
     track.MCtruthClassifyTrack(num_label)
     GoodTracks.append(track)
+    print(segments)
+    exit()
     #track.DecorateSegments(segments) 
     #try:
     #  track.DecorateTrackGeoInfo()
