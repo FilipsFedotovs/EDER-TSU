@@ -88,7 +88,8 @@ for s in range(0,limit):
     del track
     continue
 
-print(GoodTracks)
+print(len(GoodTracks))
+print(GoodTracks[0].SegmentHits)
 exit()
 print(UF.TimeStamp(),bcolors.OKGREEN+'The raw image generation has been completed..'+bcolors.ENDC)
 del tracks
