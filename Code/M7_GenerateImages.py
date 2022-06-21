@@ -31,7 +31,6 @@ parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default=
 parser.add_argument('--Samples',help="How many samples? Please enter the number or ALL if you want to use all data", default='ALL')
 parser.add_argument('--ValidationSize',help="What is the proportion of Validation Images?", default='0.1')
 parser.add_argument('--LabelMix',help="What is the desired proportion of genuine vertices in the training/validation sets", default='0.5')
-parser.add_argument('--PreFit',help="Would you like to prefit training track segment seeds by a light CNN model?", default='N')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
