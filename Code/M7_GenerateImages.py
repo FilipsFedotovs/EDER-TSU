@@ -96,7 +96,7 @@ if Mode=='R':
         MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M7' 
         ScriptName = AFS_DIR + '/Code/Utilities/M7_GenerateImages_Sub.py '
         UF.SubmitJobs2Condor(
-        [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, trackCnt, 'EDER-TSU-M7', True,
+        [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, trackCnt, 'EDER-TSU-M7', False,
                 False])
         print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
