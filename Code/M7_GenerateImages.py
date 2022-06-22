@@ -148,7 +148,7 @@ if Mode=='C':
             UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[0,0]])
             print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
             print(UF.TimeStamp(),'Collating the results...')
-           for j in range(trackCnt):
+            for j in range(trackCnt):
                 output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_CondensedImages_'+str(j)+'.pkl'
                 if os.path.isfile(output_file_location)==False:
                     Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','ReadLog', '_')
