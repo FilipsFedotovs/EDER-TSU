@@ -75,7 +75,7 @@ data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID'])
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
 data = data.drop_duplicates()
 
-trackCnt = np.ceil(len(data)/MaxSegmentsPerJob)
+trackCnt = int(np.ceil(len(data)/MaxSegmentsPerJob))
 
 if Mode=='R':
     print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to create the seeds from the scratch'+bcolors.ENDC)
