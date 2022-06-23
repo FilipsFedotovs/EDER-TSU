@@ -83,7 +83,7 @@ if Mode=='R':
           MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M8_Val'
           ScriptName = AFS_DIR + '/Code/Utilities/M8_RenderImages_Sub.py '
           UF.SubmitJobs2Condor(
-              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M8', False,
+              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M8', True,
                False])
           f_counter=0
           for f in range(1,100):
@@ -98,7 +98,7 @@ if Mode=='R':
           MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M8'
           ScriptName = AFS_DIR + '/Code/Utilities/M8_RenderImages_Sub.py '
           UF.SubmitJobs2Condor(
-              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter, 'EDER-TSU-M8', False,
+              [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter, 'EDER-TSU-M8', True,
                False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
