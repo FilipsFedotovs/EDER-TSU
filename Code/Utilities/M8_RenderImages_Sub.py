@@ -36,11 +36,11 @@ MaxZ=float(args.MaxZ)
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 if args.SetType=='Val':
- input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Validation_Set.pkl'
- output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
+ input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M8_Validation_Set.pkl'
+ output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M8_M9_VALIDATION_SET.pkl'
 if args.SetType=='Train':
- input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M3_M4_Train_Set_'+str(fraction)+'.pkl'
- output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+str(fraction)+'.pkl'
+ input_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M8_Train_Set_'+str(fraction)+'.pkl'
+ output_seed_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M8_M9_TRAIN_SET_'+str(fraction)+'.pkl'
 print(UF.TimeStamp(),'Analysing the data')
 image_file=open(input_seed_file_location,'rb')
 images=pickle.load(image_file)
@@ -51,6 +51,8 @@ for im in images:
     im.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The image rendering has been completed..'+bcolors.ENDC)
 print(UF.TimeStamp(),'Saving the results..')
+print(output_seed_file_location)
+print(len(images))
 open_file = open(output_seed_file_location, "wb")
 pickle.dump(images, open_file)
 open_file.close()
