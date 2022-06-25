@@ -30,6 +30,7 @@ Xmax=float(args.Xmax)
 Ymin=float(args.Ymin)
 Ymax=float(args.Ymax)
 Quadrant=ast.literal_eval(args.Quadrant)
+print(Quadrant)
 SliceData=max(Xmin,Xmax,Ymin,Ymax)>0
 #Loading Directory locations
 csv_reader=open('../config',"r")
