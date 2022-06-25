@@ -70,15 +70,15 @@ try:
 except:
     print(UF.TimeStamp(), bcolors.WARNING+"Failed to convert quadrant to integer..."+bcolors.ENDC)
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
-
-data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
-data=data.drop([PM.FEDRA_Track_ID],axis=1)
-data=data.drop([PM.FEDRA_Track_QUADRANT],axis=1)
 for e in Quadrant:
      print(UF.TimeStamp(),'Removing quadrant ', Quadrant)
      data=data.drop(data.index[(data[PM.FEDRA_Track_QUADRANT] == e)])
      final_rows=len(data.axes[0])
      print(UF.TimeStamp(),'The sliced data has ',final_rows,' hits')
+data['FEDRA_Seg_ID'] = data[PM.FEDRA_Track_QUADRANT] + '-' + data[PM.FEDRA_Track_ID]
+data=data.drop([PM.FEDRA_Track_ID],axis=1)
+data=data.drop([PM.FEDRA_Track_QUADRANT],axis=1)
+
 if SliceData:
      print(UF.TimeStamp(),'Slicing the data...')
      ValidEvents=data.drop(data.index[(data[PM.x] > Xmax) | (data[PM.x] < Xmin) | (data[PM.y] > Ymax) | (data[PM.y] < Ymin)])
