@@ -71,7 +71,7 @@ except:
     print(UF.TimeStamp(), bcolors.WARNING+"Failed to convert quadrant to integer..."+bcolors.ENDC)
 data[PM.FEDRA_Track_QUADRANT] = data[PM.FEDRA_Track_QUADRANT].astype(str)
 for e in Quadrant:
-     print(UF.TimeStamp(),'Removing quadrant ', Quadrant)
+     print(UF.TimeStamp(),'Removing quadrant ', e)
      data=data.drop(data.index[(data[PM.FEDRA_Track_QUADRANT] == e)])
      final_rows=len(data.axes[0])
      print(UF.TimeStamp(),'The sliced data has ',final_rows,' hits')
