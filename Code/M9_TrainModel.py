@@ -120,8 +120,8 @@ if mode=='R' and args.ModelName=='N':
                     model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
                  model.add(Dropout(DR))
-        print("here")
-        exit()
+         print("here")
+         exit()
          model.add(Flatten())
          for FC in FullyConnectedDNA:
                      Nodes=4**FC[0]
