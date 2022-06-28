@@ -111,9 +111,6 @@ if mode=='R' and args.ModelName=='N':
                  Nodes=HL[0]*16
                  KS=(np.array(HL[2])*2)+1
                  PS=HL[3]
-                 print(KS[0], KS[1], KS[2])
-                 print(PS)
-                 exit()
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
@@ -123,6 +120,8 @@ if mode=='R' and args.ModelName=='N':
                     model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
                  model.add(Dropout(DR))
+        print("here")
+        exit()
          model.add(Flatten())
          for FC in FullyConnectedDNA:
                      Nodes=4**FC[0]
