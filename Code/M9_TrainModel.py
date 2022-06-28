@@ -147,10 +147,10 @@ if mode=='R' and args.ModelName=='N':
  SUBName = AFS_DIR + '/HTCondor/SUB/SUB_M9.sub'
  MSGName = AFS_DIR + '/HTCondor/MSG/MSG_M9'
  ScriptName = AFS_DIR + '/Code/Utilities/M9_TrainModel_Sub.py '
+ print(job)
  UF.SubmitJobs2Condor(
      [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M9', True,
       True])
- print(job)
  job[4]=job[5]
  UF.LogOperations(EOSsubModelDIR+'/M9_M9_JobTask.csv','StartLog',[job])
  print(bcolors.BOLD+"Please the job completion in few hours by running this script with the option C"+bcolors.ENDC)
