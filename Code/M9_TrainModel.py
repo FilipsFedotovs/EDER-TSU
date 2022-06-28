@@ -111,7 +111,7 @@ if mode=='R' and args.ModelName=='N':
                  Nodes=HL[0]*16
                  KS=(np.array(HL[2])*2)+1
                  PS=HL[3]
-                 print(KS)
+                 print(KS[0], KS[1], KS[2])
                  print(PS)
                  exit()
                  DR=float(HL[6]-1)/10.0
