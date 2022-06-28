@@ -110,8 +110,6 @@ if mode=='R' and args.ModelName=='N':
          for HL in HiddenLayerDNA:
                  Nodes=HL[0]*16
                  KS=(np.array(HL[2])*2)+1
-                 print(KS)
-                 exit()
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
