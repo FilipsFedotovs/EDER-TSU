@@ -100,8 +100,8 @@ if mode=='R' and args.ModelName=='N':
                     FullyConnectedDNA.append(gene)
                 elif DNA.index(gene)>9 and len(gene)>0:
                     OutputDNA.append(gene)
-        print(HiddenLayerDNA)
-        exit()
+         print(HiddenLayerDNA)
+         exit()
          model = Sequential()
          if args.LR=='Default':
           LR=10**(-int(OutputDNA[0][3]))
