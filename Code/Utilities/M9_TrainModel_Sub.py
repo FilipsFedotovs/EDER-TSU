@@ -136,7 +136,7 @@ if Mode!='Train' and Mode!='Test':
              model = Sequential()
              for HL in HiddenLayerDNA:
                  Nodes=HL[0]*16
-                 KS=(HL[2]*2)+1
+                 KS=(np.array(HL[2])*2)+1
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:

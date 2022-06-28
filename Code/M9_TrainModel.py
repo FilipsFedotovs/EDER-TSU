@@ -100,8 +100,6 @@ if mode=='R' and args.ModelName=='N':
                     FullyConnectedDNA.append(gene)
                 elif DNA.index(gene)>9 and len(gene)>0:
                     OutputDNA.append(gene)
-         print(HiddenLayerDNA)
-         exit()
          model = Sequential()
          if args.LR=='Default':
           LR=10**(-int(OutputDNA[0][3]))
@@ -111,7 +109,9 @@ if mode=='R' and args.ModelName=='N':
           opt = adam(learning_rate=float(args.LR))
          for HL in HiddenLayerDNA:
                  Nodes=HL[0]*16
-                 KS=(HL[2]*2)+1
+                 KS=(np.array(HL[2])*2)+1
+                 print(KS)
+                 exit()
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
