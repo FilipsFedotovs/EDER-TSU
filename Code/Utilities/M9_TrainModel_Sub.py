@@ -79,11 +79,11 @@ import Utility_Functions as UF
 #Load data configuration
 EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
-flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_TRAIN_SET_'+ImageSet+'.pkl'
+flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M8_M9_TRAIN_SET_'+ImageSet+'.pkl'
 if Mode=='Test' and args.f!='':
    vlocation=args.f
 else:
-   vlocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M4_M5_VALIDATION_SET.pkl'
+   vlocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M8_M9_VALIDATION_SET.pkl'
 
 ##############################################################################################################################
 ######################################### Starting the program ################################################################
@@ -140,11 +140,11 @@ if Mode!='Train' and Mode!='Test':
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
-                    model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS,KS,KS),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
+                    model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
                  else:
-                    model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS,KS,KS),kernel_initializer='he_uniform'))
-                 if PS>1:
-                    model.add(MaxPooling3D(pool_size=(PS, PS, PS)))
+                    model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform'))
+                 if PS[0]>1 or PS[1]>1 or PS[2]>1:
+                    model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
                  model.add(Dropout(DR))
              model.add(Flatten())
@@ -216,6 +216,6 @@ if ValidModel:
     model_name=EOSsubModelDIR+'/'+args.ModelNewName
     model.save(model_name)
     records.append([int(args.Epoch),ImageSet,len(TrainImages),train_loss,train_acc,val_loss,val_acc])
-    UF.LogOperations(EOSsubModelDIR+'/'+'M5_M5_model_train_log_'+ImageSet+'.csv','StartLog', records)
-    UF.LogOperations(EOSsubModelDIR+'/'+'M5_M5_model_live_train_log_'+ImageSet+'.csv','StartLog', records)
+    UF.LogOperations(EOSsubModelDIR+'/'+'M9_M9_model_train_log_'+ImageSet+'.csv','StartLog', records)
+    UF.LogOperations(EOSsubModelDIR+'/'+'M9_M9_model_live_train_log_'+ImageSet+'.csv','StartLog', records)
 
