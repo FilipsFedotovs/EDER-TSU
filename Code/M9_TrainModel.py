@@ -111,6 +111,9 @@ if mode=='R' and args.ModelName=='N':
                  Nodes=HL[0]*16
                  KS=(np.array(HL[2])*2)+1
                  PS=HL[3]
+                 print(KS)
+                 print(PS)
+                 exit()
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
