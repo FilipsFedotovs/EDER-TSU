@@ -114,10 +114,13 @@ if mode=='R' and args.ModelName=='N':
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
+                    print(KS)
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
                  else:
+                    print(KS)
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform'))
                  if PS[0]>1 or PS[1]>1 or PS[2]>1:
+                    print(PS)
                     model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
                  model.add(Dropout(DR))
