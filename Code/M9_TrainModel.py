@@ -100,7 +100,6 @@ if mode=='R' and args.ModelName=='N':
                     FullyConnectedDNA.append(gene)
                 elif DNA.index(gene)>9 and len(gene)>0:
                     OutputDNA.append(gene)
-         print(HiddenLayerDNA)
          model = Sequential()
          if args.LR=='Default':
           LR=10**(-int(OutputDNA[0][3]))
@@ -151,6 +150,7 @@ if mode=='R' and args.ModelName=='N':
  UF.SubmitJobs2Condor(
      [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-M9', True,
       True])
+print(job)
  job[4]=job[5]
  UF.LogOperations(EOSsubModelDIR+'/M9_M9_JobTask.csv','StartLog',[job])
  print(bcolors.BOLD+"Please the job completion in few hours by running this script with the option C"+bcolors.ENDC)
