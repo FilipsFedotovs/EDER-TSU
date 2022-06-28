@@ -42,7 +42,7 @@ if Config=='SND':
     Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
     #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
     ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
-    ModelArchitecturePlus=[[1, 4, [1, 1, 1], [2, 2, 2], 2, 2, 2], [2, 4, [1, 1, 3], [2, 2, 4], 2, 2, 2], [4, 4, [1, 1, 5], [2, 1, 8], 2, 2, 2],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
+    ModelArchitecturePlus=[[1, 4, [1, 1, 2], [2, 2, 4], 2, 2, 2], [2, 4, [1, 1, 3], [2, 2, 8], 2, 2, 2], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 else:
     ########List of the package run parameters
     MaxSegmentsPerJob=15000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
