@@ -122,6 +122,7 @@ if mode=='R' and args.ModelName=='N':
                  if PS[0]>1 or PS[1]>1 or PS[2]>1:
                     print(PS)
                     model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
+                    print("here")
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
                  model.add(Dropout(DR))
          model.add(Flatten())
