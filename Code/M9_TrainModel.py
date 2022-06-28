@@ -100,6 +100,7 @@ if mode=='R' and args.ModelName=='N':
                     FullyConnectedDNA.append(gene)
                 elif DNA.index(gene)>9 and len(gene)>0:
                     OutputDNA.append(gene)
+         print(HiddenLayerDNA)
          model = Sequential()
          if args.LR=='Default':
           LR=10**(-int(OutputDNA[0][3]))
@@ -120,8 +121,6 @@ if mode=='R' and args.ModelName=='N':
                     model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
                  model.add(Dropout(DR))
-         print("here")
-         exit()
          model.add(Flatten())
          for FC in FullyConnectedDNA:
                      Nodes=4**FC[0]
