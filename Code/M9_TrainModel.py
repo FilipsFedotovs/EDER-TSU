@@ -108,7 +108,7 @@ if mode=='R' and args.ModelName=='N':
           LR=float(args.LR)
           opt = adam(learning_rate=float(args.LR))
          for HL in HiddenLayerDNA:
-                 Nodes=HL[0]*16
+                 Nodes=int(HL[0]*16)
                  KS=(np.array(HL[2])*2)+1
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
