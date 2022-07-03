@@ -372,7 +372,7 @@ class Track:
           del __TempTrack
 
 
-       def PrepareRawTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
+      def PrepareRawTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
           __TempTrack=copy.deepcopy(self.SegmentHits)
           self.Resolution=Res
           self.bX=int(round(MaxX/self.Resolution,0))
