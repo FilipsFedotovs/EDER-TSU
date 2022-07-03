@@ -35,9 +35,9 @@ if Config=='SND':
     post_acceptance=0.5
     #pre_vx_acceptance=0.662
     resolution=50
-    MaxX=2000.0
-    MaxY=500.0
-    MaxZ=20000.0
+    MaxX=1000.0
+    MaxY=1000.0
+    MaxZ=75000.0
     Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
     Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
     #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]

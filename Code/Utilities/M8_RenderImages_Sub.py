@@ -48,7 +48,7 @@ image_file.close()
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
 print(UF.TimeStamp(),'Beginning the rendering part...')
 for im in images:
-    im.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
+    im.PrepareRawTrackPrint(MaxX,MaxY,MaxZ,resolution,False)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The image rendering has been completed..'+bcolors.ENDC)
 print(UF.TimeStamp(),'Saving the results..')
 print(output_seed_file_location)
