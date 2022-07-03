@@ -371,6 +371,183 @@ class Track:
           del __TempEnchTrack
           del __TempTrack
 
+
+       def PrepareRawTrackPrint(self,MaxX,MaxY,MaxZ,Res,Rescale):
+          __TempTrack=copy.deepcopy(self.SegmentHits)
+          self.Resolution=Res
+          self.bX=int(round(MaxX/self.Resolution,0))
+          self.bY=int(round(MaxY/self.Resolution,0))
+          self.bZ=int(round(MaxZ/self.Resolution,0))
+          self.H=(self.bX)*2
+          self.W=(self.bY)*2
+          self.L=(self.bZ)
+          __StartTrackZ=6666666666
+          __EndTrackZ=-6666666666
+          for __Track in __TempTrack:
+            __CurrentZ=float(__Track[0][2])
+            if __CurrentZ<=__StartTrackZ:
+                __StartTrackZ=__CurrentZ
+                __FinX=float(__Track[0][0])
+                __FinY=float(__Track[0][1])
+                __FinZ=float(__Track[0][2])
+                self.PrecedingTrackInd=__TempTrack.index(__Track)
+            if __CurrentZ>=__EndTrackZ:
+                __EndTrackZ=__CurrentZ
+                self.LagTrackInd=__TempTrack.index(__Track)
+          for __Tracks in __TempTrack:
+              for __Hits in __Tracks:
+                  __Hits[0]=float(__Hits[0])-__FinX
+                  __Hits[1]=float(__Hits[1])-__FinY
+                  __Hits[2]=float(__Hits[2])-__FinZ
+
+          #
+          #Lon Rotate x
+          __Track=__TempTrack[self.LagTrackInd]
+          __Vardiff=float(__Track[len(__Track)-1][0])
+          __Zdiff=float(__Track[len(__Track)-1][2])
+          __vector_1 = [__Zdiff, 0]
+          __vector_2 = [__Zdiff, __Vardiff]
+          __Angle=Track.angle_between(__vector_1, __vector_2)
+          if np.isnan(__Angle)==True:
+                    __Angle=0.0
+          for __Tracks in __TempTrack:
+            for __hits in __Tracks:
+                 __Z=float(__hits[2])
+                 __Pos=float(__hits[0])
+                 __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
+                 __hits[0]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
+          #Lon Rotate y
+          __Track=__TempTrack[self.LagTrackInd]
+          __Vardiff=float(__Track[len(__Track)-1][1])
+          __Zdiff=float(__Track[len(__Track)-1][2])
+          __vector_1 = [__Zdiff, 0]
+          __vector_2 = [__Zdiff, __Vardiff]
+          __Angle=Track.angle_between(__vector_1, __vector_2)
+          if np.isnan(__Angle)==True:
+                     __Angle=0.0
+          for __Tracks in __TempTrack:
+            for __hits in __Tracks:
+                 __Z=float(__hits[2])
+                 __Pos=float(__hits[1])
+                 __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
+                 __hits[1]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
+           #Phi rotate print
+
+          __LongestDistance=0.0
+          for __Track in __TempTrack:
+                 __X=float(__Track[len(__Track)-1][0])
+                 __Y=float(__Track[len(__Track)-1][1])
+                 __Distance=math.sqrt((__X**2)+(__Y**2))
+                 if __Distance>=__LongestDistance:
+                  __LongestDistance=__Distance
+                  __vector_1 = [__Distance, 0]
+                  __vector_2 = [__X, __Y]
+                  __Angle=-Track.angle_between(__vector_1,__vector_2)
+          if np.isnan(__Angle)==True:
+                     __Angle=0.0
+          for __Tracks in __TempTrack:
+             for __hits in __Tracks:
+                 __X=float(__hits[0])
+                 __Y=float(__hits[1])
+                 __hits[0]=(__X*math.cos(__Angle)) - (__Y * math.sin(__Angle))
+                 __hits[1]=(__X*math.sin(__Angle)) + (__Y * math.cos(__Angle))
+
+          if Rescale:
+               __X=[]
+               __Y=[]
+               __Z=[]
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __X.append(__hits[0])
+                     __Y.append(__hits[1])
+                     __Z.append(__hits[2])
+               __dUpX=MaxX-max(__X)
+               __dDownX=MaxX+min(__X)
+               __dX=(__dUpX+__dDownX)/2
+               __xshift=__dUpX-__dX
+               __X=[]
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __hits[0]=__hits[0]+__xshift
+                     __X.append(__hits[0])
+             ##########Y
+               __dUpY=MaxY-max(__Y)
+               __dDownY=MaxY+min(__Y)
+               __dY=(__dUpY+__dDownY)/2
+               __yshift=__dUpY-__dY
+               __Y=[]
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __hits[1]=__hits[1]+__yshift
+                     __Y.append(__hits[1])
+               __min_scale=max(max(__X)/(MaxX-(2*self.Resolution)),max(__Y)/(MaxY-(2*self.Resolution)), max(__Z)/(MaxZ-(2*self.Resolution)))
+               for __Tracks in __TempTrack:
+                 for __hits in __Tracks:
+                     __hits[0]=int(round(__hits[0]/__min_scale,0))
+                     __hits[1]=int(round(__hits[1]/__min_scale,0))
+                     __hits[2]=int(round(__hits[2]/__min_scale,0))
+
+          #
+          #Enchance track
+          __TempEnchTrack=[]
+          for __Tracks in __TempTrack:
+               for h in range(0,len(__Tracks)-1):
+                   __deltaX=float(__Tracks[h+1][0])-float(__Tracks[h][0])
+                   __deltaZ=float(__Tracks[h+1][2])-float(__Tracks[h][2])
+                   __deltaY=float(__Tracks[h+1][1])-float(__Tracks[h][1])
+                   try:
+                    __vector_1 = [__deltaZ,0]
+                    __vector_2 = [__deltaZ, __deltaX]
+                    __ThetaAngle=Track.angle_between(__vector_1, __vector_2)
+                   except:
+                     __ThetaAngle=0.0
+                   try:
+                     __vector_1 = [__deltaZ,0]
+                     __vector_2 = [__deltaZ, __deltaY]
+                     __PhiAngle=Track.angle_between(__vector_1, __vector_2)
+                   except:
+                     __PhiAngle=0.0
+                   __TotalDistance=math.sqrt((__deltaX**2)+(__deltaY**2)+(__deltaZ**2))
+                   __Distance=(float(self.Resolution)/3)
+                   if __Distance>=0 and __Distance<1:
+                      __Distance=1.0
+                   if __Distance<0 and __Distance>-1:
+                      __Distance=-1.0
+                   __Iterations=int(round(__TotalDistance/__Distance,0))
+                   for i in range(1,__Iterations):
+                       __New_Hit=[]
+                       if math.isnan(float(__Tracks[h][0])+float(i)*__Distance*math.sin(__ThetaAngle)):
+                          continue
+                       if math.isnan(float(__Tracks[h][1])+float(i)*__Distance*math.sin(__PhiAngle)):
+                          continue
+                       if math.isnan(float(__Tracks[h][2])+float(i)*__Distance*math.cos(__ThetaAngle)):
+                          continue
+                       __New_Hit.append(float(__Tracks[h][0])+float(i)*__Distance*math.sin(__ThetaAngle))
+                       __New_Hit.append(float(__Tracks[h][1])+float(i)*__Distance*math.sin(__PhiAngle))
+                       __New_Hit.append(float(__Tracks[h][2])+float(i)*__Distance*math.cos(__ThetaAngle))
+                       __TempEnchTrack.append(__New_Hit)
+          #
+          # #Pixelise print
+
+          self.TrackPrint=[]
+          for __Tracks in __TempTrack:
+               for __Hits in __Tracks:
+                   __Hits[0]=int(round(float(__Hits[0])/self.Resolution,0))
+                   __Hits[1]=int(round(float(__Hits[1])/self.Resolution,0))
+                   __Hits[2]=int(round(float(__Hits[2])/self.Resolution,0))
+                   self.TrackPrint.append(str(__Hits))
+          for __Hits in __TempEnchTrack:
+                   __Hits[0]=int(round(float(__Hits[0])/self.Resolution,0))
+                   __Hits[1]=int(round(float(__Hits[1])/self.Resolution,0))
+                   __Hits[2]=int(round(float(__Hits[2])/self.Resolution,0))
+                   self.TrackPrint.append(str(__Hits))
+          self.TrackPrint=list(set(self.TrackPrint))
+          for p in range(len(self.TrackPrint)):
+               self.TrackPrint[p]=ast.literal_eval(self.TrackPrint[p])
+          self.TrackPrint=[p for p in self.TrackPrint if (abs(p[0])<self.bX and abs(p[1])<self.bY and abs(p[2])<self.bZ)]
+          del __TempEnchTrack
+          del __TempTrack
+
       def UnloadTrackPrint(self):
           delattr(self,'TrackPrint')
           delattr(self,'bX')

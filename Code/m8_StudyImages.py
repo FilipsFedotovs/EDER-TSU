@@ -126,7 +126,7 @@ for sd in data:
  progress=int( round( (float(counter)/float(len(data))*100),1)  )
  print('Rendering images, progress is ',progress, end="\r", flush=True)
  counter+=1
- sd.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,Rescale)
+ sd.PrepareRawTrackPrint(MaxX,MaxY,MaxZ,resolution,Rescale)
  if args.PlotType=='XZ':
   for Hits in sd.TrackPrint:
       if abs(Hits[0])<boundsX and abs(Hits[2])<boundsZ:
