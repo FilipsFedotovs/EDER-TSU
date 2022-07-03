@@ -402,35 +402,35 @@ class Track:
 
           #
           #Lon Rotate x
-          __Track=__TempTrack[self.LagTrackInd]
-          __Vardiff=float(__Track[len(__Track)-1][0])
-          __Zdiff=float(__Track[len(__Track)-1][2])
-          __vector_1 = [__Zdiff, 0]
-          __vector_2 = [__Zdiff, __Vardiff]
-          __Angle=Track.angle_between(__vector_1, __vector_2)
-          if np.isnan(__Angle)==True:
-                    __Angle=0.0
-          for __Tracks in __TempTrack:
-            for __hits in __Tracks:
-                 __Z=float(__hits[2])
-                 __Pos=float(__hits[0])
-                 __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
-                 __hits[0]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
-          #Lon Rotate y
-          __Track=__TempTrack[self.LagTrackInd]
-          __Vardiff=float(__Track[len(__Track)-1][1])
-          __Zdiff=float(__Track[len(__Track)-1][2])
-          __vector_1 = [__Zdiff, 0]
-          __vector_2 = [__Zdiff, __Vardiff]
-          __Angle=Track.angle_between(__vector_1, __vector_2)
-          if np.isnan(__Angle)==True:
-                     __Angle=0.0
-          for __Tracks in __TempTrack:
-            for __hits in __Tracks:
-                 __Z=float(__hits[2])
-                 __Pos=float(__hits[1])
-                 __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
-                 __hits[1]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
+        #   __Track=__TempTrack[self.LagTrackInd]
+        #   __Vardiff=float(__Track[len(__Track)-1][0])
+        #   __Zdiff=float(__Track[len(__Track)-1][2])
+        #   __vector_1 = [__Zdiff, 0]
+        #   __vector_2 = [__Zdiff, __Vardiff]
+        #   __Angle=Track.angle_between(__vector_1, __vector_2)
+        #   if np.isnan(__Angle)==True:
+        #             __Angle=0.0
+        #   for __Tracks in __TempTrack:
+        #     for __hits in __Tracks:
+        #          __Z=float(__hits[2])
+        #          __Pos=float(__hits[0])
+        #          __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
+        #          __hits[0]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
+        #   #Lon Rotate y
+        #   __Track=__TempTrack[self.LagTrackInd]
+        #   __Vardiff=float(__Track[len(__Track)-1][1])
+        #   __Zdiff=float(__Track[len(__Track)-1][2])
+        #   __vector_1 = [__Zdiff, 0]
+        #   __vector_2 = [__Zdiff, __Vardiff]
+        #   __Angle=Track.angle_between(__vector_1, __vector_2)
+        #   if np.isnan(__Angle)==True:
+        #              __Angle=0.0
+        #   for __Tracks in __TempTrack:
+        #     for __hits in __Tracks:
+        #          __Z=float(__hits[2])
+        #          __Pos=float(__hits[1])
+        #          __hits[2]=(__Z*math.cos(-__Angle)) - (__Pos * math.sin(-__Angle))
+        #          __hits[1]=(__Z*math.sin(-__Angle)) + (__Pos * math.cos(-__Angle))
            #Phi rotate print
 
         #   __LongestDistance=0.0
