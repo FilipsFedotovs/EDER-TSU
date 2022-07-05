@@ -60,7 +60,7 @@ else:
     Rescale=False
 boundsX=int(round(MaxX/resolution,0))
 boundsY=int(round(MaxY/resolution,0))
-boundsZ=int(round(MaxZ,0))
+boundsZ=int(round(MaxZ/resolution,0))
 H=(boundsX)*2
 W=(boundsY)*2
 L=(boundsZ)
