@@ -37,7 +37,7 @@ if Config=='SND':
     resolution=50
     MaxX=1000.0
     MaxY=1000.0
-    MaxZ=750000.0
+    MaxZ=3000.0
     Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
     Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
     #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
