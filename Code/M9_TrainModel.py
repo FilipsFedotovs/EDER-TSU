@@ -76,6 +76,8 @@ if mode=='R' and args.ModelName=='N':
          import pickle
          train_file=open(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M8_M9_VALIDATION_SET.pkl','rb')
          TrainImages=pickle.load(train_file)
+         print(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L)
+         exit()
          import logging
          os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # FATAL
          logging.getLogger('tensorflow').setLevel(logging.FATAL)
@@ -113,8 +115,7 @@ if mode=='R' and args.ModelName=='N':
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
-                    print(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L)
-                    exit()
+                    
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
                  else:
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform'))
