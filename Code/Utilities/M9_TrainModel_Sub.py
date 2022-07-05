@@ -116,8 +116,6 @@ val_file.close()
 print(UF.TimeStamp(), bcolors.OKGREEN+"Train data has been loaded successfully..."+bcolors.ENDC)
 
 NValBatches=math.ceil(float(len(ValImages))/float(TrainBatchSize))
-print(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L)
-exit()
 print(UF.TimeStamp(),'Loading the model...')
 ##### This but has to be converted to a part that interprets DNA code  ###################################
 if args.LR=='Default':
