@@ -402,8 +402,6 @@ class Track:
           for __Tracks in __TempTrack:
               for __Hits in __Tracks:
                   __Hits[2]=__Hits[2]/1315
-          print(__TempTrack[0])
-          exit()
 
           #
           #Lon Rotate x
