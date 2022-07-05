@@ -399,7 +399,7 @@ class Track:
                   __Hits[0]=float(__Hits[0])-__FinX
                   __Hits[1]=float(__Hits[1])-__FinY
                   __Hits[2]=float(__Hits[2])-__FinZ
-          print(__TempTrack.__Hits)
+          print(__TempTrack[0])
           exit()
 
           #
