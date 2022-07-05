@@ -116,7 +116,8 @@ val_file.close()
 print(UF.TimeStamp(), bcolors.OKGREEN+"Train data has been loaded successfully..."+bcolors.ENDC)
 
 NValBatches=math.ceil(float(len(ValImages))/float(TrainBatchSize))
-
+print(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L)
+exit()
 print(UF.TimeStamp(),'Loading the model...')
 ##### This but has to be converted to a part that interprets DNA code  ###################################
 if args.LR=='Default':
@@ -140,8 +141,6 @@ if Mode!='Train' and Mode!='Test':
                  PS=HL[3]
                  DR=float(HL[6]-1)/10.0
                  if HiddenLayerDNA.index(HL)==0:
-                    print(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L)
-                    exit()
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform', input_shape=(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L,1)))
                  else:
                     model.add(Conv3D(Nodes, activation=act_fun_list[HL[1]],kernel_size=(KS[0],KS[1],KS[2]),kernel_initializer='he_uniform'))
