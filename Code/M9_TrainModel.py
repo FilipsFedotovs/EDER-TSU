@@ -76,8 +76,6 @@ if mode=='R' and args.ModelName=='N':
          import pickle
          train_file=open(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M8_M9_VALIDATION_SET.pkl','rb')
          TrainImages=pickle.load(train_file)
-         print(TrainImages[0].H,TrainImages[0].W,TrainImages[0].L)
-         exit()
          import logging
          os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # FATAL
          logging.getLogger('tensorflow').setLevel(logging.FATAL)

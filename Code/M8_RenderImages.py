@@ -50,6 +50,8 @@ resolution=PM.resolution
 MaxX=PM.MaxX
 MaxY=PM.MaxY
 MaxZ=PM.MaxZ
+print(MaxZ)
+exit()
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
 
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
