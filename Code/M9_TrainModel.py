@@ -120,13 +120,13 @@ if mode=='R' and args.ModelName=='N':
                  if PS[0]>1 or PS[1]>1 or PS[2]>1:
                     model.add(MaxPooling3D(pool_size=(PS[0], PS[1], PS[2])))
                  model.add(BatchNormalization(center=HL[4]>1, scale=HL[5]>1))
-                 model.add(Dropout(DR))
+                 #model.add(Dropout(DR))
          model.add(Flatten())
          for FC in FullyConnectedDNA:
                      Nodes=4**FC[0]
                      DR=float(FC[2]-1)/10.0
                      model.add(Dense(Nodes, activation=act_fun_list[FC[1]], kernel_initializer='he_uniform'))
-                     model.add(Dropout(DR))
+                     #model.add(Dropout(DR))
          model.add(Dense(2, activation=act_fun_list[OutputDNA[0][0]]))
  # Compile the model
          model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
