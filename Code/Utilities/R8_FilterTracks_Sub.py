@@ -28,12 +28,12 @@ Set=args.Set
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 MaxFitTracksPerJob=int(args.MaxFitTracksPerJob)
-start_index = (int(Set)-1)*MaxFitTracksPerJob
-end_index = (int(Set))*MaxFitTracksPerJob 
+start_index = (int(Set))*MaxFitTracksPerJob
+end_index = (int(Set)+1)*MaxFitTracksPerJob 
 
 input_segment_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_TRACK_SEGMENTS.csv'
 input_track_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_TRACK_HEADERS.csv'
-output_track_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_PREPARED_TRACKS_'+Set+'.pkl'
+output_track_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R9_PREPARED_TRACKS_'+Set+'.pkl'
 print(UF.TimeStamp(),'Loading the data')
 tracks=pd.read_csv(input_track_file_location)
 tracks = tracks[start_index:min(end_index,len(tracks))]
