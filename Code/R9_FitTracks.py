@@ -5,6 +5,7 @@
 
 ########################################    Import libraries    #############################################
 import csv
+import numpy as np
 import argparse
 import pandas as pd #We use Panda for a routine data processing
 import pickle
