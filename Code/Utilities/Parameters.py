@@ -33,6 +33,7 @@ if Config=='SND':
     ##Model parameters
     pre_acceptance=0.5
     post_acceptance=0.5
+    bg_acceptance = 0.5
     #pre_vx_acceptance=0.662
     resolution=50
     MaxX=1000.0
@@ -40,6 +41,7 @@ if Config=='SND':
     MaxZ=3000.0
     Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
     Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
+    Classifier_Model_Name= 'SND_BG_RAW3'
     #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
     ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
     ModelArchitecturePlus=[[1, 4, [2, 2, 2], [32, 32, 32], 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
