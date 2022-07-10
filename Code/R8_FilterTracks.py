@@ -123,7 +123,7 @@ if Mode=='C':
        print(UF.TimeStamp(),'Collating the results...')
        print(UF.TimeStamp(),'Set',str(j), 'selected track seed candidates for CNN fit...',bcolors.ENDC)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R7_R8','R8_R8'], "SoftUsed == \"EDER-TSU-R8\"")
+       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', [], "SoftUsed == \"EDER-TSU-R8\"")
        print(UF.TimeStamp(), bcolors.OKGREEN+"Track filtering is completed, you can perform CNN fit on them now..."+bcolors.ENDC)
        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
 #End of the script
