@@ -56,10 +56,9 @@ MaxSTG=PM.MaxSTG
 MinAngle=PM.MinAngle
 MaxAngle=PM.MaxAngle
  #The Separation bound is the maximum Euclidean distance that is allowed between hits in the beggining of Seed tracks.
-MaxSegmentsPerJob = PM.MaxSegmentsPerJob
 MaxFitTracksPerJob=PM.MaxFitTracksPerJob
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_TRACK_HEADERS.csv'
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(bcolors.HEADER+"######################     Initialising EDER-TSU Filter Tracks module           ########################"+bcolors.ENDC)
 print(bcolors.HEADER+"#########################              Written by Filips Fedotovs              #########################"+bcolors.ENDC)
@@ -67,16 +66,12 @@ print(bcolors.HEADER+"#########################                 PhD Student at U
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 print(UF.TimeStamp(),'Loading preselected data from ',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
-data=pd.read_csv(input_file_location,header=0,usecols=['FEDRA_Seg_ID','z'])
+data=pd.read_csv(input_file_location,header=0)
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
-data = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
-data=data.reset_index()
-data = data.groupby('z')['FEDRA_Seg_ID'].count()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
-data=data.reset_index()
-data=data.sort_values(['z'],ascending=True)
-data['Sub_Sets']=np.ceil(data['FEDRA_Seg_ID']/MaxSegmentsPerJob)
-data['Sub_Sets'] = data['Sub_Sets'].astype(int)
-data = data.values.tolist() #Convirting the result to List data type
+NoJobs=np.ceil(len(data))/MaxFitTracksPerJob
+print(len(data))
+print(NoJobs)
+exit()
 if Mode=='R':
    print(UF.TimeStamp(),bcolors.WARNING+'Warning! You are running the script with the "Mode R" option which means that you want to vertex the seeds from the scratch'+bcolors.ENDC)
    print(UF.TimeStamp(),bcolors.WARNING+'This option will erase all the previous Seed vertexing jobs/results'+bcolors.ENDC)
@@ -87,22 +82,15 @@ if Mode=='R':
 
    if UserAnswer=='Y':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
-      UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R3', ['R3_R3','R3_R4'], "SoftUsed == \"EDER-TSU-R3\"")
+      UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R8_R8','R8_R9'], "SoftUsed == \"EDER-TSU-R8\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
-      for j in range(0,len(data)):
-        for sj in range(0,int(data[j][2])):
-            f_counter=0
-            for f in range(0,1000):
-             new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-             if os.path.isfile(new_output_file_location):
-              f_counter=f
-            OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
-            OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
-            SHName = AFS_DIR + '/HTCondor/SH/SH_R3_' + str(j) + '_'+ str(sj) +'.sh'
-            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R3_' + str(j) + '_'+ str(sj) +'.sub'
-            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R3_' + str(j) + '_'+ str(sj)
-            ScriptName = AFS_DIR + '/Code/Utilities/R3_FilterTracks_Sub.py '
-            UF.SubmitJobs2Condor([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, f_counter+1, 'EDER-TSU-R3', False,False])
+      OptionHeader = [' --Set ', ' --MaxFitTracksPerJobt ', ' --EOS ', " --AFS "]
+            OptionLine = ['$1',MaxFitTracksPerJob, EOS_DIR, AFS_DIR]
+            SHName = AFS_DIR + '/HTCondor/SH/SH_R8.sh'
+            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8.sub'
+            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R8'
+            ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
+            UF.SubmitJobs2Condor([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, NoJobs, 'EDER-TSU-R8', False,False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
    bad_pop=[]
@@ -110,15 +98,15 @@ if Mode=='C':
    for j in range(0,len(data)):
        for sj in range(0,int(data[j][2])):
            for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R3_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
+              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
               OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
               OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
-              SHName = AFS_DIR +'/HTCondor/SH/SH_R3_'+str(j)+'_'+str(sj) + '_'+ str(f) +'.sh'
-              SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R3_' + str(j) + '_' + str(sj) + '_'+ str(f) + '.sub'
-              MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R3_' + str(j) + '_' + str(sj) + '_'+ str(f)
-              ScriptName = AFS_DIR + '/Code/Utilities/R3_FilterTracks_Sub.py '
-              job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-R3', False,
+              SHName = AFS_DIR +'/HTCondor/SH/SH_R8_'+str(j)+'_'+str(sj) + '_'+ str(f) +'.sh'
+              SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8_' + str(j) + '_' + str(sj) + '_'+ str(f) + '.sub'
+              MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R8_' + str(j) + '_' + str(sj) + '_'+ str(f)
+              ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
+              job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-R8', False,
                  False]
               if os.path.isfile(required_output_file_location)!=True  and os.path.isfile(new_output_file_location):
                  bad_pop.append(job_details)
@@ -143,8 +131,8 @@ if Mode=='C':
        for j in range(0,len(data)):
         for sj in range(0,int(data[j][2])):
            for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R3_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R3_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
+              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
               if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
                  print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
               elif os.path.isfile(required_output_file_location):
@@ -166,7 +154,7 @@ if Mode=='C':
         Records_After_Compression=len(base_data)
         fractions=int(math.ceil(Records_After_Compression/MaxFitTracksPerJob))
         for f in range(0,fractions):
-             output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
+             output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
              open_file = open(output_file_location, "wb")
              pickle.dump(base_data[(f*MaxFitTracksPerJob):min(Records_After_Compression,((f+1)*MaxFitTracksPerJob))], open_file)
              open_file.close()
@@ -187,7 +175,7 @@ if Mode=='C':
              eval_no=0
              for j in range(0,len(data)):
                     for f in range(0,1000):
-                      new_input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R3_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
+                      new_input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
                       if os.path.isfile(new_input_file_location)==False:
                             break
                       else:
@@ -211,7 +199,7 @@ if Mode=='C':
          except:
              print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
-       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R3', ['R2_R3','R3_R3'], "SoftUsed == \"EDER-TSU-R3\"")
+       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R7_R8','R8_R8'], "SoftUsed == \"EDER-TSU-R8\"")
        print(UF.TimeStamp(), bcolors.OKGREEN+"Track filtering is completed, you can perform CNN fit on them now..."+bcolors.ENDC)
        print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
 #End of the script
