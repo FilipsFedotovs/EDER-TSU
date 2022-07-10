@@ -38,9 +38,6 @@ print(UF.TimeStamp(),'Loading the data')
 tracks=pd.read_csv(input_track_file_location)
 tracks = tracks[start_index:min(end_index,len(tracks))]
 segments=pd.read_csv(input_segment_file_location)
-print(segments)
-print(tracks)
-exit()
 print(UF.TimeStamp(),'Analysing the data')
 segments=pd.merge(segments, tracks, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each segment is present.
 segments["x"] = pd.to_numeric(segments["x"],downcast='float')
@@ -49,10 +46,7 @@ segments["z"] = pd.to_numeric(segments["z"],downcast='float')
 segments=segments[['x','y','z','FEDRA_Seg_ID']]
 segments = segments.values.tolist() #Convirting the result to List data type
 tracks = tracks.values.tolist() #Convirting the result to List data type
-del tracks_1
-del tracks_2
-del track_list
-gc.collect()
+
 limit=len(tracks)
 track_counter=0
 print(UF.TimeStamp(),bcolors.OKGREEN+'Data has been successfully loaded and prepared..'+bcolors.ENDC)
@@ -61,18 +55,10 @@ GoodTracks=[]
 print(UF.TimeStamp(),'Beginning the image generation part...')
 for s in range(0,limit):
     track=tracks.pop(0)
-    track=Track(track[:2])
+    track=Track(track[:1])
     track.DecorateSegments(segments)
-    try:
-      track.DecorateTrackGeoInfo()
-    except:
-      continue
-    track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
-    if track.GeoFit:
-           GoodTracks.append(track)
-    else:
-        del track
-        continue
+    GoodTracks.append(track)
+
 print(UF.TimeStamp(),bcolors.OKGREEN+'The track decoration has been completed..'+bcolors.ENDC)
 del tracks
 del segments
