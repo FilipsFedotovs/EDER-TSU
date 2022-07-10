@@ -66,7 +66,7 @@ for s in range(0,limit):
     track.PrepareRawTrackPrint(MaxX,MaxY,MaxZ,resolution,False)
     TrackImage=UF.LoadRenderImages([track],1,1)[0]
     track.UnloadTrackPrint()
-    track.CNNFitTrack(model.predict(TrackImage)[0][1])
+    track.CNNClassifyTrack(model.predict(TrackImage)[0][1])
     if (track.Track_CNN_Class<acceptance):
         GoodTracks.append(track)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The track segment CNN fit has been completed..'+bcolors.ENDC)
