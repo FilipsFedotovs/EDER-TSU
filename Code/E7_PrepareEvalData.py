@@ -127,7 +127,8 @@ new_combined_data=new_combined_data.rename(columns={PM.z: "z"})
 
 new_combined_data['isBackground']= new_combined_data['MC_Mother_PDG'].isin(MotherPDGList)
 new_combined_data = new_combined_data.drop(["x", "y", "z", "MC_Mother_PDG"],axis=1)
-new_combined_data.drop_duplicates()
+new_combined_data = new_combined_data.drop_duplicates()
+
 
 new_combined_data.to_csv(output_file_location,index=False)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
