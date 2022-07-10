@@ -68,7 +68,7 @@ print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..
 print(UF.TimeStamp(),'Loading preselected data from ',bcolors.OKBLUE+input_file_location+bcolors.ENDC)
 data=pd.read_csv(input_file_location,header=0)
 print(UF.TimeStamp(),'Analysing data... ',bcolors.ENDC)
-NoJobs=np.ceil(len(data))/MaxFitTracksPerJob
+NoJobs=np.ceil(len(data)/MaxFitTracksPerJob)
 print(len(data))
 print(NoJobs)
 exit()
