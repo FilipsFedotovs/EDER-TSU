@@ -85,12 +85,12 @@ if Mode=='R':
       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R8_R8','R8_R9'], "SoftUsed == \"EDER-TSU-R8\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
       OptionHeader = [' --Set ', ' --MaxFitTracksPerJobt ', ' --EOS ', " --AFS "]
-            OptionLine = ['$1',MaxFitTracksPerJob, EOS_DIR, AFS_DIR]
-            SHName = AFS_DIR + '/HTCondor/SH/SH_R8.sh'
-            SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8.sub'
-            MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R8'
-            ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
-            UF.SubmitJobs2Condor([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, NoJobs, 'EDER-TSU-R8', False,False])
+      OptionLine = ['$1',MaxFitTracksPerJob, EOS_DIR, AFS_DIR]
+      SHName = AFS_DIR + '/HTCondor/SH/SH_R8.sh'
+      SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8.sub'
+      MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R8'
+      ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
+      UF.SubmitJobs2Condor([OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, NoJobs, 'EDER-TSU-R8', False,False])
       print(UF.TimeStamp(), bcolors.OKGREEN+'All jobs have been submitted, please rerun this script with "--Mode C" in few hours'+bcolors.ENDC)
 if Mode=='C':
    bad_pop=[]
