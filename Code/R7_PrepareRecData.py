@@ -102,6 +102,7 @@ if SliceData:
      final_rows=len(data.axes[0])
      print(UF.TimeStamp(),'The sliced data has ',final_rows,' hits')
 output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_TRACK_SEGMENTS.csv'
+output_id_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_TRACK_HEADERS.csv'
 print(UF.TimeStamp(),'Removing tracks which have less than',PM.MinHitsTrack,'hits...')
 track_no_data=data.groupby(['MC_Mother_Track_ID','FEDRA_Seg_ID','MC_Mother_PDG'],as_index=False).count()
 track_no_data=track_no_data.drop([PM.y,PM.z],axis=1)
@@ -120,7 +121,10 @@ new_combined_data=new_combined_data.rename(columns={PM.y: "y"})
 new_combined_data=new_combined_data.rename(columns={PM.z: "z"})
 new_combined_data= new_combined_data.drop(["MC_Mother_PDG"],axis=1)
 new_combined_data= new_combined_data.drop_duplicates()
+id_data = new_combined_data.drop(["x","y","z"],axis=1)
+id_data = id_data.drop_duplicates()
 new_combined_data.to_csv(output_file_location,index=False)
+id_data.to_csv(output_id_file_location,index=False)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"The track segment data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+output_file_location+bcolors.ENDC)
 print(bcolors.HEADER+"############################################# End of the program ################################################"+bcolors.ENDC)
