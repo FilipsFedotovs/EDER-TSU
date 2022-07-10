@@ -92,21 +92,19 @@ if Mode=='R':
 if Mode=='C':
    bad_pop=[]
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
-   for j in range(0,len(data)):
-       for sj in range(0,int(data[j][2])):
-           for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-              OptionHeader = [' --Set ', ' --SubSet ', ' --Fraction ', ' --EOS ', " --AFS ", " --MaxSTG ", " --MaxSLG ", " --MaxDOCA ", " --MaxAngle "]
-              OptionLine = [j, sj, '$1', EOS_DIR, AFS_DIR, MaxSTG, MaxSLG, MaxDoca, MaxAngle]
-              SHName = AFS_DIR +'/HTCondor/SH/SH_R8_'+str(j)+'_'+str(sj) + '_'+ str(f) +'.sh'
-              SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8_' + str(j) + '_' + str(sj) + '_'+ str(f) + '.sub'
-              MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R8_' + str(j) + '_' + str(sj) + '_'+ str(f)
-              ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
-              job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-R8', False,
-                 False]
-              if os.path.isfile(required_output_file_location)!=True  and os.path.isfile(new_output_file_location):
-                 bad_pop.append(job_details)
+   for j in range(0,NoJobs):
+        new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'.csv'
+        required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'.pkl'
+        OptionHeader = [' --Set ', ' --MaxFitTracksPerJobt ', ' --EOS ', " --AFS "]
+        OptionLine = [j, MaxFitTracksPerJob, EOS_DIR, AFS_DIR]
+        SHName = AFS_DIR +'/HTCondor/SH/SH_R8_'+str(j)+'.sh'
+        SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8_' + str(j) + '.sub'
+        MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R8_' + str(j)
+        ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
+        job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-R8', False,
+            False]
+        if os.path.isfile(required_output_file_location)!=True  and os.path.isfile(new_output_file_location):
+            bad_pop.append(job_details)
    if len(bad_pop)>0:
      print(UF.TimeStamp(),bcolors.WARNING+'Warning, there are still', len(bad_pop), 'HTCondor jobs remaining'+bcolors.ENDC)
      print(bcolors.BOLD+'If you would like to wait and try again later please enter W'+bcolors.ENDC)
@@ -125,25 +123,23 @@ if Mode=='C':
        print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor track Creation jobs have finished'+bcolors.ENDC)
        print(UF.TimeStamp(),'Collating the results...')
        trigger=False
-       for j in range(0,len(data)):
-        for sj in range(0,int(data[j][2])):
-           for f in range(0,1000):
-              new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-              required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-              if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
-                 print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
-              elif os.path.isfile(required_output_file_location):
-                 if trigger==False:
-                    base_data_file=open(required_output_file_location,'rb')
-                    base_data=pickle.load(base_data_file)
-                    base_data_file.close()
-                    trigger=True
-                    continue
-                 else:
-                    new_data_file=open(required_output_file_location,'rb')
-                    new_data=pickle.load(new_data_file)
-                    new_data_file.close()
-                    base_data+=new_data
+       for j in range(0,NoJobs):
+            new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
+            required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
+            if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
+                print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
+            elif os.path.isfile(required_output_file_location):
+                if trigger==False:
+                base_data_file=open(required_output_file_location,'rb')
+                base_data=pickle.load(base_data_file)
+                base_data_file.close()
+                trigger=True
+                continue
+                else:
+                new_data_file=open(required_output_file_location,'rb')
+                new_data=pickle.load(new_data_file)
+                new_data_file.close()
+                base_data+=new_data
         Records=len(base_data)
         print(UF.TimeStamp(),'Set',str(j),'contains', Records, 'selected track seed candidates for CNN fit...',bcolors.ENDC)
 
