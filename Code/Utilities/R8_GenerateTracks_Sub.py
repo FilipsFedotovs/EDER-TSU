@@ -37,18 +37,14 @@ input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_TRACK_SEGMENTS.csv'
 output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_RawTracks_'+Set+'.csv'
 print(UF.TimeStamp(), "Modules Have been imported successfully...")
 print(UF.TimeStamp(),'Loading pre-selected data from ',input_file_location)
-data=pd.read_csv(input_file_location)
-print(data)
-exit()
 
-
-print(UF.TimeStamp(),'Creating segment combinations... ')
-data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
 
 #What section of data will we cut?
-StartDataCut=Subset*MaxSegments
-EndDataCut=(Subset+1)*MaxSegments
-
+StartDataCut=(Set-1)*MaxSegments
+EndDataCut=(Set)*MaxSegments
+data=pd.read_csv(input_file_location)[StartDataCut:EndDataCut]
+print(data)
+exit()
 #Specifying the right join
 
 r_data=data.rename(columns={"FEDRA_Seg_ID": "Segment_2"})
