@@ -14,23 +14,14 @@ import numpy as np
 
 #Setting the parser - this script is usually not run directly, but is used by a Master version Counterpart that passes the required arguments
 parser = argparse.ArgumentParser(description='select cut parameters')
-parser.add_argument('--PlateZ',help="The Z coordinate of the starting plate", default='-36820.0')
 parser.add_argument('--Set',help="Set number", default='1')
-parser.add_argument('--Subset',help="Subset number", default='1')
-parser.add_argument('--MaxSLG',help="Maximum allowed longitudinal gap value between segments", default='8000')
-parser.add_argument('--MaxSTG',help="Maximum allowed transverse gap value between segments per SLG length", default='1000')
 parser.add_argument('--EOS',help="EOS directory location", default='.')
 parser.add_argument('--AFS',help="AFS directory location", default='.')
 parser.add_argument('--MaxSegments',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
-PlateZ=float(args.PlateZ)   #The coordinate of the st plate in the current scope
 Set=args.Set    #This is just used to name the output file
-Subset=int(args.Subset)  #The subset helps to determine what portion of the track list is used to create the Seeds
-MaxSLG=float(args.MaxSLG)
-MaxSTG=float(args.MaxSTG)
 ########################################     Preset framework parameters    #########################################
-MaxRecords=10000000 #A set parameter that helps to manage memory load of this script (Please do not exceed 10000000)
 MaxSegments=int(args.MaxSegments)
 
 #Loading Directory locations
@@ -42,41 +33,17 @@ AFS_DIR=args.AFS
 import Utility_Functions as UF #This is where we keep routine utility functions
 
 #Specifying the full path to input/output files
-input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R1_TRACK_SEGMENTS.csv'
-output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R2_RawTracks_'+Set+'_'+str(Subset)+'.csv'
-output_result_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R2_R2_RawTracks_'+Set+'_'+str(Subset)+'_RES.csv'
+input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_TRACK_SEGMENTS.csv'
+output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_RawTracks_'+Set+'.csv'
 print(UF.TimeStamp(), "Modules Have been imported successfully...")
 print(UF.TimeStamp(),'Loading pre-selected data from ',input_file_location)
 data=pd.read_csv(input_file_location)
-
+print(data)
+exit()
 
 
 print(UF.TimeStamp(),'Creating segment combinations... ')
 data_header = data.groupby('FEDRA_Seg_ID')['z'].min()  #Keeping only starting hits for the each track record (we do not require the full information about track in this script)
-data_header=data_header.reset_index()
-data_end_header = data.groupby('FEDRA_Seg_ID')['z'].max()  #Keeping only ending hits for the each track record (we do not require the full information about track in this script)
-data_end_header=data_end_header.reset_index()
-data_end_header=data_end_header.rename(columns={"z": "e_z"})
-data_header=pd.merge(data_header, data_end_header, how="inner", on=["FEDRA_Seg_ID"]) #Shrinking the Track data so just a star hit for each track is present.
-#Doing a plate region cut for the Main Data
-#data_header.drop(data_header.index[data_header['e_z'] > (PlateZ+MaxSLG)], inplace = True) #Not applicable for TSU
-data_header.drop(data_header.index[data_header['z'] < PlateZ], inplace = True)
-Records=len(data_header.axes[0])
-print(UF.TimeStamp(),'There are total of ', Records, 'tracks in the data set')
-
-Cut=math.ceil(MaxRecords/Records) #Even if use only a max of 20000 track on the right join we cannot perform the full outer join due to the memory limitations, we do it in a small 'cuts'
-Steps=math.ceil(MaxSegments/Cut)  #Calculating number of cuts
-data_s=pd.merge(data, data_header, how="inner", on=["FEDRA_Seg_ID","z"]) #Shrinking the Track data so just a star hit for each track is present.
-data_s.drop(['e_z'],axis=1,inplace=True)
-data_e=pd.merge(data, data_header, how="inner", left_on=["FEDRA_Seg_ID","z"], right_on=["FEDRA_Seg_ID","e_z"]) #Shrinking the Track data so just a star hit for each track is present.
-data_e=data_e.rename(columns={"x": "e_x"})
-data_e=data_e.rename(columns={"y": "e_y"})
-data_e.drop(['z_x'],axis=1,inplace=True)
-data_e.drop(['z_y'],axis=1,inplace=True)
-data=pd.merge(data_s, data_e, how="inner", on=["FEDRA_Seg_ID"]) #Combining datasets so for each track we know its starting and ending coordinates
-del data_e
-del data_s
-gc.collect()
 
 #What section of data will we cut?
 StartDataCut=Subset*MaxSegments

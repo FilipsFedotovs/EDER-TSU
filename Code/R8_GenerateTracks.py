@@ -126,18 +126,11 @@ if Mode=='C':
         for sj in range(0,int(data[j][2])):
            output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_RawTracks_'+str(j)+'_'+str(sj)+'.csv'
            if os.path.isfile(output_file_location):
-            result=pd.read_csv(output_file_location,names = ['Segment_1','Segment_2'])
+            result=pd.read_csv(output_file_location,names = ["Segment"])
             Records=len(result.axes[0])
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'contains', Records, 'tracks',bcolors.ENDC)
-            result["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(result['Segment_1'], result['Segment_2'])]
-            result.drop_duplicates(subset="Track_ID",keep='first',inplace=True)
-            result.drop(result.index[result['Segment_1'] == result['Segment_2']], inplace = True)
             result.drop(["Track_ID"],axis=1,inplace=True)
             Records_After_Compression=len(result.axes[0])
-            if Records>0:
-              Compression_Ratio=int((Records_After_Compression/Records)*100)
-            else:
-              Compression_Ratio=0
             print(UF.TimeStamp(),'Set',str(j),'and subset', str(sj), 'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
             fractions=int(math.ceil(Records_After_Compression/MaxSegmentsPerJob))
             for f in range(0,fractions):
