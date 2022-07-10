@@ -20,7 +20,7 @@ parser.add_argument('--AFS',help="AFS directory location", default='.')
 parser.add_argument('--MaxSegments',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
-Set=args.Set    #This is just used to name the output file
+Set=int(args.Set)    #This is just used to name the output file
 ########################################     Preset framework parameters    #########################################
 MaxSegments=int(args.MaxSegments)
 
