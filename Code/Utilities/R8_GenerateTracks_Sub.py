@@ -20,7 +20,7 @@ parser.add_argument('--AFS',help="AFS directory location", default='.')
 parser.add_argument('--MaxSegments',help="A maximum number of track combinations that will be used in a particular HTCondor job for this script", default='20000')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
-Set=int(args.Set)    #This is just used to name the output file
+Set=args.Set   #This is just used to name the output file
 ########################################     Preset framework parameters    #########################################
 MaxSegments=int(args.MaxSegments)
 
@@ -40,8 +40,8 @@ print(UF.TimeStamp(),'Loading pre-selected data from ',input_file_location)
 
 
 #What section of data will we cut?
-StartDataCut=(Set-1)*MaxSegments
-EndDataCut=(Set)*MaxSegments
+StartDataCut=(int(Set)-1)*MaxSegments
+EndDataCut=(int(Set))*MaxSegments
 data=pd.read_csv(input_file_location)[StartDataCut:EndDataCut]
 print(data)
 exit()
