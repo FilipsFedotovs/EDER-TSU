@@ -93,7 +93,7 @@ if Mode=='C':
    for j in range(0,NoJobs):
               required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R9_R9_CNN_Classified_Tracks_'+str(j)+'.pkl'
               OptionHeader = [' --Set ', ' --EOS ', " --AFS ", " --resolution ", " --bg_acceptance "," --MaxX ", " --MaxY ", " --MaxZ ", " --ClassifierModelName "]
-              OptionLine = [(j) EOS_DIR, AFS_DIR, resolution,bg_acceptance,MaxX,MaxY,MaxZ,ModelName]
+              OptionLine = [(j), EOS_DIR, AFS_DIR, resolution,bg_acceptance,MaxX,MaxY,MaxZ,ModelName]
               SHName = AFS_DIR + '/HTCondor/SH/SH_R9_' + str(j) + '.sh'
               SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R9_' + str(j) +'.sub'
               MSGName = AFS_DIR + '/HTCondor/MSG/MSG_R9_' + str(j) 
