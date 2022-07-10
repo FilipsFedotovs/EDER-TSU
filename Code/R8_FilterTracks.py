@@ -102,7 +102,7 @@ if Mode=='C':
         ScriptName = AFS_DIR + '/Code/Utilities/R8_FilterTracks_Sub.py '
         job_details=[OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-R8', False,
             False]
-        if os.path.isfile(required_output_file_location)!=True  and os.path.isfile(new_output_file_location):
+        if os.path.isfile(required_output_file_location)!=True:
             bad_pop.append(job_details)
    if len(bad_pop)>0:
      print(UF.TimeStamp(),bcolors.WARNING+'Warning, there are still', len(bad_pop), 'HTCondor jobs remaining'+bcolors.ENDC)
