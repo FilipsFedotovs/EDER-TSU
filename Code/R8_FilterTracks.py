@@ -122,7 +122,7 @@ if Mode=='C':
    else:
        print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor track Creation jobs have finished'+bcolors.ENDC)
        print(UF.TimeStamp(),'Collating the results...')
-       print(UF.TimeStamp(),'Set',str(j),'contains', Records, 'selected track seed candidates for CNN fit...',bcolors.ENDC)
+       print(UF.TimeStamp(),'Set',str(j), 'selected track seed candidates for CNN fit...',bcolors.ENDC)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R7_R8','R8_R8'], "SoftUsed == \"EDER-TSU-R8\"")
        print(UF.TimeStamp(), bcolors.OKGREEN+"Track filtering is completed, you can perform CNN fit on them now..."+bcolors.ENDC)
