@@ -122,75 +122,7 @@ if Mode=='C':
    else:
        print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor track Creation jobs have finished'+bcolors.ENDC)
        print(UF.TimeStamp(),'Collating the results...')
-       trigger=False
-       for j in range(0,NoJobs):
-            new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.csv'
-            required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'_'+str(sj)+'_'+str(f)+'.pkl'
-            if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
-                print(UF.TimeStamp(), bcolors.FAIL+"Critical fail: file",required_output_file_location,'is missing, please restart the script with the option "--Mode R"'+bcolors.ENDC)
-            elif os.path.isfile(required_output_file_location):
-                if trigger==False:
-                base_data_file=open(required_output_file_location,'rb')
-                base_data=pickle.load(base_data_file)
-                base_data_file.close()
-                trigger=True
-                continue
-                else:
-                new_data_file=open(required_output_file_location,'rb')
-                new_data=pickle.load(new_data_file)
-                new_data_file.close()
-                base_data+=new_data
-        Records=len(base_data)
-        print(UF.TimeStamp(),'Set',str(j),'contains', Records, 'selected track seed candidates for CNN fit...',bcolors.ENDC)
-
-        base_data=list(set(base_data))
-        Records_After_Compression=len(base_data)
-        fractions=int(math.ceil(Records_After_Compression/MaxFitTracksPerJob))
-        for f in range(0,fractions):
-             output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
-             open_file = open(output_file_location, "wb")
-             pickle.dump(base_data[(f*MaxFitTracksPerJob):min(Records_After_Compression,((f+1)*MaxFitTracksPerJob))], open_file)
-             open_file.close()
-        if Records>0:
-              Compression_Ratio=int((Records_After_Compression/Records)*100)
-        else:
-              CompressionRatio=0
-        print(UF.TimeStamp(),'Set',str(j+1),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
-       if args.Log=='Y':
-         try:
-             print(UF.TimeStamp(),'Initiating the logging...')
-             eval_data_file=EOS_DIR+'/EDER-TSU/Data/TEST_SET/E3_TRUTH_TRACKS.csv'
-             eval_data=pd.read_csv(eval_data_file,header=0,usecols=['Segment_1','Segment_2'])
-             eval_data["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(eval_data['Segment_1'], eval_data['Segment_2'])]
-             eval_data.drop(['Segment_1'],axis=1,inplace=True)
-             eval_data.drop(['Segment_2'],axis=1,inplace=True)
-             rec_no=0
-             eval_no=0
-             for j in range(0,len(data)):
-                    for f in range(0,1000):
-                      new_input_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R4_FilteredTracks_'+str(j)+'_'+str(f)+'.pkl'
-                      if os.path.isfile(new_input_file_location)==False:
-                            break
-                      else:
-                         progress=round((float(j)/float(len(data)))*100,0)
-                         print(UF.TimeStamp(),'progress is ',progress,' %', end="\r", flush=True) #Progress display
-                         rec_data_file=open(new_input_file_location,'rb')
-                         rec_data=pickle.load(rec_data_file)
-                         rec_data_file.close()
-                         rec_list=[]
-                         for rd in rec_data:
-                             rec_list.append([rd.SegmentHeader[0],rd.SegmentHeader[1]])
-                         rec = pd.DataFrame(rec_list, columns = ['Segment_1','Segment_2'])
-                         rec["Track_ID"]= ['-'.join(sorted(tup)) for tup in zip(rec['Segment_1'], rec['Segment_2'])]
-                         rec.drop(['Segment_1'],axis=1,inplace=True)
-                         rec.drop(['Segment_2'],axis=1,inplace=True)
-                         rec_eval=pd.merge(eval_data, rec, how="inner", on=['Track_ID'])
-                         eval_no+=len(rec_eval)
-                         rec_no+=(len(rec)-len(rec_eval))           
-             UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv', 'UpdateLog', [[3,'DOCA and angle cuts',rec_no,eval_no,eval_no/(rec_no+eval_no),eval_no/len(eval_data)]])
-             print(UF.TimeStamp(), bcolors.OKGREEN+"The log data has been created successfully and written to"+bcolors.ENDC, bcolors.OKBLUE+EOS_DIR+'/EDER-TSU/Data/REC_SET/R_LOG.csv'+bcolors.ENDC)
-         except:
-             print(UF.TimeStamp(), bcolors.WARNING+'Log creation has failed'+bcolors.ENDC)
+       print(UF.TimeStamp(),'Set',str(j),'contains', Records, 'selected track seed candidates for CNN fit...',bcolors.ENDC)
        print(UF.TimeStamp(),'Cleaning up the work space... ',bcolors.ENDC)
        UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R7_R8','R8_R8'], "SoftUsed == \"EDER-TSU-R8\"")
        print(UF.TimeStamp(), bcolors.OKGREEN+"Track filtering is completed, you can perform CNN fit on them now..."+bcolors.ENDC)
