@@ -81,7 +81,7 @@ if Mode=='R':
       print(UF.TimeStamp(),'Performing the cleanup... ',bcolors.ENDC)
       UF.RecCleanUp(AFS_DIR, EOS_DIR, 'R8', ['R8_R8','R8_R9'], "SoftUsed == \"EDER-TSU-R8\"")
       print(UF.TimeStamp(),'Submitting jobs... ',bcolors.ENDC)
-      OptionHeader = [' --Set ', ' --MaxFitTracksPerJobt ', ' --EOS ', " --AFS "]
+      OptionHeader = [' --Set ', ' --MaxFitTracksPerJob ', ' --EOS ', " --AFS "]
       OptionLine = ['$1',MaxFitTracksPerJob, EOS_DIR, AFS_DIR]
       SHName = AFS_DIR + '/HTCondor/SH/SH_R8.sh'
       SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8.sub'
@@ -93,9 +93,8 @@ if Mode=='C':
    bad_pop=[]
    print(UF.TimeStamp(),'Checking jobs... ',bcolors.ENDC)
    for j in range(0,NoJobs):
-        new_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R7_R8_RawTracks_'+str(j)+'.csv'
-        required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R8_FilteredTracks_'+str(j)+'.pkl'
-        OptionHeader = [' --Set ', ' --MaxFitTracksPerJobt ', ' --EOS ', " --AFS "]
+        required_output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R8_R9_PREPARED_TRACKS_'+str(j)+'.pkl'
+        OptionHeader = [' --Set ', ' --MaxFitTracksPerJob ', ' --EOS ', " --AFS "]
         OptionLine = [j, MaxFitTracksPerJob, EOS_DIR, AFS_DIR]
         SHName = AFS_DIR +'/HTCondor/SH/SH_R8_'+str(j)+'.sh'
         SUBName = AFS_DIR + '/HTCondor/SUB/SUB_R8_' + str(j) + '.sub'
