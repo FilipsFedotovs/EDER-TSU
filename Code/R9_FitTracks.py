@@ -151,15 +151,16 @@ if Mode=='C':
        #Load the file specified by arg --f
        origin_data=pd.read_csv(origin_file_location)
 
-    #    origin_data[PM.FEDRA_Track_ID] = origin_data[PM.FEDRA_Track_ID].astype(int)
-    #    origin_data[PM.FEDRA_Track_ID] = origin_data[PM.FEDRA_Track_ID].astype(str)
-    #    try:
-    #       origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(int)
-    #    except:
-    #       print(UF.TimeStamp(), bcolors.WARNING+"Failed to convert quadrant to integer..."+bcolors.ENDC)
-    #    origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(str)
-    #    origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
-       origin_data.rename(columns = {'FEDRA_Seg_ID':'Track_ID'}, inplace = True)
+       origin_data[PM.FEDRA_Track_ID] = origin_data[PM.FEDRA_Track_ID].astype(int)
+       origin_data[PM.FEDRA_Track_ID] = origin_data[PM.FEDRA_Track_ID].astype(str)
+       try:
+          origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(int)
+       except:
+          print(UF.TimeStamp(), bcolors.WARNING+"Failed to convert quadrant to integer..."+bcolors.ENDC)
+       origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(str)
+       origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
+       
+    #    origin_data.rename(columns = {'FEDRA_Seg_ID':'Track_ID'}, inplace = True)
 
        merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
        merged_data.to_csv(output_result_file_location,index=False)
