@@ -143,7 +143,7 @@ if Mode=='C':
                     base_data=pickle.load(base_data_file)
                     base_data_file.close()
                     for b in base_data:
-                        list_tracks.append([b.SegmentHeader, b.Track_CNN_Class])
+                        list_tracks.append([b.SegmentHeader[0], b.Track_CNN_Class])
        list_tracks_df=pd.DataFrame(list_tracks, columns=['Track_ID', 'Track_Class'])
 
 
@@ -159,9 +159,7 @@ if Mode=='C':
        origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(str)
        origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
 
-       print(origin_data)
-       print(list_tracks_df)
-       exit()
+
        merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
 
        print(len(origin_data))
