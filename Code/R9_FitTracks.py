@@ -149,8 +149,20 @@ if Mode=='C':
 
        #Load the file specified by arg --f
        origin_data=pd.read_csv(origin_file_location)
-       print(list_tracks_df)
-       print(origin_data)
+
+       origin_data[PM.FEDRA_Track_ID] = origin_data[PM.FEDRA_Track_ID].astype(int)
+       origin_data[PM.FEDRA_Track_ID] = origin_data[PM.FEDRA_Track_ID].astype(str)
+       try:
+          origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(int)
+       except:
+          print(UF.TimeStamp(), bcolors.WARNING+"Failed to convert quadrant to integer..."+bcolors.ENDC)
+       origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(str)
+       origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
+
+       merged_data = pd.merge(origin_data,list_tracks_df,on=['Track_ID'],how="inner")
+       print(len(origin_data))
+       print(len(merged_data))
+       print(merged_data)
        exit()
 
        
