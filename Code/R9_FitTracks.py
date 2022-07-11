@@ -33,7 +33,7 @@ parser.add_argument('--Log',help="Would you like to enable logging? Please make 
 args = parser.parse_args()
 Mode=args.Mode
 origin_file_location=args.f
-output_file_location=args.o
+output_result_file_location=args.o
 
 MotherPDGList = args.MotherPDGList
 if type(MotherPDGList)== int :
@@ -162,7 +162,7 @@ if Mode=='C':
 
 
        merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
-       merged_data.to_csv(output_file_location,index=False)
+       merged_data.to_csv(output_result_file_location,index=False)
        
 
 
