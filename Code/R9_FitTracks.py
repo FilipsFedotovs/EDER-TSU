@@ -158,8 +158,10 @@ if Mode=='C':
        except:
           print(UF.TimeStamp(), bcolors.WARNING+"Failed to convert quadrant to integer..."+bcolors.ENDC)
        origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(str)
-       origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
 
+       #origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
+       origin_data['Track_ID'] = origin_data['FEDRA_Seg_ID']
+       origin_data.drop(['FEDRA_Seg_ID'],axis=1)
 
        merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
        merged_data.to_csv(output_result_file_location,index=False)
