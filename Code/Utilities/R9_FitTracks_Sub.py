@@ -22,7 +22,6 @@ class bcolors:
     UNDERLINE = '\033[4m'
 parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--Set',help="Set Number", default='1')
-parser.add_argument('--Fraction',help="Fraction", default='1')
 parser.add_argument('--EOS',help="EOS location", default='')
 parser.add_argument('--AFS',help="AFS location", default='')
 parser.add_argument('--resolution',help="Resolution in microns per pixel", default='100')
@@ -34,7 +33,6 @@ parser.add_argument('--ClassifierModelName',help="Name of the CNN model", defaul
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
 Set=args.Set
-fraction=str(int(args.Fraction))
 resolution=float(args.resolution)
 acceptance=float(args.bg_acceptance)
 #Maximum bounds on the image size in microns
@@ -67,8 +65,7 @@ for s in range(0,limit):
     TrackImage=UF.LoadRenderImages([track],1,1)[0]
     track.UnloadTrackPrint()
     track.CNNClassifyTrack(model.predict(TrackImage)[0][1])
-    if (track.Track_CNN_Class<acceptance):
-        GoodTracks.append(track)
+    GoodTracks.append(track)
 print(UF.TimeStamp(),bcolors.OKGREEN+'The track segment CNN fit has been completed..'+bcolors.ENDC)
 del tracks
 gc.collect()
