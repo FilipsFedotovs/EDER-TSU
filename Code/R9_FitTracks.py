@@ -35,9 +35,9 @@ Mode=args.Mode
 origin_file_location=args.f
 output_result_file_location=args.o
 
-MotherPDGList = args.MotherPDGList
-if type(MotherPDGList)== int :
-    MotherPDGList = [MotherPDGList]
+# MotherPDGList = args.MotherPDGList
+# if type(MotherPDGList)== int :
+#     MotherPDGList = [MotherPDGList]
 
 
 
