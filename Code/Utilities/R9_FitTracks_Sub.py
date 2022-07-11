@@ -34,7 +34,7 @@ parser.add_argument('--ClassifierModelName',help="Name of the CNN model", defaul
 args = parser.parse_args()
 Set=args.Set
 resolution=float(args.resolution)
-acceptance=float(args.bg_acceptance)
+# acceptance=float(args.bg_acceptance)
 #Maximum bounds on the image size in microns
 MaxX=float(args.MaxX)
 MaxY=float(args.MaxY)
