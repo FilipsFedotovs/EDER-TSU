@@ -159,7 +159,7 @@ if Mode=='C':
        origin_data[PM.FEDRA_Track_QUADRANT] = origin_data[PM.FEDRA_Track_QUADRANT].astype(str)
        origin_data['Track_ID'] = origin_data[PM.FEDRA_Track_QUADRANT] + '-' + origin_data[PM.FEDRA_Track_ID]
 
-       merged_data = pd.merge(origin_data,list_tracks_df,on=['Track_ID'],how="inner")
+       merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
        print(len(origin_data))
        print(len(merged_data))
        print(merged_data)
