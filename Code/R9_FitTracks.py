@@ -33,6 +33,7 @@ parser.add_argument('--Log',help="Would you like to enable logging? Please make 
 args = parser.parse_args()
 Mode=args.Mode
 origin_file_location=args.f
+output_file_location=args.o
 
 MotherPDGList = args.MotherPDGList
 if type(MotherPDGList)== int :
