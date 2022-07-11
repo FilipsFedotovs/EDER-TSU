@@ -32,7 +32,11 @@ parser.add_argument('--Log',help="Would you like to enable logging? Please make 
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
 Mode=args.Mode
+origin_file_location=args.f
 
+MotherPDGList = args.MotherPDGList
+if type(MotherPDGList)== int :
+    MotherPDGList = [MotherPDGList]
 
 
 
@@ -141,22 +145,15 @@ if Mode=='C':
                     for b in base_data:
                         list_tracks.append([b.SegmentHeader, b.Track_CNN_Class])
        list_tracks_df=pd.DataFrame(list_tracks, columns=['Track_ID', 'Track_Class'])
+
+
+       #Load the file specified by arg --f
+       origin_data=pd.read_csv(origin_file_location)
        print(list_tracks_df)
+       print(origin_data)
        exit()
-       Records=len(base_data)
-       print(UF.TimeStamp(),'Final reconstructed set contains', Records, '2-segment glued tracks',bcolors.ENDC)
-       output_file_location=EOS_DIR+'/EDER-TSU/Data/REC_SET/R9_R10_CNN_Fit_Track_Segments.pkl'
-       base_data=list(set(base_data))
-       Records_After_Compression=len(base_data)
-       if Records>0:
-              Compression_Ratio=int((Records_After_Compression/Records)*100)
-       else:
-              CompressionRatio=0
-       print(UF.TimeStamp(),'Final reconstructed set compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
-       print(UF.TimeStamp(), 'Saving the object file... ')
-       base_data_file=open(output_file_location,'wb')
-       pickle.dump(base_data,base_data_file)
-       base_data_file.close()     
+
+       
        if args.Log=='Y':
          try:
              print(UF.TimeStamp(),'Initiating the logging...')
