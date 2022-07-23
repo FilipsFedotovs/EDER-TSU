@@ -21,8 +21,10 @@ parser.add_argument('--Xmin',help="This option excludes data events that have tr
 parser.add_argument('--Xmax',help="This option excludes data events that have tracks with hits x-coordinates that are below this value", default='0')
 parser.add_argument('--Ymin',help="This option excludes data events that have tracks with hits y-coordinates that are above this value", default='0')
 parser.add_argument('--Ymax',help="This option excludes data events that have tracks with hits y-coordinates that are below this value", default='0')
+parser.add_argument('--RemoveTracksZ',help="This option enables to remove particular tracks of sarting Z-coordinate", default='[]')
 ########################################     Main body functions    #########################################
 args = parser.parse_args()
+RemoveTracksZ=ast.literal_eval(args.RemoveTracksZ)
 input_file_location=args.f
 Xmin=float(args.Xmin)
 Xmax=float(args.Xmax)
@@ -121,6 +123,18 @@ new_combined_data=new_combined_data.rename(columns={PM.y: "y"})
 new_combined_data=new_combined_data.rename(columns={PM.z: "z"})
 new_combined_data= new_combined_data.drop(["MC_Mother_PDG"],axis=1)
 new_combined_data= new_combined_data.drop_duplicates()
+
+# remove the tracks starting from specified plates
+if len(RemoveTracksZ)>0:
+    print(UF.TimeStamp(),'Removing tracks based on start point')
+    TracksZdf = pd.DataFrame(RemoveTracksZ, columns = ['Bad_z'], dtype=float)
+    new_combined_data_aggregated=new_combined_data.groupby(['Track_ID'])['z'].min().reset_index()
+    new_combined_data_aggregated=new_combined_data_aggregated.rename(columns={'z': "PosBad_Z"})
+    new_combined_data=pd.merge(new_combined_data, new_combined_data_aggregated, how="left", on=["Track_ID"])
+    new_combined_data=pd.merge(new_combined_data, TracksZdf, how="left", left_on=["PosBad_Z"], right_on=['Bad_z'])
+    new_combined_data=new_combined_data[new_combined_data['Bad_z'].isnull()]
+    new_combined_data=new_combined_data.drop(['Bad_z', 'PosBad_Z'],axis=1)
+
 id_data = new_combined_data.drop(["x","y","z"],axis=1)
 id_data = id_data.drop_duplicates()
 new_combined_data.to_csv(output_file_location,index=False)
