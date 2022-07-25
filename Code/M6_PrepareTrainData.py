@@ -122,6 +122,8 @@ new_combined_data=new_combined_data.rename(columns={PM.x: "x"})
 new_combined_data=new_combined_data.rename(columns={PM.y: "y"})
 new_combined_data=new_combined_data.rename(columns={PM.z: "z"})
 
+print(new_combined_data)
+exit()
 # remove the tracks starting from specified plates
 if len(RemoveTracksZ)>0:
     print(UF.TimeStamp(),'Removing tracks based on start point')
