@@ -131,7 +131,7 @@ if len(RemoveTracksZ)>0:
     TracksZdf = pd.DataFrame(RemoveTracksZ, columns = ['Bad_z'], dtype=float)
     new_combined_data_aggregated=new_combined_data.groupby(['FEDRA_Seg_ID'])['z'].min().reset_index()
     new_combined_data_aggregated=new_combined_data_aggregated.rename(columns={'z': "PosBad_Z"})
-    new_combined_data=pd.merge(new_combined_data, new_combined_data_aggregated, how="left", on=["Track_ID"])
+    new_combined_data=pd.merge(new_combined_data, new_combined_data_aggregated, how="left", on=["FEDRA_Seg_ID"])
     new_combined_data=pd.merge(new_combined_data, TracksZdf, how="left", left_on=["PosBad_Z"], right_on=['Bad_z'])
     new_combined_data=new_combined_data[new_combined_data['Bad_z'].isnull()]
     new_combined_data=new_combined_data.drop(['Bad_z', 'PosBad_Z'],axis=1)
