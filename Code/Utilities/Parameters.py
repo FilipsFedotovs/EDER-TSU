@@ -10,7 +10,7 @@ z='z' #Column name for z-coordinate of the track hit
 FEDRA_Track_ID='FEDRA Track ID' #Column nameActual track id for FEDRA (or other reconstruction software)
 FEDRA_Track_QUADRANT='Quadrant' #Quarter of the ECC where the track is reconstructed If not present in the data please put the Track ID (the same as above)
 MC_Track_ID='MC Track'  #Column name for Track ID for MC Truth reconstruction data
-MC_Event_ID='MC Event' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
+MC_Event_ID='MC Event_ID' #Column name for Event id for MC truth reconstruction data (If absent please enter the MCTrack as for above)
 MC_Mother_PDG='Mother PDG'
 
 Config='SND'
@@ -33,7 +33,7 @@ if Config=='SND':
     ##Model parameters
     pre_acceptance=0.5
     post_acceptance=0.5
-    bg_acceptance = 0.5
+    bg_acceptance = 1.0
     #pre_vx_acceptance=0.662
     resolution=50
     MaxX=1000.0
