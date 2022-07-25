@@ -5,6 +5,7 @@ import csv
 import argparse
 import pandas as pd
 import numpy as np
+import ast
 
 class bcolors:
     HEADER = '\033[95m'
