@@ -122,13 +122,12 @@ new_combined_data=new_combined_data.rename(columns={PM.x: "x"})
 new_combined_data=new_combined_data.rename(columns={PM.y: "y"})
 new_combined_data=new_combined_data.rename(columns={PM.z: "z"})
 
-print(new_combined_data)
-exit()
+
 # remove the tracks starting from specified plates
 if len(RemoveTracksZ)>0:
     print(UF.TimeStamp(),'Removing tracks based on start point')
     TracksZdf = pd.DataFrame(RemoveTracksZ, columns = ['Bad_z'], dtype=float)
-    new_combined_data_aggregated=new_combined_data.groupby(['Track_ID'])['z'].min().reset_index()
+    new_combined_data_aggregated=new_combined_data.groupby(['FEDRA_Seg_ID'])['z'].min().reset_index()
     new_combined_data_aggregated=new_combined_data_aggregated.rename(columns={'z': "PosBad_Z"})
     new_combined_data=pd.merge(new_combined_data, new_combined_data_aggregated, how="left", on=["Track_ID"])
     new_combined_data=pd.merge(new_combined_data, TracksZdf, how="left", left_on=["PosBad_Z"], right_on=['Bad_z'])
