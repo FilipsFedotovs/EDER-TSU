@@ -566,6 +566,80 @@ class Track:
           delattr(self,'PrecedingTrackInd')
 
 
+      def PrepareTrackGraph(self,MaxX,MaxY,MaxZ,Rescale):
+          __TempTrack=copy.deepcopy(self.SegmentHits)
+
+        # MaxZ =1315
+        #   self.Resolution=Res
+        #   self.bX=int(round(MaxX/self.Resolution,0))
+        #   self.bY=int(round(MaxY/self.Resolution,0))
+        #   self.bZ=int(round(MaxZ/self.Resolution,0))
+        #   self.H=(self.bX)*2
+        #   self.W=(self.bY)*2
+        #   self.L=(self.bZ)
+          __LongestDistance=0.0
+          for __Track in __TempTrack:
+            __Xdiff=float(__Track[len(__Track)-1][0])-float(__Track[0][0])
+            __Ydiff=float(__Track[len(__Track)-1][1])-float(__Track[0][1])
+            __Zdiff=float(__Track[len(__Track)-1][2])-float(__Track[0][2])
+            __Distance=math.sqrt(__Xdiff**2+__Ydiff**2+__Zdiff**2)
+            if __Distance>=__LongestDistance:
+                __LongestDistance=__Distance
+                __FinX=float(__Track[0][0])
+                __FinY=float(__Track[0][1])
+                __FinZ=float(__Track[0][2])
+                self.LongestTrackInd=__TempTrack.index(__Track)
+          # Shift
+          for __Tracks in __TempTrack:
+              for __Hits in __Tracks:
+                  __Hits[0]=float(__Hits[0])-__FinX
+                  __Hits[1]=float(__Hits[1])-__FinY
+                  __Hits[2]=float(__Hits[2])-__FinZ
+          # Rescale
+          if Rescale:
+              for __Tracks in __TempTrack:
+                  for __Hits in __Tracks:
+                      __Hits[0]=__Hits[0]/MaxX
+                      __Hits[1]=__Hits[1]/MaxY
+                      __Hits[2]=__Hits[2]/MaxZ
+
+
+
+
+          __graphData_x =__TempTrack[0]+__TempTrack[1]
+
+          # position of nodes
+          __graphData_pos = []
+          for node in __graphData_x:
+            __graphData_pos.append(node[0:3])
+
+          # edge index and attributes
+          __graphData_edge_index = []
+          #__graphData_edge_attr = []
+          
+          for i in range(len(__TempTrack[0])):
+            for j in range(len(__TempTrack[1])):
+                __graphData_edge_index.append([i,j+len(__TempTrack[0])])
+                __graphData_edge_index.append([j+len(__TempTrack[0]),i])
+
+          if self.MC_truth_label ==True:
+            __graphData_y = np.array([[1,0]])
+          else:
+            __graphData_y = np.array([[0,1]])
+
+          import torch
+          import torch_geometric
+          from torch_geometric.data import Data
+          
+
+          self.GraphSeed=Data(x=torch.Tensor(__graphData_x), 
+                              edge_index = torch.Tensor(__graphData_edge_index).t().contiguous().long(),
+                              y=torch.Tensor(__graphData_y).long(),
+                              pos = torch.Tensor(__graphData_pos)
+                              )
+
+
+
       def Plot(self,PlotType):
         if PlotType=='XZ' or PlotType=='ZX':
           __InitialData=[]

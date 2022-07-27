@@ -39,6 +39,9 @@ if Config=='SND':
     MaxX=1000.0
     MaxY=1000.0
     MaxZ=3000.0
+    GNNMaxX=100.0
+    GNNMaxY=100.0
+    GNNMaxZ=1315
     Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
     Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
     Classifier_Model_Name= 'SND_BG_RAW3'
