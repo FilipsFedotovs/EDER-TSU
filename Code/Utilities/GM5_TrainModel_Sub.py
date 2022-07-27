@@ -140,7 +140,6 @@ train_file.close()
 
 train_dataset = []
 for image in TrainImages :
-    #image.GraphSeed.y = image.GraphSeed.y.float()
     train_dataset.append(image.GraphSeed)
 
 
@@ -154,8 +153,10 @@ TestImages=pickle.load(test_file)
 test_file.close()
 test_dataset = []
 for image in TestImages :
-    #image.GraphSeed.y = image.GraphSeed.y.float()
     test_dataset.append(image.GraphSeed)
+
+print(train_dataset[0].y)
+exit()
 
 
 from torch_geometric.loader import DataLoader
