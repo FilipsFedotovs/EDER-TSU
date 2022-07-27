@@ -621,11 +621,11 @@ class Track:
             for j in range(len(__TempTrack[1])):
                 __graphData_edge_index.append([i,j+len(__TempTrack[0])])
                 __graphData_edge_index.append([j+len(__TempTrack[0]),i])
-
-          if self.MC_truth_label ==1:
-            __graphData_y = np.array([[1,0]])
-          else:
-            __graphData_y = np.array([[0,1]])
+          __graphData_y = self.MC_truth_label
+        #   if self.MC_truth_label ==1:
+        #     __graphData_y = np.array([[1,0]])
+        #   else:
+        #     __graphData_y = np.array([[0,1]])
 
           import torch
           import torch_geometric
