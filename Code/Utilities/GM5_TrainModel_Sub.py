@@ -144,9 +144,6 @@ for image in TrainImages :
 
 
 
-train_dataset = train_dataset[0:2000]
-print(len(train_dataset))
-
 print(UF.TimeStamp(),'Loading data from ',bcolors.OKBLUE+vlocation+bcolors.ENDC)
 test_file=open(vlocation,'rb')
 TestImages=pickle.load(test_file)
@@ -154,7 +151,6 @@ test_file.close()
 test_dataset = []
 for image in TestImages :
     test_dataset.append(image.GraphSeed)
-
 
 
 
@@ -191,13 +187,17 @@ def test(loader):
      return correct / len(loader.dataset), loss/len(loader.dataset)  # Derive ratio of correct predictions.
 
 
-for epoch in range(1, 40):
+record = []
+for epoch in range(1, 32):
     train()
     train_acc, train_loss = test(train_loader)
     test_acc, test_loss = test(test_loader)
+    record.append([epoch, train_acc, train_loss, test_acc, test_loss])
     print(f'Epoch: {epoch:03d}, Train Acc: {train_acc:.4f}, Test Acc: {test_acc:.4f}')
     print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}')
 
+record_df = pandas.DataFrame(record,columns = ['epoch', 'train_acc', 'train_loss', 'test_acc', 'test_loss'])
+record_df.to_csv("GNN_PERFORMANCE.csv")
 exit()
 
 
