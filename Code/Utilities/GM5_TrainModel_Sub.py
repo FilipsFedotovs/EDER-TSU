@@ -155,8 +155,7 @@ test_dataset = []
 for image in TestImages :
     test_dataset.append(image.GraphSeed)
 
-print(train_dataset[0].y)
-exit()
+
 
 
 from torch_geometric.loader import DataLoader
