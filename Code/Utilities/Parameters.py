@@ -26,10 +26,17 @@ if Config=='SND':
     MinHitsTrack=2
     MaxTrainSampleSize=50000
     MaxValSampleSize=100000
-    MaxTracksPerJob=20000
+
     MaxDoca=50
     MinAngle=0 #Seed Opening Angle (Magnitude) in radians
     MaxAngle=1 #Seed Opening Angle (Magnitude) in radians
+
+
+    MaxTracksPerJob=20000
+    MaxEvalTracksPerJob=20000
+    MaxSeedsPerJob=40000
+    MaxVxPerJob=10000
+    MaxSeedsPerVxPool=20000
 
     ##Model parameters
     pre_acceptance=0.5
