@@ -622,7 +622,7 @@ class Track:
                 __graphData_edge_index.append([i,j+len(__TempTrack[0])])
                 __graphData_edge_index.append([j+len(__TempTrack[0]),i])
 
-          if self.MC_truth_label ==True:
+          if self.MC_truth_label ==1:
             __graphData_y = np.array([[1,0]])
           else:
             __graphData_y = np.array([[0,1]])
@@ -634,7 +634,7 @@ class Track:
 
           self.GraphSeed=Data(x=torch.Tensor(__graphData_x), 
                               edge_index = torch.Tensor(__graphData_edge_index).t().contiguous().long(),
-                              y=torch.Tensor(__graphData_y).long(),
+                              y=torch.Tensor(__graphData_y),
                               pos = torch.Tensor(__graphData_pos)
                               )
 
