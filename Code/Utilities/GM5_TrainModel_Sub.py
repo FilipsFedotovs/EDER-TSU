@@ -121,7 +121,6 @@ print(model)
 
 #Estimate number of images in the training file
 #Calculate number of batches used for this job
-TrainBatchSize=(OutputDNA[0][1]*4)
 
 print(UF.TimeStamp(),'Loading data from ',bcolors.OKBLUE+flocation+bcolors.ENDC)
 train_file=open(flocation,'rb')
