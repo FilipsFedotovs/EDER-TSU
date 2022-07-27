@@ -144,7 +144,7 @@ for image in TrainImages :
 
 
 
-
+train_dataset = train_dataset[0:2000]
 print(len(train_dataset))
 
 print(UF.TimeStamp(),'Loading data from ',bcolors.OKBLUE+vlocation+bcolors.ENDC)
