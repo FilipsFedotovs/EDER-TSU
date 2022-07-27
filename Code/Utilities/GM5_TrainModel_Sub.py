@@ -36,7 +36,6 @@ class bcolors:
 parser = argparse.ArgumentParser(description='select cut parameters')
 parser.add_argument('--Mode',help="Please enter the mode: Create/Test/Train", default='Test')
 parser.add_argument('--ImageSet',help="Please enter the image set", default='1')
-parser.add_argument('--DNA',help="Please enter the model dna", default='[[4, 4, 1, 2, 2, 2, 2], [5, 4, 1, 1, 2, 2, 2], [5, 4, 2, 1, 2, 2, 2], [5, 4, 2, 1, 2, 2, 2], [], [3, 4, 2], [3, 4, 2], [2, 4, 2], [], [], [7, 1, 1, 4]]')
 parser.add_argument('--AFS',help="Please enter the user afs directory", default='.')
 parser.add_argument('--EOS',help="Please enter the user eos directory", default='.')
 parser.add_argument('--LR',help="Please enter the value of learning rate", default='Default')
@@ -48,19 +47,8 @@ parser.add_argument('--f',help="Image set location (for test)", default='')
 args = parser.parse_args()
 ImageSet=args.ImageSet
 Mode=args.Mode
-DNA=ast.literal_eval(args.DNA)
-HiddenLayerDNA=[]
-FullyConnectedDNA=[]
-OutputDNA=[]
-for gene in DNA:
-    if DNA.index(gene)<=4 and len(gene)>0:
-        HiddenLayerDNA.append(gene)
-    elif DNA.index(gene)<=9 and len(gene)>0:
-        FullyConnectedDNA.append(gene)
-    elif DNA.index(gene)>9 and len(gene)>0:
-        OutputDNA.append(gene)
 
-act_fun_list=['N/A','linear','exponential','elu','relu', 'selu','sigmoid','softmax','softplus','softsign','tanh']
+
 ValidModel=True
 Accuracy=0.0
 Accuracy0=0.0
@@ -74,6 +62,8 @@ import Utility_Functions as UF
 EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
 flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/GM4_GM5_TRAIN_SET_'+ImageSet+'.pkl'
+model_name=EOSsubModelDIR+'/'+args.ModelName
+
 if Mode=='Test' and args.f!='':
    vlocation=args.f
 else:
@@ -141,6 +131,7 @@ train_file.close()
 train_dataset = []
 for image in TrainImages :
     train_dataset.append(image.GraphSeed)
+train_dataset = train_dataset[0:256]
 
 
 
@@ -198,22 +189,14 @@ for epoch in range(1, 32):
 
 record_df = pandas.DataFrame(record,columns = ['epoch', 'train_acc', 'train_loss', 'test_acc', 'test_loss'])
 record_df.to_csv("GNN_PERFORMANCE.csv")
+torch.save(model, model_name)
+
+
 exit()
 
 
-print(UF.TimeStamp(),'This iteration will be split in',bcolors.BOLD+str(NTrainBatches)+bcolors.ENDC,str(TrainBatchSize),'-size batches')
-exit()
 
-print(UF.TimeStamp(),'Loading data from ',bcolors.OKBLUE+vlocation+bcolors.ENDC)
-val_file=open(vlocation,'rb')
-ValImages=pickle.load(val_file)
-val_file.close()
 
-print(UF.TimeStamp(), bcolors.OKGREEN+"Train data has been loaded successfully..."+bcolors.ENDC)
-
-NValBatches=math.ceil(float(len(ValImages))/float(TrainBatchSize))
-
-print(UF.TimeStamp(),'Loading the model...')
 ##### This but has to be converted to a part that interprets DNA code  ###################################
 if args.LR=='Default':
   LR=10**(-int(OutputDNA[0][3]))
