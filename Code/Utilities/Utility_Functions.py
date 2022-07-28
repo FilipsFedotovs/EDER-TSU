@@ -644,7 +644,7 @@ class Track:
 
           self.GraphSeed=Data(x=torch.Tensor(__graphData_x), 
                               edge_index = torch.Tensor(__graphData_edge_index).t().contiguous().long(),
-                              edge_attr = torch.Tensor(__graphData_edge_attr)
+                              edge_attr = torch.Tensor(__graphData_edge_attr),
                               y=torch.Tensor(__graphData_y).long(),
                               pos = torch.Tensor(__graphData_pos)
                               )
