@@ -131,7 +131,7 @@ train_file.close()
 train_dataset = []
 for image in TrainImages :
     train_dataset.append(image.GraphSeed)
-train_dataset = train_dataset[0:256]
+train_dataset = train_dataset[0:200]
 
 
 
