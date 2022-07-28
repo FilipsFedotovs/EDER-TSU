@@ -93,15 +93,15 @@ class GCN(torch.nn.Module):
     def __init__(self, hidden_channels):
         super(GCN, self).__init__()
         torch.manual_seed(12345)
-        self.conv1 = GCNConv(num_node_features , hidden_channels)
+        self.conv1 = GMMConv(num_node_features , hidden_channels)
         self.conv2 = GCNConv(hidden_channels, hidden_channels)
         self.conv3 = GCNConv(hidden_channels, hidden_channels)
         self.lin = Linear(hidden_channels, num_classes)
         self.softmax = Softmax()
 
-    def forward(self, x, edge_index, batch):
+    def forward(self, x, edge_index, edge_attr, batch):
         # 1. Obtain node embeddings 
-        x = self.conv1(x, edge_index)
+        x = self.conv1(x, edge_index, edge_attr)
         x = x.relu()
         x = self.conv2(x, edge_index)
         x = x.relu()
@@ -158,7 +158,7 @@ def train():
     model.train()
 
     for data in train_loader:  # Iterate in batches over the training dataset.
-         out = model(data.x, data.edge_index, data.batch)  # Perform a single forward pass.
+         out = model(data.x, data.edge_index, edge_attr, data.batch)  # Perform a single forward pass.
          loss = criterion(out, data.y)  # Compute the loss.
          loss.backward()  # Derive gradients.
          optimizer.step()  # Update parameters based on gradients.
@@ -170,7 +170,7 @@ def test(loader):
      correct = 0
      loss = 0
      for data in loader:  # Iterate in batches over the training/test dataset.
-         out = model(data.x, data.edge_index, data.batch)  
+         out = model(data.x, data.edge_index, edge_attr, data.batch)  
          pred = out.argmax(dim=1)  # Use the class with highest probability.
          loss += criterion(out, data.y)
          correct += int((pred == data.y).sum())  # Check against ground-truth labels.
