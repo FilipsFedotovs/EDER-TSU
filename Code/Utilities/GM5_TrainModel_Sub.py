@@ -85,6 +85,7 @@ from torch.nn import Linear
 from torch.nn import Softmax
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
+from torch_geometric.nn import GMMConv
 from torch_geometric.nn import global_mean_pool
 
 num_node_features = 3
