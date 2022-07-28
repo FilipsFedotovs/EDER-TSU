@@ -605,7 +605,7 @@ class Track:
 
 
 
-
+          # input
           __graphData_x =__TempTrack[0]+__TempTrack[1]
 
           # position of nodes
@@ -615,17 +615,27 @@ class Track:
 
           # edge index and attributes
           __graphData_edge_index = []
-          #__graphData_edge_attr = []
+          __graphData_edge_attr = []
           
+          # bipartite
           for i in range(len(__TempTrack[0])):
-            for j in range(len(__TempTrack[1])):
-                __graphData_edge_index.append([i,j+len(__TempTrack[0])])
-                __graphData_edge_index.append([j+len(__TempTrack[0]),i])
+            for j in range(len(__TempTrack[0]), len(__TempTrack[0])+len(__TempTrack[1])):
+                __graphData_edge_index.append([i,j])
+                __graphData_edge_attr.append(__graphData_pos[j] - __graphData_pos[i])
+                __graphData_edge_index.append([j,i])
+                __graphData_edge_attr.append(__graphData_pos[i] - __graphData_pos[j])
+
+          # fully connected
+        #   for i in range(len(__TempTrack[0])+len(__TempTrack[1])):
+        #     for j in range(0,i):
+        #         __graphData_edge_index.append([i,j])
+        #         __graphData_edge_attr.append(__graphData_pos[j] - __graphData_pos[i])
+        #         __graphData_edge_index.append([j,i])
+        #         __graphData_edge_attr.append(__graphData_pos[i] - __graphData_pos[j])
+
+          # target outcome
           __graphData_y = np.array([self.MC_truth_label])
-        #   if self.MC_truth_label ==1:
-        #     __graphData_y = np.array([[1,0]])
-        #   else:
-        #     __graphData_y = np.array([[0,1]])
+
 
           import torch
           import torch_geometric
@@ -634,6 +644,7 @@ class Track:
 
           self.GraphSeed=Data(x=torch.Tensor(__graphData_x), 
                               edge_index = torch.Tensor(__graphData_edge_index).t().contiguous().long(),
+                              edge_attr = torch.Tensor(__graphData_edge_attr)
                               y=torch.Tensor(__graphData_y).long(),
                               pos = torch.Tensor(__graphData_pos)
                               )
