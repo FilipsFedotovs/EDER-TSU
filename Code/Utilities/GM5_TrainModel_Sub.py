@@ -171,7 +171,7 @@ def test(loader):
      correct = 0
      loss = 0
      for data in loader:  # Iterate in batches over the training/test dataset.
-         out = model(data.x, data.edge_index, edge_attr, data.batch)  
+         out = model(data.x, data.edge_index, data.edge_attr, data.batch)  
          pred = out.argmax(dim=1)  # Use the class with highest probability.
          loss += criterion(out, data.y)
          correct += int((pred == data.y).sum())  # Check against ground-truth labels.
