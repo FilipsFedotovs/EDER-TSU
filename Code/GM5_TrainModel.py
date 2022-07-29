@@ -59,6 +59,7 @@ print(bcolors.HEADER+"###################### For troubleshooting please contact 
 print(bcolors.HEADER+"####################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 
+exit()
 OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, args.LR, 1, ModelName, ModelName]
 OptionHeader = [' --Mode ', ' --ImageSet ', ' --EOS ', " --AFS ", 
                  " --LR ", " --Epoch ", " --ModelName ", " --ModelNewName "]
