@@ -81,13 +81,7 @@ if mode=='R' and args.ModelName=='N':
          logging.getLogger('tensorflow').setLevel(logging.FATAL)
          import warnings
          warnings.simplefilter(action='ignore', category=FutureWarning)
-         import tensorflow as tf
-         from tensorflow import keras
-         from keras.models import Sequential
-         from keras.layers import Dense, Flatten, Conv3D, MaxPooling3D, Dropout, BatchNormalization
-         from keras.optimizers import adam
-         from keras import callbacks
-         from keras import backend as K
+
 
          HiddenLayerDNA=[]
          FullyConnectedDNA=[]

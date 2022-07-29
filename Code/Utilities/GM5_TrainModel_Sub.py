@@ -64,6 +64,7 @@ EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
 flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/GM4_GM5_TRAIN_SET_'+ImageSet+'.pkl'
 model_name=EOSsubModelDIR+'/'+args.ModelName
+model_performance_file=EOSsubModelDIR+'/'+'PERFORMANCE'+args.ModelName
 
 if Mode=='Test' and args.f!='':
    vlocation=args.f
@@ -189,7 +190,7 @@ for epoch in range(1, 32):
     print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}')
 
 record_df = pandas.DataFrame(record,columns = ['epoch', 'train_acc', 'train_loss', 'test_acc', 'test_loss'])
-record_df.to_csv("GNN_PERFORMANCE.csv")
+record_df.to_csv(model_performance_file)
 torch.save(model, model_name)
 
 
