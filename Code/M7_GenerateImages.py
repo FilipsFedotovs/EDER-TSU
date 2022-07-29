@@ -241,8 +241,8 @@ if Mode=='C':
                     del base_data
                     gc.collect()
 
-                    Extracted0=random.sample(Extracted0,minLen,0)
-                    Extracted1=random.sample(Extracted1,minLen,0)
+                    Extracted0=random.sample(Extracted0,minLen)
+                    Extracted1=random.sample(Extracted1,minLen)
 
                     # Extracted1=random.sample(Extracted1,int(round(FakeSeedsCorrection*len(Extracted1)/2,0)))
                     # Extracted0=random.sample(Extracted0,int(round(FakeSeedsCorrection*len(Extracted0)/2,0)))
