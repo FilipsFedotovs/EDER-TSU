@@ -178,8 +178,7 @@ if Mode=='C':
                     Seeds0+=sum(1 for im in base_data if im.MC_truth_label == 0)
                     Seeds1+=sum(1 for im in base_data if im.MC_truth_label == 1)
                     Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
-                    print(Seeds0,Seeds1,Seeds2)
-                    exit()
+
 
                     print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
                     open_file = open(output_file_location, "wb")
@@ -188,7 +187,7 @@ if Mode=='C':
                     #except:
                         #continue
 #                del new_data
-                    UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[TotalImages,TrueSeeds]])
+                    UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[TotalImages,Seeds0,Seeds1,Seeds2]])
             ProcessStatus=2
 
 
@@ -197,7 +196,9 @@ if Mode=='C':
             print(UF.TimeStamp(),'Sampling the required number of seeds',bcolors.ENDC)
             Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','ReadLog', '_')
             TotalImages=int(Temp_Stats[0][0])
-            TrueSeeds=int(Temp_Stats[0][1])
+            Seeds0 =int(Temp_Stats[0][1])
+            Seeds1 =int(Temp_Stats[0][2])
+            TrueSeeds =int(Temp_Stats[0][3])
             if args.Samples=='ALL':
                 if TrueSeeds<=(float(args.LabelMix)*TotalImages):
                     RequiredTrueSeeds=TrueSeeds
@@ -210,13 +211,15 @@ if Mode=='C':
                 if TrueSeeds<=(float(args.LabelMix)*NormalisedTotSamples):
                     RequiredTrueSeeds=TrueSeeds
                     RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(args.LabelMix))-RequiredTrueSeeds,0))
+                    
                 else:
-                    RequiredFakeSeeds=NormalisedTotSamples*(1.0-float(args.LabelMix))
+                    RequiredFakeSeeds = NormalisedTotSamples*(1.0-float(args.LabelMix))
+                    # signals
                     RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(args.LabelMix)))-RequiredFakeSeeds,0))
             if TrueSeeds==0:
                 TrueSeedCorrection=0
             else:
-                TrueSeedCorrection=RequiredTrueSeeds/TrueSeeds
+                TrueSeedCorrection=RequiredTrueSeed/TrueSeeds
             FakeSeedCorrection=RequiredFakeSeeds/(TotalImages-TrueSeeds)
             for j in range(trackCnt):
                 req_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_SamplesCondensedImages_'+str(j)+'.pkl'
@@ -234,11 +237,16 @@ if Mode=='C':
                     Extracted2=[im for im in base_data if im.MC_truth_label ==2]
                     del base_data
                     gc.collect()
-                    Extracted0=random.sample(Extracted0,int(round(Seed0Correction*len(Extracted0),0)))
-                    Extracted1=random.sample(Extracted1,int(round(Seed1Correction*len(Extracted1),0)))
-                    Extracted2=random.sample(Extracted1,int(round(Seed1Correction*len(Extracted2),0)))
+                    Extracted0=random.sample(Extracted0,int(round(FakeSeedsCorrection*len(Extracted0)/2,0)))
+                    Extracted1=random.sample(Extracted1,int(round(FakeSeedsCorrection*len(Extracted1)/2,0)))
+                    Extracted2=random.sample(Extracted1,int(round(TrueSeedCorrection*len(Extracted2),0)))
 
                     TotalData=[]
+
+                    print(len(Extracted0))
+                    print(len(Extracted1))
+                    print(len(Extracted2))
+
                     TotalData=Extracted0+Extracted1+Extracted2
                     write_data_file=open(req_file,'wb')
                     pickle.dump(TotalData, write_data_file)
