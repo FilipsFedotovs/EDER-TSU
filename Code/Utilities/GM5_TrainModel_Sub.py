@@ -192,7 +192,12 @@ for epoch in range(1, 2):
 
 record_df = pandas.DataFrame(record,columns = ['epoch', 'train_acc', 'train_loss', 'test_acc', 'test_loss'])
 record_df.to_csv(model_performance_file)
+print('Model Performance is saved in ' + model_performance_file)
 torch.save(model, model_name)
+print('Model is saved in ' + model_name)
+
+
+
 
 
 exit()
