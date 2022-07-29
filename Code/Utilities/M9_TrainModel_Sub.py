@@ -152,7 +152,7 @@ if Mode!='Train' and Mode!='Test':
                      DR=float(FC[2]-1)/10.0
                      model.add(Dense(Nodes, activation=act_fun_list[FC[1]], kernel_initializer='he_uniform'))
                      #model.add(Dropout(DR))
-             model.add(Dense(2, activation=act_fun_list[OutputDNA[0][0]]))
+             model.add(Dense(3, activation=act_fun_list[OutputDNA[0][0]]))
  # Compile the model
              model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
              model.summary()
