@@ -253,7 +253,6 @@ if Mode=='C':
 
 
                     TotalData=Extracted0+Extracted1+Extracted2
-                    print(len(TotalData), '\n')
 
 
                     write_data_file=open(req_file,'wb')
