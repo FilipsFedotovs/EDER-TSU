@@ -67,10 +67,11 @@ for s in range(0,limit):
     track=tracks.pop(0)
 
 
-    label=(track[1] in MotherPDGList)
+    #label=(track[1] in MotherPDGList)
     # for test
     #print(track[0], track[1], label)
-    track=Track([track[0]])
+
+
     # 0 for incoming muons, 1 for photons and muons, 2 for others
     if track[1] == 0:
         label = 0
@@ -79,6 +80,7 @@ for s in range(0,limit):
     else :
         label = 2
     track.MCtruthClassifyTrack(label)
+    track=Track([track[0]])
 
 
     track.DecorateSegments(segments) 
