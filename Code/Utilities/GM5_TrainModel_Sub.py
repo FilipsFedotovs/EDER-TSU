@@ -52,6 +52,7 @@ Mode=args.Mode
 ValidModel=True
 Accuracy=0.0
 Accuracy0=0.0
+numClasses = 2
 ##################################   Loading Directory locations   ##################################################
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
@@ -266,7 +267,7 @@ print(UF.TimeStamp(),'Starting the training process... ')
 for ib in range(0,NTrainBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
-    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed)
+    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed,numClasses)
     model.train_on_batch(BatchImages[0],BatchImages[1])
     progress=int(round((float(ib)/float(NTrainBatches))*100,0))
     print("Training in progress ",progress,' %', end="\r", flush=True)
@@ -276,7 +277,7 @@ model.reset_metrics()
 for ib in range(0,NTrainBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
-    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed)
+    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed,numClasses)
     t=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=False)
     train_loss=t[0]
     train_acc=t[1]
@@ -284,7 +285,7 @@ model.reset_metrics()
 for ib in range(0,NValBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
-    BatchImages=UF.LoadRenderImages(ValImages,StartSeed,EndSeed)
+    BatchImages=UF.LoadRenderImages(ValImages,StartSeed,EndSeed,numClasses)
     a=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=False)
     val_loss=a[0]
     val_acc=a[1]

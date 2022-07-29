@@ -39,6 +39,7 @@ resolution=float(args.resolution)
 MaxX=float(args.MaxX)
 MaxY=float(args.MaxY)
 MaxZ=float(args.MaxZ)
+numClasses = 3
 #Converting image size bounds in line with resolution settings
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
@@ -62,7 +63,7 @@ print(UF.TimeStamp(),'Beginning the classify part...')
 for s in range(0,limit):
     track=tracks.pop(0)
     track.PrepareRawTrackPrint(MaxX,MaxY,MaxZ,resolution,False)
-    TrackImage=UF.LoadRenderImages([track],1,1)[0]
+    TrackImage=UF.LoadRenderImages([track],1,1,numClasses)[0]
     track.UnloadTrackPrint()
     track.CNNClassifyTrack(model.predict(TrackImage)[0][1])
     GoodTracks.append(track)

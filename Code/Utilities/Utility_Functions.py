@@ -1081,7 +1081,7 @@ def TrainCleanUp(AFS_DIR, EOS_DIR, Process, FileNames, ProcessId):
       folder =  AFS_DIR+'/HTCondor/MSG'
       CleanFolder(folder,'MSG_'+Process+'_')
 
-def LoadRenderImages(Tracks,StartTrack,EndTrack):
+def LoadRenderImages(Tracks,StartTrack,EndTrack,numClasses):
     import tensorflow as tf
     from tensorflow import keras
     NewTracks=Tracks[StartTrack-1:min(EndTrack,len(Tracks))]
@@ -1103,7 +1103,7 @@ def LoadRenderImages(Tracks,StartTrack,EndTrack):
                    RenderedImage[Hits[0]+NewTracks[im].bX][Hits[1]+NewTracks[im].bY][Hits[2]]=1
         ImagesX[im]=RenderedImage
     ImagesX= ImagesX[..., np.newaxis]
-    ImagesY=tf.keras.utils.to_categorical(ImagesY,2)
+    ImagesY=tf.keras.utils.to_categorical(ImagesY,numClasses)
     return (ImagesX,ImagesY)
 
 def SubmitJobs2Condor(job):

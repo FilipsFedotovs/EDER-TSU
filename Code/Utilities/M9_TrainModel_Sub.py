@@ -70,6 +70,7 @@ act_fun_list=['N/A','linear','exponential','elu','relu', 'selu','sigmoid','softm
 ValidModel=True
 Accuracy=0.0
 Accuracy0=0.0
+numClasses = 3
 ##################################   Loading Directory locations   ##################################################
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
@@ -171,7 +172,7 @@ if Mode=='Test':
            for ib in range(0,NValBatches):
               StartSeed=(ib*TrainBatchSize)+1
               EndSeed=StartSeed+TrainBatchSize-1
-              BatchImages=UF.LoadRenderImages(ValImages,StartSeed,EndSeed)
+              BatchImages=UF.LoadRenderImages(ValImages,StartSeed,EndSeed,numClasses)
               a=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=False)
               val_loss=a[0]
               val_acc=a[1]
@@ -187,7 +188,7 @@ log=[]
 for ib in range(0,NTrainBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
-    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed)
+    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed,numClasses)
     model.train_on_batch(BatchImages[0],BatchImages[1])
     t=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=True)
     log.append([t[0],t[1]])
@@ -199,7 +200,7 @@ model.reset_metrics()
 for ib in range(0,NTrainBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
-    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed)
+    BatchImages=UF.LoadRenderImages(TrainImages,StartSeed,EndSeed,numClasses)
     t=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=False)
     train_loss=t[0]
     train_acc=t[1]
@@ -207,7 +208,7 @@ model.reset_metrics()
 for ib in range(0,NValBatches):
     StartSeed=(ib*TrainBatchSize)+1
     EndSeed=StartSeed+TrainBatchSize-1
-    BatchImages=UF.LoadRenderImages(ValImages,StartSeed,EndSeed)
+    BatchImages=UF.LoadRenderImages(ValImages,StartSeed,EndSeed,numClasses)
     a=model.test_on_batch(BatchImages[0], BatchImages[1], reset_metrics=False)
     val_loss=a[0]
     val_acc=a[1]

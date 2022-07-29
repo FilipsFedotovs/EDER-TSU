@@ -42,6 +42,7 @@ fraction=args.Fraction
 AFS_DIR=args.AFS
 EOS_DIR=args.EOS
 PreFit=args.PreFit=='Y'
+numClasses =2 
 if PreFit:
     resolution=float(args.resolution)
     acceptance=float(args.acceptance)
@@ -105,7 +106,7 @@ for s in range(0,limit):
     track.TrackQualityCheck(MaxDOCA,MaxSLG,MaxSTG, MaxAngle)
     if track.GeoFit and PreFit:
                track.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
-               TrackImage=UF.LoadRenderImages([track],1,1)[0]
+               TrackImage=UF.LoadRenderImages([track],1,1,numClasses)[0]
                track.UnloadTrackPrint()
                track.CNNFitTrack(model.predict(TrackImage)[0][1])
                if track.Track_CNN_Fit>=acceptance:

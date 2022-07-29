@@ -39,6 +39,7 @@ Set=args.Set
 fraction=str(int(args.Fraction))
 resolution=float(args.resolution)
 acceptance=float(args.pre_acceptance)
+numClasses = 2
 #Maximum bounds on the image size in microns
 MaxX=float(args.MaxX)
 MaxY=float(args.MaxY)
@@ -69,7 +70,7 @@ print(UF.TimeStamp(),'Beginning the union part...')
 for s in range(0,limit):
     track=tracks.pop(0)
     track.PrepareTrackPrint(MaxX,MaxY,MaxZ,resolution,True)
-    TrackImage=UF.LoadRenderImages([track],1,1)[0]
+    TrackImage=UF.LoadRenderImages([track],1,1,numClasses)[0]
     track.UnloadTrackPrint()
     track.CNNFitTrack(model.predict(TrackImage)[0][1])
     if (track.Track_CNN_Fit>=acceptance) and args.PostModelName=='':
