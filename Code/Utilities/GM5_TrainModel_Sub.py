@@ -64,7 +64,7 @@ EOSsubDIR=EOS_DIR+'/'+'EDER-TSU'
 EOSsubModelDIR=EOSsubDIR+'/'+'Models'
 flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/GM4_GM5_TRAIN_SET_'+ImageSet+'.pkl'
 model_name=EOSsubModelDIR+'/'+args.ModelName
-model_performance_file=EOSsubModelDIR+'/'+'PERFORMANCE'+args.ModelName
+model_performance_file=EOSsubModelDIR+'/'+'GM5_PERFORMANCE_'+args.ModelName
 
 if Mode=='Test' and args.f!='':
    vlocation=args.f
@@ -181,7 +181,7 @@ def test(loader):
 
 
 record = []
-for epoch in range(1, 16):
+for epoch in range(1, 2):
     train()
     train_acc, train_loss = test(train_loader)
     test_acc, test_loss = test(test_loader)
