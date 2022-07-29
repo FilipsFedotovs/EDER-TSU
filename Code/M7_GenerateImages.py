@@ -180,9 +180,6 @@ if Mode=='C':
                     Seeds1+=sum(1 for im in base_data if im.MC_truth_label == 1)
                     Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
 
-                    print(Seeds0,Seeds1,Seeds2)
-
-
                     print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
                     open_file = open(output_file_location, "wb")
                     pickle.dump(base_data, open_file)
@@ -253,13 +250,11 @@ if Mode=='C':
 
                     TotalData=[]
 
-                    print(len(Extracted0))
-                    print(len(Extracted1))
-                    print(len(Extracted2))
 
 
                     TotalData=Extracted0+Extracted1+Extracted2
                     print(len(TotalData))
+
 
                     write_data_file=open(req_file,'wb')
                     pickle.dump(TotalData, write_data_file)
