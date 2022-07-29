@@ -162,27 +162,27 @@ if Mode=='C':
                         base_data_file=open(required_output_file_location,'rb')
                         base_data=pickle.load(base_data_file)
                         base_data_file.close()
-                    try:
-                        Records=len(base_data)
-                        print(UF.TimeStamp(),'Set',str(j),'contains', Records, 'raw images',bcolors.ENDC)
-                        base_data=list(set(base_data))
-                        Records_After_Compression=len(base_data)
-                        if Records>0:
-                            Compression_Ratio=int((Records_After_Compression/Records)*100)
-                        else:
-                            CompressionRatio=0
-                        TotalImages+=Records_After_Compression
-                        Seeds0+=sum(1 for im in base_data if im.MC_truth_label == 0)
-                        Seeds1+=sum(1 for im in base_data if im.MC_truth_label == 1)
-                        Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
-                        print(Seeds0,Seeds1,Seeds2)
-                        exit()
-                        print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
-                        open_file = open(output_file_location, "wb")
-                        pickle.dump(base_data, open_file)
-                        open_file.close()
-                    except:
-                        continue
+                    #try:
+                    Records=len(base_data)
+                    print(UF.TimeStamp(),'Set',str(j),'contains', Records, 'raw images',bcolors.ENDC)
+                    base_data=list(set(base_data))
+                    Records_After_Compression=len(base_data)
+                    if Records>0:
+                        Compression_Ratio=int((Records_After_Compression/Records)*100)
+                    else:
+                        CompressionRatio=0
+                    TotalImages+=Records_After_Compression
+                    Seeds0+=sum(1 for im in base_data if im.MC_truth_label == 0)
+                    Seeds1+=sum(1 for im in base_data if im.MC_truth_label == 1)
+                    Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
+                    print(Seeds0,Seeds1,Seeds2)
+                    exit()
+                    print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
+                    open_file = open(output_file_location, "wb")
+                    pickle.dump(base_data, open_file)
+                    open_file.close()
+                    #except:
+                        #continue
 #                del new_data
                     UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[TotalImages,TrueSeeds]])
             ProcessStatus=2
