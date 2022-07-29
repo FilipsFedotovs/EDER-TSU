@@ -59,7 +59,6 @@ print(bcolors.HEADER+"###################### For troubleshooting please contact 
 print(bcolors.HEADER+"####################################################################################################"+bcolors.ENDC)
 print(UF.TimeStamp(), bcolors.OKGREEN+"Modules Have been imported successfully..."+bcolors.ENDC)
 
-exit()
 OptionLine = ['Create', 1, EOS_DIR, AFS_DIR, args.LR, 1, ModelName, ModelName]
 OptionHeader = [' --Mode ', ' --ImageSet ', ' --EOS ', " --AFS ", 
                  " --LR ", " --Epoch ", " --ModelName ", " --ModelNewName "]
@@ -70,7 +69,7 @@ ScriptName = AFS_DIR + '/Code/Utilities/GM5_TrainModel_Sub.py '
 UF.SubmitJobs2Condor(
     [OptionHeader, OptionLine, SHName, SUBName, MSGName, ScriptName, 1, 'EDER-TSU-GM5', True,
     True])
-
+print(bcolors.BOLD+"Please the job completion in few hours by running this script with the option C"+bcolors.ENDC)
 
 exit()
 
