@@ -196,32 +196,32 @@ if Mode=='C':
         if ProcessStatus==2:
             print(UF.TimeStamp(),'Sampling the required number of seeds',bcolors.ENDC)
             Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','ReadLog', '_')
-            TotalImages=int(Temp_Stats[0][0])
-            Seeds0 =int(Temp_Stats[0][1])
-            Seeds1 =int(Temp_Stats[0][2])
-            TrueSeeds =int(Temp_Stats[0][3])
-            if args.Samples=='ALL':
-                if TrueSeeds<=(float(LabelMix)*TotalImages):
-                    RequiredTrueSeeds=TrueSeeds
-                    RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(LabelMix))-RequiredTrueSeeds,0))
-                else:
-                    RequiredFakeSeeds=TotalImages-TrueSeeds
-                    RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(LabelMix)))-RequiredFakeSeeds,0))
-            else:
-                NormalisedTotSamples=int(args.Samples)
-                if TrueSeeds<=(float(LabelMix)*NormalisedTotSamples):
-                    RequiredTrueSeeds=TrueSeeds
-                    RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(LabelMix))-RequiredTrueSeeds,0))
+            # TotalImages=int(Temp_Stats[0][0])
+            # Seeds0 =int(Temp_Stats[0][1])
+            # Seeds1 =int(Temp_Stats[0][2])
+            # TrueSeeds =int(Temp_Stats[0][3])
+            # if args.Samples=='ALL':
+            #     if TrueSeeds<=(float(LabelMix)*TotalImages):
+            #         RequiredTrueSeeds=TrueSeeds
+            #         RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(LabelMix))-RequiredTrueSeeds,0))
+            #     else:
+            #         RequiredFakeSeeds=TotalImages-TrueSeeds
+            #         RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(LabelMix)))-RequiredFakeSeeds,0))
+            # else:
+            #     NormalisedTotSamples=int(args.Samples)
+            #     if TrueSeeds<=(float(LabelMix)*NormalisedTotSamples):
+            #         RequiredTrueSeeds=TrueSeeds
+            #         RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(LabelMix))-RequiredTrueSeeds,0))
                     
-                else:
-                    RequiredFakeSeeds = NormalisedTotSamples*(1.0-float(LabelMix))
-                    # signals
-                    RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(LabelMix)))-RequiredFakeSeeds,0))
-            if TrueSeeds==0:
-                TrueSeedCorrection=0
-            else:
-                TrueSeedCorrection=RequiredTrueSeed/TrueSeeds
-            FakeSeedCorrection=RequiredFakeSeeds/(TotalImages-TrueSeeds)
+            #     else:
+            #         RequiredFakeSeeds = NormalisedTotSamples*(1.0-float(LabelMix))
+            #         # signals
+            #         RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(LabelMix)))-RequiredFakeSeeds,0))
+            # if TrueSeeds==0:
+            #     TrueSeedCorrection=0
+            # else:
+            #     TrueSeedCorrection=RequiredTrueSeed/TrueSeeds
+            # FakeSeedCorrection=RequiredFakeSeeds/(TotalImages-TrueSeeds)
             for j in range(trackCnt):
                 req_file=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_SamplesCondensedImages_'+str(j)+'.pkl'
                 output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_CondensedImages_'+str(j)+'.pkl'
