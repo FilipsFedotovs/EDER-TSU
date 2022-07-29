@@ -236,11 +236,13 @@ if Mode=='C':
                     Extracted0=[im for im in base_data if im.MC_truth_label ==0]
                     Extracted1=[im for im in base_data if im.MC_truth_label ==1]
                     Extracted2=[im for im in base_data if im.MC_truth_label ==2]
+
+                    minLen = min(len(Extracted0), len(Extracted1), len(Extracted2))
                     del base_data
                     gc.collect()
 
-                    Extracted0=random.sample(Extracted0,min(len(Extracted0), len(Extracted2)),0)
-                    Extracted1=random.sample(Extracted1,min(len(Extracted1), len(Extracted2)),0)
+                    Extracted0=random.sample(Extracted0,minLen,0)
+                    Extracted1=random.sample(Extracted1,minLen,0)
 
                     # Extracted1=random.sample(Extracted1,int(round(FakeSeedsCorrection*len(Extracted1)/2,0)))
                     # Extracted0=random.sample(Extracted0,int(round(FakeSeedsCorrection*len(Extracted0)/2,0)))
