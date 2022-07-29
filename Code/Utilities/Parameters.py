@@ -57,7 +57,7 @@ if Config=='SND':
     Classifier_Model_Name= 'SND_BG_RAW3'
     #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
     ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
-    ModelArchitecturePlus=[[1/4, 4, [2, 2, 2], [8, 8, 8], 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
+    ModelArchitecturePlus=[[1, 4, [2, 2, 2], [8, 8, 8], 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
 else:
     ########List of the package run parameters
     MaxSegmentsPerJob=15000 #This parameter imposes the limit on the number of the tracks form the Start plate when forming the Seeds.
