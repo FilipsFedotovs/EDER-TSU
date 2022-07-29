@@ -618,20 +618,21 @@ class Track:
           __graphData_edge_attr = []
           
           # bipartite
-          for i in range(len(__TempTrack[0])):
-            for j in range(len(__TempTrack[0]), len(__TempTrack[0])+len(__TempTrack[1])):
+        #   for i in range(len(__TempTrack[0])):
+        #     for j in range(len(__TempTrack[0]), len(__TempTrack[0])+len(__TempTrack[1])):
+        #         __graphData_edge_index.append([i,j])
+        #         __graphData_edge_attr.append(np.array(__graphData_pos[j]) - np.array(__graphData_pos[i]))
+        #         __graphData_edge_index.append([j,i])
+        #         __graphData_edge_attr.append(np.array(__graphData_pos[i]) - np.array(__graphData_pos[j]))
+
+          #fully connected
+          for i in range(len(__TempTrack[0])+len(__TempTrack[1])):
+            for j in range(0,i):
                 __graphData_edge_index.append([i,j])
                 __graphData_edge_attr.append(np.array(__graphData_pos[j]) - np.array(__graphData_pos[i]))
                 __graphData_edge_index.append([j,i])
                 __graphData_edge_attr.append(np.array(__graphData_pos[i]) - np.array(__graphData_pos[j]))
 
-          # fully connected
-        #   for i in range(len(__TempTrack[0])+len(__TempTrack[1])):
-        #     for j in range(0,i):
-        #         __graphData_edge_index.append([i,j])
-        #         __graphData_edge_attr.append(__graphData_pos[j] - __graphData_pos[i])
-        #         __graphData_edge_index.append([j,i])
-        #         __graphData_edge_attr.append(__graphData_pos[i] - __graphData_pos[j])
 
           # target outcome
           __graphData_y = np.array([self.MC_truth_label])
