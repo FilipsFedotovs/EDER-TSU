@@ -145,7 +145,7 @@ if Mode=='C':
             print(UF.TimeStamp(), bcolors.OKGREEN+"The process has been ran before and image sampling has begun"+bcolors.ENDC)
             ProcessStatus=3
         if ProcessStatus==1:
-            UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[0,0]])
+            UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[0,0,0,0]])
             print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
             print(UF.TimeStamp(),'Collating the results...')
             for j in range(trackCnt):
@@ -153,7 +153,10 @@ if Mode=='C':
                 if os.path.isfile(output_file_location)==False:
                     Temp_Stats=UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','ReadLog', '_')
                     TotalImages=int(Temp_Stats[0][0])
-                    TrueSeeds=int(Temp_Stats[0][1])
+                    Seeds0 =int(Temp_Stats[0][1])
+                    Seeds1 =int(Temp_Stats[0][2])
+                    Seeds2 =int(Temp_Stats[0][3])
+
                     new_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M6_M7_RawTracks_'+str(j)+'.csv'
                     required_output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_RawImages_'+str(j)+'.pkl'
                     if os.path.isfile(required_output_file_location)!=True and os.path.isfile(new_output_file_location):
@@ -177,7 +180,7 @@ if Mode=='C':
                     Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
                     print(Seeds0,Seeds1,Seeds2)
                     exit()
-                    
+
                     print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
                     open_file = open(output_file_location, "wb")
                     pickle.dump(base_data, open_file)
