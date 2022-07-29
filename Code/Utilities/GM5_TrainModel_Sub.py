@@ -135,7 +135,7 @@ train_file.close()
 train_dataset = []
 for image in TrainImages :
     train_dataset.append(image.GraphSeed)
-train_dataset = train_dataset[0:200]
+# train_dataset = train_dataset[0:200]
 
 
 
@@ -183,7 +183,7 @@ def test(loader):
 
 
 record = []
-for epoch in range(1, 2):
+for epoch in range(1, 16):
     train()
     train_acc, train_loss = test(train_loader)
     test_acc, test_loss = test(test_loader)
