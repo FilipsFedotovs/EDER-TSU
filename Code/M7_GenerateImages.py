@@ -177,6 +177,7 @@ if Mode=='C':
                     Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
                     print(Seeds0,Seeds1,Seeds2)
                     exit()
+                    
                     print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
                     open_file = open(output_file_location, "wb")
                     pickle.dump(base_data, open_file)
@@ -223,20 +224,26 @@ if Mode=='C':
                     base_data_file=open(output_file_location,'rb')
                     base_data=pickle.load(base_data_file)
                     base_data_file.close()
-                    ExtractedTruth=[im for im in base_data if im.MC_truth_label == 1]
-                    ExtractedFake=[im for im in base_data if im.MC_truth_label == 0]
+
+                    
+                    Extracted0=[im for im in base_data if im.MC_truth_label ==0]
+                    Extracted1=[im for im in base_data if im.MC_truth_label ==1]
+                    Extracted2=[im for im in base_data if im.MC_truth_label ==2]
                     del base_data
                     gc.collect()
-                    ExtractedTruth=random.sample(ExtractedTruth,int(round(TrueSeedCorrection*len(ExtractedTruth),0)))
-                    ExtractedFake=random.sample(ExtractedFake,int(round(FakeSeedCorrection*len(ExtractedFake),0)))
+                    Extracted0=random.sample(Extracted0,int(round(Seed0Correction*len(Extracted0),0)))
+                    Extracted1=random.sample(Extracted1,int(round(Seed1Correction*len(Extracted1),0)))
+                    Extracted2=random.sample(Extracted1,int(round(Seed1Correction*len(Extracted2),0)))
+
                     TotalData=[]
-                    TotalData=ExtractedTruth+ExtractedFake
+                    TotalData=Extracted0+Extracted1+Extracted2
                     write_data_file=open(req_file,'wb')
                     pickle.dump(TotalData, write_data_file)
                     write_data_file.close()
                     del TotalData
-                    del ExtractedTruth
-                    del ExtractedFake
+                    del Extracted0
+                    del Extracted1
+                    del Extracted2
                     gc.collect()
                     ProcessStatus=3
 
