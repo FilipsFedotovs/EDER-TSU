@@ -192,8 +192,8 @@ for epoch in range(1, 2):
     print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}')
 
 record_df = pandas.DataFrame(record,columns = ['epoch', 'train_acc', 'train_loss', 'test_acc', 'test_loss'])
+os.makedirs(EOSsubModelDIR, exist_ok=True)
 record_df.to_csv(model_performance_file)
-os.makedirs(EOSsubModelDIR, exist_ok=True) 
 print('Model Performance is saved in ' + model_performance_file)
 torch.save(model.state_dict(), model_name+".pth")
 print('Model is saved in ' + model_name+".pth")
