@@ -30,7 +30,6 @@ parser = argparse.ArgumentParser(description='This script takes the output from 
 parser.add_argument('--Mode',help="Running Mode: Reset(R)/Continue(C)", default='C')
 parser.add_argument('--Samples',help="How many samples? Please enter the number or ALL if you want to use all data", default='ALL')
 parser.add_argument('--ValidationSize',help="What is the proportion of Validation Images?", default='0.1')
-parser.add_argument('--LabelMix',help="What is the desired proportion of genuine vertices in the training/validation sets", default='0.5')
 parser.add_argument('--MotherPDGList', help="Target Mother PDGs", nargs='+', type=int, default='22')
 ######################################## Set variables  #############################################################
 args = parser.parse_args()
@@ -39,6 +38,8 @@ MotherPDGList = args.MotherPDGList
 if type(MotherPDGList)== int :
     MotherPDGList = [MotherPDGList]
 MotherPDGList = str(MotherPDGList).strip('[').strip(']').replace(',','')
+
+LabelMix = 1/3
 
 
 
@@ -200,22 +201,22 @@ if Mode=='C':
             Seeds1 =int(Temp_Stats[0][2])
             TrueSeeds =int(Temp_Stats[0][3])
             if args.Samples=='ALL':
-                if TrueSeeds<=(float(args.LabelMix)*TotalImages):
+                if TrueSeeds<=(float(LabelMix)*TotalImages):
                     RequiredTrueSeeds=TrueSeeds
-                    RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(args.LabelMix))-RequiredTrueSeeds,0))
+                    RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(LabelMix))-RequiredTrueSeeds,0))
                 else:
                     RequiredFakeSeeds=TotalImages-TrueSeeds
-                    RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(args.LabelMix)))-RequiredFakeSeeds,0))
+                    RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(LabelMix)))-RequiredFakeSeeds,0))
             else:
                 NormalisedTotSamples=int(args.Samples)
-                if TrueSeeds<=(float(args.LabelMix)*NormalisedTotSamples):
+                if TrueSeeds<=(float(LabelMix)*NormalisedTotSamples):
                     RequiredTrueSeeds=TrueSeeds
-                    RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(args.LabelMix))-RequiredTrueSeeds,0))
+                    RequiredFakeSeeds=int(round((RequiredTrueSeeds/float(LabelMix))-RequiredTrueSeeds,0))
                     
                 else:
-                    RequiredFakeSeeds = NormalisedTotSamples*(1.0-float(args.LabelMix))
+                    RequiredFakeSeeds = NormalisedTotSamples*(1.0-float(LabelMix))
                     # signals
-                    RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(args.LabelMix)))-RequiredFakeSeeds,0))
+                    RequiredTrueSeeds=int(round((RequiredFakeSeeds/(1.0-float(LabelMix)))-RequiredFakeSeeds,0))
             if TrueSeeds==0:
                 TrueSeedCorrection=0
             else:
@@ -237,9 +238,14 @@ if Mode=='C':
                     Extracted2=[im for im in base_data if im.MC_truth_label ==2]
                     del base_data
                     gc.collect()
-                    Extracted0=random.sample(Extracted0,int(round(FakeSeedsCorrection*len(Extracted0)/2,0)))
-                    Extracted1=random.sample(Extracted1,int(round(FakeSeedsCorrection*len(Extracted1)/2,0)))
-                    Extracted2=random.sample(Extracted1,int(round(TrueSeedCorrection*len(Extracted2),0)))
+
+                    Extracted0=random.sample(Extracted0,min(len(Extracted0), len(Extracted2)),0)
+                    Extracted1=random.sample(Extracted1,min(len(Extracted1), len(Extracted2)),0)
+
+                    # Extracted1=random.sample(Extracted1,int(round(FakeSeedsCorrection*len(Extracted1)/2,0)))
+                    # Extracted0=random.sample(Extracted0,int(round(FakeSeedsCorrection*len(Extracted0)/2,0)))
+                    # Extracted1=random.sample(Extracted1,int(round(FakeSeedsCorrection*len(Extracted1)/2,0)))
+                    # Extracted2=random.sample(Extracted2,int(round(TrueSeedCorrection*len(Extracted2),0)))
 
                     TotalData=[]
 
