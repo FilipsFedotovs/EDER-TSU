@@ -150,8 +150,8 @@ if Mode=='C':
                     base_data=pickle.load(base_data_file)
                     base_data_file.close()
                     for b in base_data:
-                        list_tracks.append([b.SegmentHeader[0], b.Track_CNN_Class])
-       list_tracks_df=pd.DataFrame(list_tracks, columns=['Track_ID', 'Track_Class'])
+                        list_tracks.append([b.SegmentHeader[0], b.Track_CNN_Class[0],b.Track_CNN_Class[1],b.Track_CNN_Class[2]])
+       list_tracks_df=pd.DataFrame(list_tracks, columns=['Track_ID', 'Muon Background Probability','EM Showers Probability','Possible Signal Probability'])
 
 
        #Load the file specified by arg --f
