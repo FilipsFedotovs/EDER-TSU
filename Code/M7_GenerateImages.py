@@ -254,6 +254,7 @@ if Mode=='C':
                     print(len(Extracted0))
                     print(len(Extracted1))
                     print(len(Extracted2))
+                     print(len(TotalData))
 
                     TotalData=Extracted0+Extracted1+Extracted2
                     write_data_file=open(req_file,'wb')
