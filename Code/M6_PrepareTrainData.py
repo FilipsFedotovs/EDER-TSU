@@ -133,6 +133,8 @@ if len(RemoveTracksZ)>0:
     new_combined_data=pd.merge(new_combined_data, TracksZdf, how="left", left_on=["PosBad_Z"], right_on=['Bad_z'])
     new_combined_data=new_combined_data[new_combined_data['Bad_z'].isnull()]
     new_combined_data=new_combined_data.drop(['Bad_z', 'PosBad_Z'],axis=1)
+grand_final_rows=len(new_combined_data.axes[0])
+print(UF.TimeStamp(),'The muon background removed data has ',grand_final_rows,' hits')
 
 new_combined_data.to_csv(output_file_location,index=False)
 print(bcolors.HEADER+"########################################################################################################"+bcolors.ENDC)
