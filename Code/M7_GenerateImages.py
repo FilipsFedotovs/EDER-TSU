@@ -148,7 +148,6 @@ if Mode=='C':
             UF.LogOperations(EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_Temp_Stats.csv','StartLog', [[0,0]])
             print(UF.TimeStamp(),bcolors.OKGREEN+'All HTCondor Seed Creation jobs have finished'+bcolors.ENDC)
             print(UF.TimeStamp(),'Collating the results...')
-            exit()
             for j in range(trackCnt):
                 output_file_location=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/M7_M7_CondensedImages_'+str(j)+'.pkl'
                 if os.path.isfile(output_file_location)==False:
@@ -173,7 +172,11 @@ if Mode=='C':
                         else:
                             CompressionRatio=0
                         TotalImages+=Records_After_Compression
-                        TrueSeeds+=sum(1 for im in base_data if im.MC_truth_label == 1)
+                        Seeds0+=sum(1 for im in base_data if im.MC_truth_label == 0)
+                        Seeds1+=sum(1 for im in base_data if im.MC_truth_label == 1)
+                        Seeds2+=sum(1 for im in base_data if im.MC_truth_label == 2)
+                        print(Seeds0,Seeds1,Seeds2)
+                        exit()
                         print(UF.TimeStamp(),'Set',str(j),'compression ratio is ', Compression_Ratio, ' %',bcolors.ENDC)
                         open_file = open(output_file_location, "wb")
                         pickle.dump(base_data, open_file)
