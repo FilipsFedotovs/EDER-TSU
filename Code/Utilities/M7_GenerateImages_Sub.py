@@ -79,8 +79,10 @@ for s in range(0,limit):
         label = 1
     else :
         label = 2
-    track.MCtruthClassifyTrack(label)
+        
     track=Track([track[0]])
+    track.MCtruthClassifyTrack(label)
+
 
 
     track.DecorateSegments(segments) 
