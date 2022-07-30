@@ -170,6 +170,7 @@ if Mode=='C':
 
        merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
        merged_data.to_csv(output_result_file_location,index=False)
+       print('Save result in'+output_result_file_location)
        
 
 
