@@ -54,7 +54,7 @@ if Config=='SND':
     GNNMaxZ=1315
     Pre_CNN_Model_Name='1T_50_SHIP_PREFIT_1_model'
     Post_CNN_Model_Name='1T_50_SHIP_POSTFIT_1_model'
-    Classifier_Model_Name= 'SND_BG_RAW3'
+    Classifier_Model_Name= 'SND_Reduced_3Class2'
     #ModelArchitecture=[[6, 4, 1, 2, 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
     ModelArchitecture=[[1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2], [1, 4, 1, 2, 2, 2, 2],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
     ModelArchitecturePlus=[[1, 4, [2, 2, 2], [8, 8, 8], 2, 2, 2], [], [],[], [], [1, 4, 2], [], [], [], [], [7, 1, 1, 4]]
