@@ -68,6 +68,7 @@ flocation=EOS_DIR+'/EDER-TSU/Data/TRAIN_SET/GM4_GM5_TRAIN_SET_'+ImageSet+'.pkl'
 model_name=EOSsubModelDIR+'/'+args.ModelName
 
 model_performance_file=EOSsubModelDIR+'/'+'GM5_PERFORMANCE_'+args.ModelName +'.csv'
+model_archi_file = EOSsubModelDIR+'/'+'GM5_ARCHI_'+args.ModelName +'.txt'
 
 if Mode=='Test' and args.f!='':
    vlocation=args.f
@@ -164,6 +165,10 @@ test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 model = GCN(hidden_channels=4)
 print(model)
+with open(model_archi_file,'w') as f:
+    print(model,file=f)
+print('Model Architecture is saved in ' + model_archi_file)
+
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 criterion = torch.nn.CrossEntropyLoss()
 
@@ -205,6 +210,7 @@ record_df.to_csv(model_performance_file)
 print('Model Performance is saved in ' + model_performance_file)
 torch.save(model.state_dict(), model_name+".pth")
 print('Model is saved in ' + model_name+".pth")
+
 
 
 
