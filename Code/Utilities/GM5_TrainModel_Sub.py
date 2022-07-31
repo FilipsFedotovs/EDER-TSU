@@ -122,8 +122,8 @@ class GCN(torch.nn.Module):
         x = self.softmax(x)
         return x
 
-model = GCN(hidden_channels=4)
-print(model)
+# model = GCN(hidden_channels=4)
+# print(model)
 
 #Estimate number of images in the training file
 #Calculate number of batches used for this job
@@ -137,7 +137,7 @@ train_dataset = []
 for image in TrainImages :
     train_dataset.append(copy.deepcopy(image.GraphSeed))
 del TrainImages
-train_dataset = train_dataset[0:4000]
+#train_dataset = train_dataset[0:4000]
 
 
 
@@ -161,7 +161,7 @@ train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
 
-model = GCN(hidden_channels=64)
+model = GCN(hidden_channels=4)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 criterion = torch.nn.CrossEntropyLoss()
 
