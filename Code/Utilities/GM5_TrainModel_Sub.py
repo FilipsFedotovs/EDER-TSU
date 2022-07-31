@@ -152,7 +152,7 @@ for image in TestImages :
 
 
 del TestImages
-
+gc.collect()
 
 
 from torch_geometric.loader import DataLoader
