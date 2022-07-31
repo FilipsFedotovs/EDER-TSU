@@ -150,8 +150,7 @@ if Mode=='C':
                     base_data=pickle.load(base_data_file)
                     base_data_file.close()
                     for b in base_data:
-                        print(b.Track_CNN_Class)
-                       # list_tracks.append([b.SegmentHeader[0], b.Track_CNN_Class[0],b.Track_CNN_Class[1],b.Track_CNN_Class[2]])
+                        list_tracks.append([b.SegmentHeader[0], b.Track_CNN_Class[0],b.Track_CNN_Class[1],b.Track_CNN_Class[2]])
        list_tracks_df=pd.DataFrame(list_tracks, columns=['Track_ID', 'Muon Background Probability','EM Showers Probability','Possible Signal Probability'])
 
 
@@ -171,7 +170,7 @@ if Mode=='C':
 
        merged_data = pd.merge(origin_data,list_tracks_df,how="inner",on=['Track_ID'])
        merged_data.to_csv(output_result_file_location,index=False)
-       print('Save result in'+output_result_file_location)
+       print('Save result in '+output_result_file_location)
        
 
 
