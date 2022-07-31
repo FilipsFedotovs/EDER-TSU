@@ -190,7 +190,7 @@ def test(loader):
 
 
 record = []
-for epoch in range(1,3):
+for epoch in range(1,9):
     train()
     train_acc, train_loss = test(train_loader)
     test_acc, test_loss = test(test_loader)
