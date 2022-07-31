@@ -18,6 +18,7 @@ import copy
 import pickle
 import torch
 import pandas
+import gc 
 
 
 
@@ -134,8 +135,10 @@ train_file.close()
 
 train_dataset = []
 for image in TrainImages :
-    train_dataset.append(image.GraphSeed)
+    train_dataset.append(copy.deepcopy(image.GraphSeed))
+del TrainImages
 # train_dataset = train_dataset[0:200]
+
 
 
 
@@ -145,7 +148,10 @@ TestImages=pickle.load(test_file)
 test_file.close()
 test_dataset = []
 for image in TestImages :
-    test_dataset.append(image.GraphSeed)
+    test_dataset.append(copy.deepcopy(image.GraphSeed))
+
+
+del TestImages
 
 
 
