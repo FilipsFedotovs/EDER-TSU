@@ -162,6 +162,7 @@ test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 
 model = GCN(hidden_channels=4)
+print(model)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 criterion = torch.nn.CrossEntropyLoss()
 
