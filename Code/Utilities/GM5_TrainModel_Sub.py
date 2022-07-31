@@ -137,7 +137,7 @@ train_dataset = []
 for image in TrainImages :
     train_dataset.append(copy.deepcopy(image.GraphSeed))
 del TrainImages
-train_dataset = train_dataset[0:2000]
+train_dataset = train_dataset
 
 
 
