@@ -184,7 +184,7 @@ def test(loader):
      for data in loader:  # Iterate in batches over the training/test dataset.
          out = model(data.x, data.edge_index, data.edge_attr, data.batch)  
          pred = out.argmax(dim=1)  # Use the class with highest probability.
-         loss += criterion(out, data.y)
+         loss += criterion(out, data.y).item()
          correct += int((pred == data.y).sum())  # Check against ground-truth labels.
      return correct / len(loader.dataset), loss/len(loader.dataset)  # Derive ratio of correct predictions.
 
@@ -194,7 +194,7 @@ for epoch in range(1,3):
     train()
     train_acc, train_loss = test(train_loader)
     test_acc, test_loss = test(test_loader)
-    record.append([epoch, train_acc, train_loss.item(), test_acc, test_loss.item()])
+    record.append([epoch, train_acc, train_loss, test_acc, test_loss])
     print(f'Epoch: {epoch:03d}, Train Acc: {train_acc:.4f}, Test Acc: {test_acc:.4f}')
     print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}')
 
