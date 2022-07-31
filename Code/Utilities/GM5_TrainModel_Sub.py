@@ -195,8 +195,8 @@ for epoch in range(1,3):
     train_acc, train_loss = test(train_loader)
     test_acc, test_loss = test(test_loader)
     record.append([epoch, train_acc, train_loss.item(), test_acc, test_loss.item()])
-    # print(f'Epoch: {epoch:03d}, Train Acc: {train_acc:.4f}, Test Acc: {test_acc:.4f}')
-    # print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}')
+    print(f'Epoch: {epoch:03d}, Train Acc: {train_acc:.4f}, Test Acc: {test_acc:.4f}')
+    print(f'Epoch: {epoch:03d}, Train Loss: {train_loss:.4f}, Test Loss: {test_loss:.4f}')
 
 record_df = pandas.DataFrame(record,columns = ['epoch', 'train_acc', 'train_loss', 'test_acc', 'test_loss'])
 os.makedirs(EOSsubModelDIR, exist_ok=True)
