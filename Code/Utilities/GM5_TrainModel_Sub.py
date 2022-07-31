@@ -109,7 +109,8 @@ class GCN(torch.nn.Module):
 
     def forward(self, x, edge_index, edge_attr, batch):
         # 1. Obtain node embeddings 
-        x = self.conv1(x, edge_index, edge_attr)
+        #x = self.conv1(x, edge_index, edge_attr)
+        x = self.conv1(x, edge_index)
         x = x.relu()
         x = self.conv2(x, edge_index)
         x = x.relu()
@@ -176,7 +177,7 @@ def train():
     model.train()
 
     for data in train_loader:  # Iterate in batches over the training dataset.
-         out = model(data.x, data.edge_index, data.batch)  # Perform a single forward pass.
+         out = model(data.x, data.edge_index, edge_attr, data.batch)  # Perform a single forward pass.
          loss = criterion(out, data.y)  # Compute the loss.
          loss.backward()  # Derive gradients.
          optimizer.step()  # Update parameters based on gradients.
