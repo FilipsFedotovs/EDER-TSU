@@ -103,7 +103,7 @@ class GCN(torch.nn.Module):
         self.conv2 = GCNConv(hidden_channels, hidden_channels)
         self.conv3 = GCNConv(hidden_channels, hidden_channels)
         self.lin = Linear(hidden_channels, num_classes)
-        self.softmax = Softmax()
+        self.softmax = Softmax(dim=-1)
 
     def forward(self, x, edge_index, edge_attr, batch):
         # 1. Obtain node embeddings 
