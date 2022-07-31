@@ -100,7 +100,7 @@ class GCN(torch.nn.Module):
         super(GCN, self).__init__()
         torch.manual_seed(12345)
         #self.conv1 = GMMConv(num_node_features , hidden_channels, dim=3, kernel_size=4)
-        self.conv1 = GMMConv(num_node_features , hidden_channels)
+        self.conv1 = GCNConv(num_node_features , hidden_channels)
         self.conv2 = GCNConv(hidden_channels, hidden_channels)
         self.conv3 = GCNConv(hidden_channels, hidden_channels)
         self.lin = Linear(hidden_channels, num_classes)
